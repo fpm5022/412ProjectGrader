@@ -1,0 +1,33 @@
+Exception in thread "main" java.lang.StringIndexOutOfBoundsException: String index out of range: 987654321
+	at java.lang.String.substring(String.java:1907)
+	at SwapLetters.main(SwapLetters.java:10)
+Exception in thread "main" java.lang.StringIndexOutOfBoundsException: String index out of range: 123456789
+	at java.lang.String.substring(String.java:1907)
+	at SwapLetters.main(SwapLetters.java:10)
+Exception in thread "main" java.lang.StringIndexOutOfBoundsException: String index out of range: 543219876
+	at java.lang.String.substring(String.java:1907)
+	at SwapLetters.main(SwapLetters.java:10)
+Amount Due From Customer: 53 dollars and 27 cents
+Amount Given by Customer: 80 dollars and 0 cents
+Amount of Change Due to Customer: 26 dollars and 73 cents
+Dollars Change: 26
+Quarters: 2
+Dimes: 2
+Nickels: 0
+Pennies: 2
+Amount Due From Customer: 10 dollars and 56 cents
+Amount Given by Customer: 20 dollars and 56 cents
+Amount of Change Due to Customer: 9 dollars and 100 cents
+Dollars Change: 9
+Quarters: 3
+Dimes: 2
+Nickels: 0
+Pennies: 4
+Amount Due From Customer: 37 dollars and 42 cents
+Amount Given by Customer: 43 dollars and 52 cents
+Amount of Change Due to Customer: 6 dollars and 10 cents
+Dollars Change: 6
+Quarters: 0
+Dimes: 1
+Nickels: 0
+Pennies: 0

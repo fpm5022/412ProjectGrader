@@ -1,0 +1,20 @@
+src\coffin\TestProgram.java:18: error: cannot find symbol
+    MakeChange program = new MakeChange();
+    ^
+  symbol:   class MakeChange
+  location: class TestProgram
+src\coffin\TestProgram.java:18: error: cannot find symbol
+    MakeChange program = new MakeChange();
+                             ^
+  symbol:   class MakeChange
+  location: class TestProgram
+2 errors
+Original:987654321
+Switched:927654381
+Original:123456789
+Switched:183456729
+Original:543219876
+Switched:573219846
+Error: Could not find or load main class MakeChange
+Error: Could not find or load main class MakeChange
+Error: Could not find or load main class MakeChange

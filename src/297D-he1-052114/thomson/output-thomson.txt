@@ -1,0 +1,30 @@
+Original String = 987654321
+Swapped String = 937654821
+Original String = 123456789
+Swapped String = 123756489
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 9
+	at SwapLetters.main(SwapLetters.java:15)
+Amount Due From Customer= 5327.0
+Amount Given by Customer= 8000.0
+Amount of Change due to Customer= 2673.0
+Dolllars change= 26
+Quarters change= 2
+Dimes change= 2
+Nickels change= 0
+Pennies change= 3
+Amount Due From Customer= 1056.0
+Amount Given by Customer= 2056.0
+Amount of Change due to Customer= 1000.0
+Dolllars change= 10
+Quarters change= 0
+Dimes change= 0
+Nickels change= 0
+Pennies change= 0
+Amount Due From Customer= 3742.0
+Amount Given by Customer= 4352.0
+Amount of Change due to Customer= 610.0
+Dolllars change= 6
+Quarters change= 0
+Dimes change= 1
+Nickels change= 0
+Pennies change= 0

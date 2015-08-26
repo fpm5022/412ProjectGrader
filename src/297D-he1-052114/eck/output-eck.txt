@@ -1,0 +1,35 @@
+src\eck\TestProgram.java:18: error: cannot find symbol
+    MakeChange program = new MakeChange();
+    ^
+  symbol:   class MakeChange
+  location: class TestProgram
+src\eck\TestProgram.java:18: error: cannot find symbol
+    MakeChange program = new MakeChange();
+                             ^
+  symbol:   class MakeChange
+  location: class TestProgram
+2 errors
+123456789
+Please enter the two letters you would like to swap: Exception in thread "main" java.util.NoSuchElementException
+	at java.util.Scanner.throwFor(Scanner.java:907)
+	at java.util.Scanner.next(Scanner.java:1530)
+	at java.util.Scanner.nextInt(Scanner.java:2160)
+	at java.util.Scanner.nextInt(Scanner.java:2119)
+	at SwapLetters.main(SwapLetters.java:14)
+123456789
+Please enter the two letters you would like to swap: Exception in thread "main" java.util.NoSuchElementException
+	at java.util.Scanner.throwFor(Scanner.java:907)
+	at java.util.Scanner.next(Scanner.java:1530)
+	at java.util.Scanner.nextInt(Scanner.java:2160)
+	at java.util.Scanner.nextInt(Scanner.java:2119)
+	at SwapLetters.main(SwapLetters.java:14)
+123456789
+Please enter the two letters you would like to swap: Exception in thread "main" java.util.NoSuchElementException
+	at java.util.Scanner.throwFor(Scanner.java:907)
+	at java.util.Scanner.next(Scanner.java:1530)
+	at java.util.Scanner.nextInt(Scanner.java:2160)
+	at java.util.Scanner.nextInt(Scanner.java:2119)
+	at SwapLetters.main(SwapLetters.java:14)
+Error: Could not find or load main class MakeChange
+Error: Could not find or load main class MakeChange
+Error: Could not find or load main class MakeChange

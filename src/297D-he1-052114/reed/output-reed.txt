@@ -1,0 +1,46 @@
+src\reed\MakeChange.java:12: error: ';' expected
+		int pennies = total
+		                   ^
+src\reed\MakeChange.java:17: error: ')' expected
+		System.out.print(Quarters:" +
+		                         ^
+src\reed\MakeChange.java:17: error: unclosed string literal
+		System.out.print(Quarters:" +
+		                          ^
+src\reed\MakeChange.java:18: error: ')' expected
+		System.out.print(Dimes:" +
+		                      ^
+src\reed\MakeChange.java:18: error: unclosed string literal
+		System.out.print(Dimes:" +
+		                       ^
+src\reed\MakeChange.java:19: error: ';' expected
+		System.out.print(Nickels:" +
+		      ^
+src\reed\MakeChange.java:19: error: ')' expected
+		System.out.print(Nickels:" +
+		                        ^
+src\reed\MakeChange.java:19: error: unclosed string literal
+		System.out.print(Nickels:" +
+		                         ^
+src\reed\MakeChange.java:20: error: ';' expected
+		Stsem.out.print(Pennies:" +		
+		     ^
+src\reed\MakeChange.java:20: error: ')' expected
+		Stsem.out.print(Pennies:" +		
+		                       ^
+src\reed\MakeChange.java:20: error: unclosed string literal
+		Stsem.out.print(Pennies:" +		
+		                        ^
+src\reed\MakeChange.java:20: error: ';' expected
+		Stsem.out.print(Pennies:" +		
+		                           		^
+src\reed\MakeChange.java:22: error: reached end of file while parsing
+}
+ ^
+13 errors
+Error: Could not find or load main class SwapLetters
+Error: Could not find or load main class SwapLetters
+Error: Could not find or load main class SwapLetters
+Error: Could not find or load main class MakeChange
+Error: Could not find or load main class MakeChange
+Error: Could not find or load main class MakeChange

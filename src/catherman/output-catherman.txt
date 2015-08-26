@@ -1,0 +1,62 @@
+Please enter an integer n (array size limit)
+Please enter an integer range for the random numbers
+1
+1
+1
+2
+1
+n = 5; range = 2; average = 1.2; stdDev = 0.4000000000000002
+Please enter an integer n (array size limit)
+Please enter an integer range for the random numbers
+3
+2
+1
+4
+1
+1
+4
+1
+2
+4
+n = 10; range = 4; average = 2.3; stdDev = 1.2688577540449526
+Please enter an integer n (array size limit)
+Please enter an integer range for the random numbers
+2
+3
+2
+1
+2
+2
+4
+2
+3
+4
+2
+5
+4
+5
+3
+n = 15; range = 6; average = 2.933333333333333; stdDev = 1.1813363431112907
+Please enter an integer n (array size limit)
+Please enter an integer range for the random numbers
+2
+2
+7
+6
+6
+4
+7
+4
+1
+1
+4
+2
+3
+5
+1
+1
+6
+4
+3
+8
+n = 20; range = 8; average = 3.85; stdDev = 2.1971572542719824

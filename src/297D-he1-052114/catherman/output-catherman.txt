@@ -1,0 +1,10 @@
+src\catherman\makeChange.java:2: error: reached end of file while parsing
+{
+ ^
+1 error
+Error: Could not find or load main class SwapLetters
+Error: Could not find or load main class SwapLetters
+Error: Could not find or load main class SwapLetters
+Error: Could not find or load main class MakeChange
+Error: Could not find or load main class MakeChange
+Error: Could not find or load main class MakeChange

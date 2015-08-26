@@ -1,0 +1,29 @@
+Original String: 987654321 New String: 937654821
+Original String: 123456789 New String: 123756489
+Exception in thread "main" java.lang.StringIndexOutOfBoundsException: String index out of range: 10
+	at java.lang.String.substring(String.java:1907)
+	at SwapLetters.main(SwapLetters.java:12)
+Amount Due From Customer = 53 dollars and 27 cents
+Amount Given by Customer = 80 dollars and 0 cents
+Amount of Change Due to Customer = 26 dollars and 73 cents
+Dollars change = 26
+Quarters change = 2
+Dimes change = 2
+Nickels change = 0
+Pennies change = 2
+Amount Due From Customer = 10 dollars and 56 cents
+Amount Given by Customer = 20 dollars and 56 cents
+Amount of Change Due to Customer = 9 dollars and 100 cents
+Dollars change = 9
+Quarters change = 3
+Dimes change = 2
+Nickels change = 0
+Pennies change = 4
+Amount Due From Customer = 37 dollars and 42 cents
+Amount Given by Customer = 43 dollars and 52 cents
+Amount of Change Due to Customer = 6 dollars and 10 cents
+Dollars change = 6
+Quarters change = 0
+Dimes change = 1
+Nickels change = 0
+Pennies change = 0

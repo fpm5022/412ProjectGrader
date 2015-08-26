@@ -1,0 +1,30 @@
+Original String: 987654321
+New String: 487659321
+Original String: 123456789
+New String: 126453789
+Original String: 543219876
+New String: 546219873
+Customer owes 53.27
+Customer gave 80.0
+Amount of change due to the customer: 27 dollars and 73 cents
+Dollar change 27
+Quarter change 2
+Dime change 2
+Nickel change 0
+Penny change 3
+Customer owes 10.56
+Customer gave 20.56
+Amount of change due to the customer: 10 dollars and 1 cents
+Dollar change 10
+Quarter change 0
+Dime change 0
+Nickel change 0
+Penny change 1
+Customer owes 37.42
+Customer gave 43.52
+Amount of change due to the customer: 6 dollars and 10 cents
+Dollar change 6
+Quarter change 0
+Dime change 1
+Nickel change 0
+Penny change 0

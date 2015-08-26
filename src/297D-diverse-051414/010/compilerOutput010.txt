@@ -1,0 +1,4 @@
+src\010\WriteTest.java:12: error: unclosed string literal
+        StringArray[k] = "/* " + String.toString(k) + "*/ " + StringArray[]";
+                                                                           ^
+1 error

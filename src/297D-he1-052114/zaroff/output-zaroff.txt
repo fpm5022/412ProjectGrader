@@ -1,0 +1,30 @@
+Original:987654321
+Switched:927654381
+Original:123456789
+Switched:183456729
+Original:543219876
+Switched:573219846
+Amount Due From Customer =67.21
+Amount Given by Customer =100.0
+Amount of Change Due to Customer =32.79
+Dollars Change =32
+Quarters Change =3
+Dimes Change =0
+Nickels Change =0
+Pennies Change =4
+Amount Due From Customer =67.21
+Amount Given by Customer =100.0
+Amount of Change Due to Customer =32.79
+Dollars Change =32
+Quarters Change =3
+Dimes Change =0
+Nickels Change =0
+Pennies Change =4
+Amount Due From Customer =67.21
+Amount Given by Customer =100.0
+Amount of Change Due to Customer =32.79
+Dollars Change =32
+Quarters Change =3
+Dimes Change =0
+Nickels Change =0
+Pennies Change =4

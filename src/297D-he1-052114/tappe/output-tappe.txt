@@ -1,0 +1,18 @@
+98725436
+12385674
+54371982
+Dollars change: 26
+Quaters change: 2
+Dime change: 2
+Nickel change: 0
+Penny change:  3
+Dollars change: 10
+Quaters change: 0
+Dime change: 0
+Nickel change: 0
+Penny change:  0
+Dollars change: 6
+Quaters change: 0
+Dime change: 1
+Nickel change: 0
+Penny change:  0

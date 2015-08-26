@@ -1,0 +1,30 @@
+987654321
+937654821
+123456789
+123756489
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 9
+	at SwapLetters.main(SwapLetters.java:19)
+Amount Due From Customer= 53 dollars and 27 cents
+Amount Given by Customer= 80 dollars and 0 cents
+Amount of Change Due to Customer= 26 dollars and 73 cents
+Dollars Returned= 26
+Quarters Returned= 2
+Dimes Returned= 2
+Nickels Returned= 0
+Pennies Returned= 3
+Amount Due From Customer= 10 dollars and 56 cents
+Amount Given by Customer= 20 dollars and 56 cents
+Amount of Change Due to Customer= 10 dollars and 55 cents
+Dollars Returned= 10
+Quarters Returned= 2
+Dimes Returned= 0
+Nickels Returned= 1
+Pennies Returned= 0
+Amount Due From Customer= 37 dollars and 42 cents
+Amount Given by Customer= 43 dollars and 52 cents
+Amount of Change Due to Customer= 6 dollars and 51 cents
+Dollars Returned= 6
+Quarters Returned= 2
+Dimes Returned= 0
+Nickels Returned= 0
+Pennies Returned= 1

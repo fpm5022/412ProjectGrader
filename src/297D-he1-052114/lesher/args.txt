@@ -1,0 +1,6 @@
+SwapLetters 987654321 1 6
+SwapLetters 123456789 3 6
+SwapLetters 543219876 3 9
+MakeChange 53.27  80
+MakeChange 10.56 20.56
+MakeChange 37.42 43.52

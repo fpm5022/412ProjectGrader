@@ -1,0 +1,10 @@
+src\smithf\MakeChange.java:7: error: variable amountGiven is already defined in method main(String[])
+		double amountGiven = Math.round(amountGiven);
+		       ^
+1 error
+Error: Could not find or load main class SwapLetters
+Error: Could not find or load main class SwapLetters
+Error: Could not find or load main class SwapLetters
+Error: Could not find or load main class MakeChange
+Error: Could not find or load main class MakeChange
+Error: Could not find or load main class MakeChange

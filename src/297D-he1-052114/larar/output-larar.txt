@@ -1,0 +1,19 @@
+src\larar\TestProgram.java:18: error: cannot find symbol
+    MakeChange program = new MakeChange();
+    ^
+  symbol:   class MakeChange
+  location: class TestProgram
+src\larar\TestProgram.java:18: error: cannot find symbol
+    MakeChange program = new MakeChange();
+                             ^
+  symbol:   class MakeChange
+  location: class TestProgram
+2 errors
+Original String: 987654321  New String:937654821
+Original String: 123456789  New String:123756489
+Exception in thread "main" java.lang.StringIndexOutOfBoundsException: String index out of range: 10
+	at java.lang.String.substring(String.java:1907)
+	at SwapLetters.main(SwapLetters.java:12)
+Error: Could not find or load main class MakeChange
+Error: Could not find or load main class MakeChange
+Error: Could not find or load main class MakeChange

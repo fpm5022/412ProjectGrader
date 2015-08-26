@@ -1,0 +1,27 @@
+Original String: 987654321 New String: 487659321
+Original String: 123456789 New String: 126453789
+Original String: 543219876 New String: 546219873
+Amount Due From Customer = 53 dollars and 27 cents 
+Amount Given By Customer = 80 dollars and 0 cents 
+Amount of Change Due to Customer = 26 dollars and 73 cents 
+Dollars change = 26 
+Quarters change = 2 
+Dimes change = 2 
+Nickels change = 0 
+Pennies change = 3 
+Amount Due From Customer = 10 dollars and 56 cents 
+Amount Given By Customer = 20 dollars and 56 cents 
+Amount of Change Due to Customer = 10 dollars and 0 cents 
+Dollars change = 10 
+Quarters change = 0 
+Dimes change = 0 
+Nickels change = 0 
+Pennies change = 0 
+Amount Due From Customer = 37 dollars and 42 cents 
+Amount Given By Customer = 43 dollars and 52 cents 
+Amount of Change Due to Customer = 6 dollars and 10 cents 
+Dollars change = 6 
+Quarters change = 0 
+Dimes change = 1 
+Nickels change = 0 
+Pennies change = 0 

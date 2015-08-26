@@ -1,0 +1,33 @@
+Old string: 987654321
+New string: 487659321
+Old string: 123456789
+New string: 126453789
+Old string: 543219876
+New string: 546219873
+
+Amount due from customer: 5327 pennies
+Amount given by customer: 8000 pennies
+Amount of change due to customer: 2673 pennies
+Dollars change = 26
+Quarters change = 2
+Dimes change = 2
+Nickels change = 0
+Pennies change = 3
+
+Amount due from customer: 1056 pennies
+Amount given by customer: 2056 pennies
+Amount of change due to customer: 1000 pennies
+Dollars change = 10
+Quarters change = 0
+Dimes change = 0
+Nickels change = 0
+Pennies change = 0
+
+Amount due from customer: 3742 pennies
+Amount given by customer: 4352 pennies
+Amount of change due to customer: 610 pennies
+Dollars change = 6
+Quarters change = 0
+Dimes change = 1
+Nickels change = 0
+Pennies change = 0

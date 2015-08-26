@@ -1,0 +1,24 @@
+ Enter String: Exception in thread "main" java.util.NoSuchElementException: No line found
+	at java.util.Scanner.nextLine(Scanner.java:1585)
+	at SwapLetters.main(SwapLetters.java:9)
+ Enter String: Exception in thread "main" java.util.NoSuchElementException: No line found
+	at java.util.Scanner.nextLine(Scanner.java:1585)
+	at SwapLetters.main(SwapLetters.java:9)
+ Enter String: Exception in thread "main" java.util.NoSuchElementException: No line found
+	at java.util.Scanner.nextLine(Scanner.java:1585)
+	at SwapLetters.main(SwapLetters.java:9)
+ Amount Due: Exception in thread "main" java.util.NoSuchElementException
+	at java.util.Scanner.throwFor(Scanner.java:907)
+	at java.util.Scanner.next(Scanner.java:1530)
+	at java.util.Scanner.nextDouble(Scanner.java:2456)
+	at MakeChange.main(MakeChange.java:9)
+ Amount Due: Exception in thread "main" java.util.NoSuchElementException
+	at java.util.Scanner.throwFor(Scanner.java:907)
+	at java.util.Scanner.next(Scanner.java:1530)
+	at java.util.Scanner.nextDouble(Scanner.java:2456)
+	at MakeChange.main(MakeChange.java:9)
+ Amount Due: Exception in thread "main" java.util.NoSuchElementException
+	at java.util.Scanner.throwFor(Scanner.java:907)
+	at java.util.Scanner.next(Scanner.java:1530)
+	at java.util.Scanner.nextDouble(Scanner.java:2456)
+	at MakeChange.main(MakeChange.java:9)
