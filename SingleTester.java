@@ -64,10 +64,6 @@ public class SingleTester {
             }
 
 //    Run the test cases
-//    TestRunner consructor:
-//    public TestRunner(int numbr, String nme, String hndl, String pth, String clsPath,
-//    String srcPath, String stdPath, String tstDataPath, String argFileName, 
-//    String tstInputFileName, String inputFileName, String outFileName)
             TestRunner r = new TestRunner(runNumber, studentName, studentHandle, path, classPath,
                     sourcePath, studentPath, testDataPath, argsFileName, testInputFileName, inputFileStub,
                     outputFileName);
