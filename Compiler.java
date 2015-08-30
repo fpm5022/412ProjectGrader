@@ -35,8 +35,6 @@ public class Compiler {
         try {
             //    create new bin directory
             boolean createBin = new File(classPath).mkdir();
-            
-            System.out.println(studentPath + mainClassName);
 
 //    create new javac ProcessBuilder        
             ProcessBuilder pb

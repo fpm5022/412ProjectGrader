@@ -53,7 +53,6 @@ public class SingleTester {
             String studentPath = sourcePath + "/" + studentName;
             String inputFileStub = studentPath + "/input";
             String outputFileName = "/output-" + studentName + ".txt";
-            System.out.println(sourcePath);
 //    run javac compiler - returns 0 on success
             Compiler c = new Compiler(runNumber, studentName, studentHandle, path, classPath, sourcePath, studentPath, outputFileName, mainClassName);
             int success = c.compileJava();
