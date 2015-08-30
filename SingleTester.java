@@ -59,10 +59,9 @@ public class SingleTester {
             int success = c.compileJava();
 
 //    Print whether or not compile successful
-            if (success == 0) {
-                System.out.println("Compiled Successfully");
-            } else {
-                System.out.println("Compile Failed");
+            if (success != 0) {
+                System.err.println("Compile failed");
+                System.exit(0);
             }
 
 //    Run the test cases
