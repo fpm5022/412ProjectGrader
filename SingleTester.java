@@ -17,7 +17,7 @@ public class SingleTester {
             String studentHandle = "000000";
             String className = "412/";
             String configFileName = "configSingle.txt";
-            String path = "/Users/Feek/Desktop/compiled/";
+            String compiledPath = "/Users/Feek/Desktop/compiled/";
 
 //  set fixed paths and file names:
             String sourcePath = "/Users/Feek/repos/412ProjectGrader/src";
@@ -38,15 +38,8 @@ public class SingleTester {
             String configFilePath = s.getClass().getResource("").getPath() + configFileName;
             File configFile = new File(configFilePath);
             Scanner in = new Scanner(configFile);
-            String line = in.nextLine();
-            Scanner inLine = new Scanner(line);
-            path = inLine.next();
-            line = in.nextLine();
-            inLine = new Scanner(line);
-            studentName = inLine.next();
-            line = in.nextLine();
-            inLine = new Scanner(line);
-            studentHandle = inLine.next();
+            studentName = in.next();
+            studentHandle = in.next();
 
 //    set paths and file names:
             String classPath = "/Users/Feek/Desktop/compiled/" + className + studentName;
@@ -54,7 +47,7 @@ public class SingleTester {
             String inputFileStub = studentPath + "/input";
             String outputFileName = "/output-" + studentName + ".txt";
 //    run javac compiler - returns 0 on success
-            Compiler c = new Compiler(runNumber, studentName, studentHandle, path, classPath, sourcePath, studentPath, outputFileName, mainClassName);
+            Compiler c = new Compiler(runNumber, studentName, studentHandle, compiledPath, classPath, sourcePath, studentPath, outputFileName, mainClassName);
             int success = c.compileJava();
 
 //    Print whether or not compile successful
@@ -64,7 +57,7 @@ public class SingleTester {
             }
 
 //    Run the test cases
-            TestRunner r = new TestRunner(runNumber, studentName, studentHandle, path, classPath,
+            TestRunner r = new TestRunner(runNumber, studentName, studentHandle, compiledPath, classPath,
                     sourcePath, studentPath, testDataPath, argsFileName, testInputFileName, inputFileStub,
                     outputFileName);
             r.runJava();
