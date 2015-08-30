@@ -17,21 +17,15 @@ public class SingleTester {
             String studentHandle = "000000";
             String className = "412/";
             String configFileName = "configSingle.txt";
-            System.out.println("configFileName: " + configFileName);
-            String path = "C:/Program Files/Java/jdk1.7.0_25/bin";
+            String path = "/Users/Feek/Desktop/compiled/";
 
 //  set fixed paths and file names:
-            String sourcePath = "./src";
+            String sourcePath = "/Users/Feek/repos/412ProjectGrader/src";
             String testDataPath = sourcePath;
             String argsFileName = testDataPath + "/args.txt";
             String testInputFileName = testDataPath + "/TestInput.txt";
-            /*  make sure set correctly
-             System.out.println("sourcePath: " + sourcePath);
-             System.out.println("testDataPath: " + testDataPath);
-             System.out.println("argsFileName: " + argsFileName);
-             System.out.println("testInputFileName: " + testInputFileName);
-             */
-
+            String mainClassName = "ArrayLoops.java";
+            
             /*    config file contains:
              - path to Java jdk (enclosed in quotes) on first line
              e.g. - "C:/Program Files/Java/jdk1.7.0_25/bin"
@@ -43,8 +37,6 @@ public class SingleTester {
             SingleTester s = new SingleTester();
             String configFilePath = s.getClass().getResource("").getPath() + configFileName;
             File configFile = new File(configFilePath);
-            System.out.println(configFile.getAbsolutePath());
-            System.out.println(configFile.exists());
             Scanner in = new Scanner(configFile);
             String line = in.nextLine();
             Scanner inLine = new Scanner(line);
@@ -57,26 +49,13 @@ public class SingleTester {
             studentHandle = inLine.next();
 
 //    set paths and file names:
-            String classPath = "/java/bin/" + className + studentName;
+            String classPath = "/Users/Feek/Desktop/compiled/" + className + studentName;
             String studentPath = sourcePath + "/" + studentName;
             String inputFileStub = studentPath + "/input";
-            String outputFileName = studentPath + "/output-" + studentName + ".txt";
-            /*    make sure set correctly
-             System.out.println("classPath: " + classPath);
-             System.out.println("studentPath: " + studentPath);
-             System.out.println("inputFileStub: " + inputFileStub);
-             System.out.println("outputFileName: " + outputFileName);
-             */
-
-            System.out.println("run #: " + runNumber + " ; studentNumber: " + studentNumber
-                    + "; Name: " + studentName + "; Handle: " + studentHandle);
-            System.out.println("Output goes to: " + outputFileName);
-
+            String outputFileName = "/output-" + studentName + ".txt";
+            System.out.println(sourcePath);
 //    run javac compiler - returns 0 on success
-//    Compiler Constructor:
-//    public Compiler(int numbr, String nme, String hndl, String pth, String clsPath, 
-//    String srcPath, String stdPath, String outFileName)
-            Compiler c = new Compiler(runNumber, studentName, studentHandle, path, classPath, sourcePath, studentPath, outputFileName);
+            Compiler c = new Compiler(runNumber, studentName, studentHandle, path, classPath, sourcePath, studentPath, outputFileName, mainClassName);
             int success = c.compileJava();
 
 //    Print whether or not compile successful
