@@ -1,0 +1,10 @@
+#MAKE YOUR OWN CONFIG.PROPERTIES FILE BASED ON THIS ONE 
+className=412
+#directory to compile students code into
+compiledPath=/Users/Feek/Desktop/compiled/
+#directory students raw java code resides in
+sourcePath=/Users/Feek/repos/412ProjectGrader/src
+#name of file with student info
+configFileName=configSingle.txt
+#main class to compile
+mainClassName=ArrayLoops.java
