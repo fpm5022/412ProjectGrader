@@ -60,6 +60,11 @@ public class SingleGUI extends javax.swing.JFrame {
         classChooser.setText("Class Name");
 
         runCompile.setText("Compile");
+        runCompile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runCompileActionPerformed(evt);
+            }
+        });
 
         compilePath.setText("Compile Path..");
 
@@ -71,6 +76,11 @@ public class SingleGUI extends javax.swing.JFrame {
         });
 
         exptdOutput.setText("Expected Output");
+        exptdOutput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exptdOutputActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,6 +150,22 @@ public class SingleGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmdLnArgActionPerformed
 
+    private void exptdOutputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exptdOutputActionPerformed
+        
+        
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_exptdOutputActionPerformed
+
+    private void runCompileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runCompileActionPerformed
+
+        runCompile.getText();
+        
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_runCompileActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -167,6 +193,7 @@ public class SingleGUI extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
