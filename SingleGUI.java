@@ -48,13 +48,28 @@ public class SingleGUI extends javax.swing.JFrame {
 
         fileChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         fileChooser.setText("Choose File");
+        fileChooser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileChooserActionPerformed(evt);
+            }
+        });
 
         classChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         classChooser.setText("Class Name");
 
         runCompile.setText("Compile");
+        runCompile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runCompileActionPerformed(evt);
+            }
+        });
 
         compilePath.setText("Compile Path..");
+        compilePath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                compilePathActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,6 +123,18 @@ public class SingleGUI extends javax.swing.JFrame {
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_backButtonActionPerformed
+
+    private void runCompileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runCompileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_runCompileActionPerformed
+
+    private void fileChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileChooserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fileChooserActionPerformed
+
+    private void compilePathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compilePathActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_compilePathActionPerformed
 
     /**
      * @param args the command line arguments
