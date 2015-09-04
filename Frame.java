@@ -9,6 +9,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 
 public class Frame extends JFrame {
+    
+    public final int WIDTH = 1280;
+    public final int HEIGHT = 720;
+    
     public Frame() {
         super("Project Grader");
         
@@ -16,11 +20,18 @@ public class Frame extends JFrame {
         
         setLayout(null);
         
-        setSize(1280, 720);
+        setSize(WIDTH, HEIGHT);
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
+        
+        // to do: make this the splash page
+        SingleGUI gui = new SingleGUI(this);
+        add(gui);
+        
+        validate();
+        repaint();
     }
     
     private void setLayoutFeel(String s) {
