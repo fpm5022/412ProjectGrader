@@ -1,6 +1,8 @@
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -11,16 +13,23 @@ import javax.swing.JTextField;
 
 
 public class SingleGUI extends JPanel {
+    // COMPONENTS
     private JButton backButton;
     private JTextField classChooser;
     private JButton compilePath;
+    private JTextField compilePathTextField;
     private JButton fileChooser;
     private JLabel jLabel1;
     private JButton runCompile;
     private Frame frame;
     
+    // fields
+    private String compilePathDirectory;
+    
+    
     public SingleGUI(Frame frame) {
         this.frame = frame;
+        this.compilePathDirectory = "";
         this.setSize(frame.WIDTH, frame.HEIGHT);
         initComponents();
         this.setLayout(null); // yolo  ¯\_(ツ)_/¯ 
@@ -81,6 +90,11 @@ public class SingleGUI extends JPanel {
                 compilePathActionPerformed(evt);
             }
         });
+        
+        compilePathTextField = new JTextField();
+        compilePathTextField.setBounds(125, 250, 300, 30);
+        compilePathTextField.setEditable(false);
+        this.add(compilePathTextField);
     }
     
     private void backButtonActionPerformed(ActionEvent evt) {
@@ -96,7 +110,17 @@ public class SingleGUI extends JPanel {
     }
     
     private void compilePathActionPerformed(ActionEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+        chooser.setDialogTitle("Please select the class path");
+        this.add(chooser);
+        
+        int val = chooser.showOpenDialog(this);
+        if (val == JFileChooser.APPROVE_OPTION) {
+            this.compilePathDirectory = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
+            this.compilePathTextField.setText(this.compilePathDirectory);
+        }
     }
 
 }
