@@ -22,13 +22,13 @@ public class SingleGUI extends JPanel {
     private JLabel jLabel1;
     private JButton runCompile;
     private Frame frame;
-    
-    // fields
-    private String compilePathDirectory;
     private JTextField cmdLnArg;
     private JTextField expectedOutput;
     private JLabel nameOfClassLabel;
+    private JButton runTest;
     
+    // fields
+    private String compilePathDirectory;
     
     public SingleGUI(Frame frame) {
         this.frame = frame;
@@ -47,6 +47,7 @@ public class SingleGUI extends JPanel {
         this.fileChooser = new JButton();
         this.jLabel1 = new JLabel();
         this.runCompile = new JButton();
+        this.runTest = new JButton();
         this.cmdLnArg = new JTextField();
         this.expectedOutput = new JTextField();
         
@@ -56,7 +57,7 @@ public class SingleGUI extends JPanel {
         this.add(jLabel1);
 
         backButton.setText("<- Back");
-        backButton.setBounds(10, 10, 100, 30);
+        backButton.setBounds(10, 20, 100, 30);
         this.add(backButton);
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,11 +110,21 @@ public class SingleGUI extends JPanel {
         this.add(expectedOutput);
         
         runCompile.setText("Compile");
-        runCompile.setBounds(frame.WIDTH / 2 - 50, 350, 100, 30);
+        runCompile.setBounds(frame.WIDTH / 2 - 50, 400, 100, 30);
         this.add(runCompile);
         runCompile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runCompileActionPerformed(evt);
+            }
+        });
+        
+        runTest.setText("Test");
+        runTest.setBounds(frame.WIDTH / 2 + 50, 400, 100, 30);
+        runTest.setEnabled(false);
+        this.add(runTest);
+        runTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runTestActionPerformed(evt);
             }
         });
     }
@@ -167,5 +178,9 @@ public class SingleGUI extends JPanel {
             this.compilePathDirectory = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
             this.compilePathTextField.setText(this.compilePathDirectory);
         }
+    }
+    
+    private void runTestActionPerformed(ActionEvent evt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
