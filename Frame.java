@@ -1,5 +1,6 @@
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -7,11 +8,12 @@ import javax.swing.UnsupportedLookAndFeelException;
 @author Feek <feek@psu.edu>
 **/
 
-
 public class Frame extends JFrame {
     
     public final int WIDTH = 1280;
     public final int HEIGHT = 720;
+    public SingleGUI singleGUI;
+    public SplashScreen splash;
     
     public Frame() {
         super("Project Grader");
@@ -26,12 +28,20 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         
-        // to do: make this the splash page
-        SingleGUI gui = new SingleGUI(this);
-        add(gui);
+        this.singleGUI = new SingleGUI(this);
+        this.splash = new SplashScreen(this);
+        add(splash);
         
         validate();
         repaint();
+    }
+    
+    public void swap(JPanel remove, JPanel add) {
+        this.remove(remove);
+        this.add(add);
+        this.validate();
+        this.revalidate();
+        this.repaint();
     }
     
     private void setLayoutFeel(String s) {
