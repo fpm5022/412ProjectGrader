@@ -52,11 +52,11 @@ public class SingleGUI extends JPanel {
         
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Single Tester");
-        jLabel1.setBounds(10, 10, 200, 40);
+        jLabel1.setBounds(frame.WIDTH / 2 - 70, 10, 200, 40);
         this.add(jLabel1);
 
         backButton.setText("<- Back");
-        backButton.setBounds(10, 50, 100, 30);
+        backButton.setBounds(10, 10, 100, 30);
         this.add(backButton);
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,9 +64,8 @@ public class SingleGUI extends JPanel {
             }
         });
 
-        fileChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         fileChooser.setText("Class To Compile");
-        fileChooser.setBounds(10, 100, 200, 30);
+        fileChooser.setBounds(10, 100, 150, 30);
         fileChooser.setEnabled(false);
         this.add(fileChooser);
         fileChooser.addActionListener(new java.awt.event.ActionListener() {
@@ -76,11 +75,11 @@ public class SingleGUI extends JPanel {
         });
 
         nameOfClassLabel.setText("Class Name:");
-        nameOfClassLabel.setBounds(10, 150, 200, 30);
+        nameOfClassLabel.setBounds(10, 150, 100, 30);
         this.add(nameOfClassLabel);
         
         nameOfClassTextField.setText("412"); // hard coded for now
-        nameOfClassTextField.setBounds(100, 150, 200, 30);
+        nameOfClassTextField.setBounds(100, 150, 100, 30);
         nameOfClassTextField.setEditable(false);
         this.add(nameOfClassTextField);
 
@@ -94,7 +93,7 @@ public class SingleGUI extends JPanel {
         });
         
         compilePathTextField = new JTextField();
-        compilePathTextField.setBounds(125, 200, 300, 30);
+        compilePathTextField.setBounds(125, 200, 200, 30);
         compilePathTextField.setEditable(false);
         compilePathTextField.setText("directory to compile into");
         this.add(compilePathTextField);
@@ -110,7 +109,7 @@ public class SingleGUI extends JPanel {
         this.add(expectedOutput);
         
         runCompile.setText("Compile");
-        runCompile.setBounds(10, 350, 100, 30);
+        runCompile.setBounds(frame.WIDTH / 2 - 50, 350, 100, 30);
         this.add(runCompile);
         runCompile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
