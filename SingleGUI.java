@@ -122,6 +122,28 @@ public class SingleGUI extends JPanel {
         String expectedTestOutput = expectedOutput.getText();
         String className = classChooser.getText();
         
+        int runNumber = 1;
+        String studentName = "smithjq";
+        String studentHandle = "fpm5022";
+        String classPath = compilePathDirectory + className + studentName;
+        String sourcePath = "/Users/Feek/repos/412ProjectGrader/src"; // hard coded for now. #14 will fix
+        String studentPath = sourcePath + "/" + studentName;
+        String outputFileName = "output.txt";
+        String mainClassName = "ArrayLoops.java"; // hard coded for now. #14 will fix
+        
+        Compiler compiler = new Compiler(runNumber, studentName, studentHandle, compilePathDirectory, classPath, sourcePath, studentPath, outputFileName, mainClassName);
+        int success = compiler.compileJava();
+        
+        System.out.println(compilePathDirectory);
+        System.out.println(classPath);
+        System.out.println(sourcePath);
+        System.out.println(studentPath);
+        
+        if (success != 0 ) {
+            System.err.println("compile failed: " + success);
+        } else {
+            System.out.println("compile success");
+        }
     }
     
     private void compilePathActionPerformed(ActionEvent evt) {
