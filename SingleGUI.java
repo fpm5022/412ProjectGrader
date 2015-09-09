@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 public class SingleGUI extends JPanel {
     // COMPONENTS
     private JButton backButton;
-    private JTextField classChooser;
+    private JTextField nameOfClassTextField;
     private JButton compilePath;
     private JTextField compilePathTextField;
     private JButton fileChooser;
@@ -27,6 +27,7 @@ public class SingleGUI extends JPanel {
     private String compilePathDirectory;
     private JTextField cmdLnArg;
     private JTextField expectedOutput;
+    private JLabel nameOfClassLabel;
     
     
     public SingleGUI(Frame frame) {
@@ -40,7 +41,8 @@ public class SingleGUI extends JPanel {
     
     private void initComponents() {
         this.backButton = new JButton();
-        this.classChooser = new JTextField();
+        this.nameOfClassTextField = new JTextField();
+        this.nameOfClassLabel = new JLabel();
         this.compilePath = new JButton();
         this.fileChooser = new JButton();
         this.jLabel1 = new JLabel();
@@ -73,10 +75,13 @@ public class SingleGUI extends JPanel {
             }
         });
 
-        classChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        classChooser.setText("Class Name");
-        classChooser.setBounds(10, 150, 100, 30);
-        this.add(classChooser);
+        nameOfClassLabel.setText("Class Name:");
+        nameOfClassLabel.setBounds(10, 150, 200, 30);
+        this.add(nameOfClassLabel);
+        
+        nameOfClassTextField.setText("412"); // hard coded for now
+        nameOfClassTextField.setBounds(150, 150, 200, 30);
+        this.add(nameOfClassTextField);
 
         runCompile.setText("Compile");
         runCompile.setBounds(10, 200, 100, 30);
@@ -121,7 +126,7 @@ public class SingleGUI extends JPanel {
     private void runCompileActionPerformed(ActionEvent evt) {
         String commandLineArguments = cmdLnArg.getText();
         String expectedTestOutput = expectedOutput.getText();
-        String className = classChooser.getText();
+        String className = nameOfClassTextField.getText();
         
         int runNumber = 1;
         String studentName = "smithjq";
