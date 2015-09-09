@@ -25,6 +25,8 @@ public class SingleGUI extends JPanel {
     
     // fields
     private String compilePathDirectory;
+    private JTextField cmdLnArg;
+    private JTextField expectedOutput;
     
     
     public SingleGUI(Frame frame) {
@@ -43,6 +45,8 @@ public class SingleGUI extends JPanel {
         this.fileChooser = new JButton();
         this.jLabel1 = new JLabel();
         this.runCompile = new JButton();
+        this.cmdLnArg = new JTextField();
+        this.expectedOutput = new JTextField();
         
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Single Tester");
@@ -95,6 +99,14 @@ public class SingleGUI extends JPanel {
         compilePathTextField.setBounds(125, 250, 300, 30);
         compilePathTextField.setEditable(false);
         this.add(compilePathTextField);
+        
+        cmdLnArg.setText("Command Line Arguments");
+        cmdLnArg.setBounds(10, 300, 300, 30);
+        this.add(cmdLnArg);
+        
+        expectedOutput.setText("Expected Output");
+        expectedOutput.setBounds(10, 350, 300, 30);
+        this.add(expectedOutput);
     }
     
     private void backButtonActionPerformed(ActionEvent evt) {
@@ -106,7 +118,9 @@ public class SingleGUI extends JPanel {
     }
     
     private void runCompileActionPerformed(ActionEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String commandLineArguments = cmdLnArg.getText();
+        String expectedTestOutput = expectedOutput.getText();
+        String className = classChooser.getText();
     }
     
     private void compilePathActionPerformed(ActionEvent evt) {
@@ -122,5 +136,4 @@ public class SingleGUI extends JPanel {
             this.compilePathTextField.setText(this.compilePathDirectory);
         }
     }
-
 }
