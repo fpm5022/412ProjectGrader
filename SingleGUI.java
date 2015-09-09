@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 public class SingleGUI extends JPanel {
     // COMPONENTS
     private JButton backButton;
-    private JTextField classChooser;
+    private JTextField nameOfClassTextField;
     private JButton compilePath;
     private JTextField compilePathTextField;
     private JButton fileChooser;
@@ -27,6 +27,7 @@ public class SingleGUI extends JPanel {
     private String compilePathDirectory;
     private JTextField cmdLnArg;
     private JTextField expectedOutput;
+    private JLabel nameOfClassLabel;
     
     
     public SingleGUI(Frame frame) {
@@ -40,7 +41,8 @@ public class SingleGUI extends JPanel {
     
     private void initComponents() {
         this.backButton = new JButton();
-        this.classChooser = new JTextField();
+        this.nameOfClassTextField = new JTextField();
+        this.nameOfClassLabel = new JLabel();
         this.compilePath = new JButton();
         this.fileChooser = new JButton();
         this.jLabel1 = new JLabel();
@@ -50,11 +52,11 @@ public class SingleGUI extends JPanel {
         
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Single Tester");
-        jLabel1.setBounds(10, 10, 200, 40);
+        jLabel1.setBounds(frame.WIDTH / 2 - 70, 10, 200, 40);
         this.add(jLabel1);
 
         backButton.setText("<- Back");
-        backButton.setBounds(10, 50, 100, 30);
+        backButton.setBounds(10, 10, 100, 30);
         this.add(backButton);
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,9 +64,9 @@ public class SingleGUI extends JPanel {
             }
         });
 
-        fileChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        fileChooser.setText("Choose File");
-        fileChooser.setBounds(10, 100, 100, 30);
+        fileChooser.setText("Class To Compile");
+        fileChooser.setBounds(10, 100, 150, 30);
+        fileChooser.setEnabled(false);
         this.add(fileChooser);
         fileChooser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,22 +74,17 @@ public class SingleGUI extends JPanel {
             }
         });
 
-        classChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        classChooser.setText("Class Name");
-        classChooser.setBounds(10, 150, 100, 30);
-        this.add(classChooser);
-
-        runCompile.setText("Compile");
-        runCompile.setBounds(10, 200, 100, 30);
-        this.add(runCompile);
-        runCompile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runCompileActionPerformed(evt);
-            }
-        });
+        nameOfClassLabel.setText("Class Name:");
+        nameOfClassLabel.setBounds(10, 150, 100, 30);
+        this.add(nameOfClassLabel);
+        
+        nameOfClassTextField.setText("412"); // hard coded for now
+        nameOfClassTextField.setBounds(100, 150, 100, 30);
+        nameOfClassTextField.setEditable(false);
+        this.add(nameOfClassTextField);
 
         compilePath.setText("Compile Path..");
-        compilePath.setBounds(10, 250, 100, 30);
+        compilePath.setBounds(10, 200, 100, 30);
         this.add(compilePath);
         compilePath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,21 +93,33 @@ public class SingleGUI extends JPanel {
         });
         
         compilePathTextField = new JTextField();
-        compilePathTextField.setBounds(125, 250, 300, 30);
+        compilePathTextField.setBounds(125, 200, 200, 30);
         compilePathTextField.setEditable(false);
+        compilePathTextField.setText("directory to compile into");
         this.add(compilePathTextField);
         
         cmdLnArg.setText("Command Line Arguments");
-        cmdLnArg.setBounds(10, 300, 300, 30);
+        cmdLnArg.setBounds(10, 250, 300, 30);
+        cmdLnArg.setEnabled(false);
         this.add(cmdLnArg);
         
         expectedOutput.setText("Expected Output");
-        expectedOutput.setBounds(10, 350, 300, 30);
+        expectedOutput.setBounds(10, 300, 300, 30);
+        expectedOutput.setEnabled(false);
         this.add(expectedOutput);
+        
+        runCompile.setText("Compile");
+        runCompile.setBounds(frame.WIDTH / 2 - 50, 350, 100, 30);
+        this.add(runCompile);
+        runCompile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runCompileActionPerformed(evt);
+            }
+        });
     }
     
     private void backButtonActionPerformed(ActionEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        frame.swap(this, frame.splash);
     }
     
     private void fileChooserActionPerformed(ActionEvent evt) {
@@ -120,7 +129,7 @@ public class SingleGUI extends JPanel {
     private void runCompileActionPerformed(ActionEvent evt) {
         String commandLineArguments = cmdLnArg.getText();
         String expectedTestOutput = expectedOutput.getText();
-        String className = classChooser.getText();
+        String className = nameOfClassTextField.getText();
         
         int runNumber = 1;
         String studentName = "smithjq";
