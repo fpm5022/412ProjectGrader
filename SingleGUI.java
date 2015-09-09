@@ -81,6 +81,7 @@ public class SingleGUI extends JPanel {
         
         nameOfClassTextField.setText("412"); // hard coded for now
         nameOfClassTextField.setBounds(100, 150, 200, 30);
+        nameOfClassTextField.setEditable(false);
         this.add(nameOfClassTextField);
 
         compilePath.setText("Compile Path..");
@@ -95,6 +96,7 @@ public class SingleGUI extends JPanel {
         compilePathTextField = new JTextField();
         compilePathTextField.setBounds(125, 200, 300, 30);
         compilePathTextField.setEditable(false);
+        compilePathTextField.setText("directory to compile into");
         this.add(compilePathTextField);
         
         cmdLnArg.setText("Command Line Arguments");
@@ -118,7 +120,7 @@ public class SingleGUI extends JPanel {
     }
     
     private void backButtonActionPerformed(ActionEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        frame.swap(this, frame.splash);
     }
     
     private void fileChooserActionPerformed(ActionEvent evt) {
