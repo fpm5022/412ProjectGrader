@@ -63,8 +63,9 @@ public class SingleGUI extends JPanel {
         });
 
         fileChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        fileChooser.setText("Choose File");
-        fileChooser.setBounds(10, 100, 100, 30);
+        fileChooser.setText("Class To Compile");
+        fileChooser.setBounds(10, 100, 200, 30);
+        fileChooser.setEnabled(false);
         this.add(fileChooser);
         fileChooser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
