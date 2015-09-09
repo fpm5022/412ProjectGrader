@@ -1,11 +1,21 @@
 
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 
 /**
 @author Feek <feek@psu.edu>
@@ -22,6 +32,11 @@ public class SingleGUI extends JPanel {
     private JLabel jLabel1;
     private JButton runCompile;
     private Frame frame;
+    private JTextArea outputText;
+    private JScrollPane outputScroller;
+    private BufferedReader reader;
+    private File outputFile;
+    
     
     // fields
     private String compilePathDirectory;
@@ -32,7 +47,7 @@ public class SingleGUI extends JPanel {
         this.compilePathDirectory = "";
         this.setSize(frame.WIDTH, frame.HEIGHT);
         initComponents();
-        this.setLayout(null); // yolo  ¯\_(ツ)_/¯ 
+        this.setLayout(null); // yolo  Â¯\_(ãƒ„)_/Â¯ 
         this.setVisible(true);
     }
     
@@ -43,6 +58,9 @@ public class SingleGUI extends JPanel {
         this.fileChooser = new JButton();
         this.jLabel1 = new JLabel();
         this.runCompile = new JButton();
+        this.outputScroller = new JScrollPane(outputText);
+        this.outputText = new JTextArea();
+        
         
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Single Tester");
@@ -78,10 +96,32 @@ public class SingleGUI extends JPanel {
         this.add(runCompile);
         runCompile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runCompileActionPerformed(evt);
+                runCompileActionPerformed(evt); 
             }
         });
-
+        
+        outputText.setFont(new java.awt.Font("Tahoma", 0, 14));
+        outputText.setLineWrap(true);
+        outputText.setWrapStyleWord(true);
+        outputText.setBounds(200, 300, 800, 300);
+        outputText.setEditable(false);
+        outputScroller.setVisible(true);
+        outputScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        this.add(outputText);
+        this.add(outputScroller);
+               Path file = FileSystems.getDefault().getPath("output.txt");  //Output file path - ("Whatever Folder has file", "Filename.txt")
+            try(InputStream in = Files.newInputStream(file);
+                    BufferedReader reader =
+                            new BufferedReader(new InputStreamReader(in))){
+                String line = null;
+                while((line = reader.readLine()) != null){
+                    outputText.append(line + "\n");;
+                }
+            } catch (IOException x){
+                System.err.println(x);
+            }           
+        
+        
         compilePath.setText("Compile Path..");
         compilePath.setBounds(10, 250, 100, 30);
         this.add(compilePath);
@@ -122,5 +162,6 @@ public class SingleGUI extends JPanel {
             this.compilePathTextField.setText(this.compilePathDirectory);
         }
     }
+    
 
 }
