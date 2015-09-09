@@ -80,20 +80,11 @@ public class SingleGUI extends JPanel {
         this.add(nameOfClassLabel);
         
         nameOfClassTextField.setText("412"); // hard coded for now
-        nameOfClassTextField.setBounds(150, 150, 200, 30);
+        nameOfClassTextField.setBounds(100, 150, 200, 30);
         this.add(nameOfClassTextField);
 
-        runCompile.setText("Compile");
-        runCompile.setBounds(10, 200, 100, 30);
-        this.add(runCompile);
-        runCompile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runCompileActionPerformed(evt);
-            }
-        });
-
         compilePath.setText("Compile Path..");
-        compilePath.setBounds(10, 250, 100, 30);
+        compilePath.setBounds(10, 200, 100, 30);
         this.add(compilePath);
         compilePath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -102,17 +93,28 @@ public class SingleGUI extends JPanel {
         });
         
         compilePathTextField = new JTextField();
-        compilePathTextField.setBounds(125, 250, 300, 30);
+        compilePathTextField.setBounds(125, 200, 300, 30);
         compilePathTextField.setEditable(false);
         this.add(compilePathTextField);
         
         cmdLnArg.setText("Command Line Arguments");
-        cmdLnArg.setBounds(10, 300, 300, 30);
+        cmdLnArg.setBounds(10, 250, 300, 30);
+        cmdLnArg.setEnabled(false);
         this.add(cmdLnArg);
         
         expectedOutput.setText("Expected Output");
-        expectedOutput.setBounds(10, 350, 300, 30);
+        expectedOutput.setBounds(10, 300, 300, 30);
+        expectedOutput.setEnabled(false);
         this.add(expectedOutput);
+        
+        runCompile.setText("Compile");
+        runCompile.setBounds(10, 350, 100, 30);
+        this.add(runCompile);
+        runCompile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runCompileActionPerformed(evt);
+            }
+        });
     }
     
     private void backButtonActionPerformed(ActionEvent evt) {
