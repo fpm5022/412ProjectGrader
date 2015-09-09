@@ -121,6 +121,7 @@ public class SingleGUI extends JPanel {
         String commandLineArguments = cmdLnArg.getText();
         String expectedTestOutput = expectedOutput.getText();
         String className = classChooser.getText();
+        
     }
     
     private void compilePathActionPerformed(ActionEvent evt) {
