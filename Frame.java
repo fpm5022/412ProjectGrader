@@ -39,7 +39,6 @@ public class Frame extends JFrame {
     public void swap(JPanel remove, JPanel add) {
         this.remove(remove);
         this.add(add);
-        this.validate();
         this.revalidate();
         this.repaint();
     }
