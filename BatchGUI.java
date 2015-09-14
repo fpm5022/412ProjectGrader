@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 public class BatchGUI extends JPanel {
     private final Frame frame;
+    private StudentPanel studentPanel;
     
     public BatchGUI(Frame frame) {
         this.frame = frame;
@@ -18,6 +19,7 @@ public class BatchGUI extends JPanel {
     }
 
     private void initComponents() {
-        
+        studentPanel = new StudentPanel(frame);
+        add(studentPanel);
     }
 }
