@@ -73,6 +73,6 @@ public class SplashScreen extends JPanel {
     }
 
     private void BatchSelectorActionPerformed(java.awt.event.ActionEvent evt) {
-        // Link to BatchGUI
+        frame.swap(this, frame.batchGUI);
     }
 }

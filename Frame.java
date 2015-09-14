@@ -14,6 +14,7 @@ public class Frame extends JFrame {
     public final int HEIGHT = 480;
     public SingleGUI singleGUI;
     public SplashScreen splash;
+    public BatchGUI batchGUI;
     
     public Frame() {
         super("Project Grader");
@@ -30,6 +31,7 @@ public class Frame extends JFrame {
         
         this.singleGUI = new SingleGUI(this);
         this.splash = new SplashScreen(this);
+        this.batchGUI = new BatchGUI(this);
         add(splash);
         
         validate();
