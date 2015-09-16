@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
 @author Feek <feek@psu.edu>
@@ -203,15 +205,23 @@ public class SingleGUI extends JPanel {
     
     private void compilePathActionPerformed(ActionEvent evt) {
         JFileChooser chooser = new JFileChooser();
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setDialogType(JFileChooser.OPEN_DIALOG);
         chooser.setDialogTitle("Please select the class path");
+        FileFilter filter = new FileNameExtensionFilter("java");
+        chooser.setFileFilter(filter);
         this.add(chooser);
+        
+
+        String absolutePath;
         
         int val = chooser.showOpenDialog(this);
         if (val == JFileChooser.APPROVE_OPTION) {
             this.compilePathDirectory = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
             this.compilePathTextField.setText(this.compilePathDirectory);
+            absolutePath = chooser.getSelectedFile().getAbsolutePath();
+            outputFile = chooser.getSelectedFile();
+
         }
     }
     
