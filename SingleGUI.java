@@ -201,7 +201,7 @@ public class SingleGUI extends JPanel {
         
         int val = chooser.showOpenDialog(this);
         if (val == JFileChooser.APPROVE_OPTION) {
-            this.classPathDirectory = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
+            this.classPathDirectory = chooser.getSelectedFile().getAbsolutePath();// append trailing slash
             this.classPathTextField.setText(this.classPathDirectory);
         }
     }
@@ -216,7 +216,7 @@ public class SingleGUI extends JPanel {
         String studentHandle = "";
         String compilePath = compilePathDirectory + className + studentName;
         String sourcePath = classPathDirectory; // hard coded for now. #14 will fix
-        String studentPath = sourcePath + "\\" + studentName;
+        String studentPath = sourcePath;
         String outputFileName = "output.txt";
         String mainClassName = "ArrayLoops.java"; // hard coded for now. #14 will fix
         
