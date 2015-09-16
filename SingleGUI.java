@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
@@ -66,8 +67,8 @@ public class SingleGUI extends JPanel {
         this.testButton = new JButton();
         this.cmdLnArg = new JTextField();
         this.expectedOutput = new JTextField();
-        this.outputScroller = new JScrollPane(outputText);
         this.outputText = new JTextArea();
+        this.outputScroller = new JScrollPane(outputText);
         
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Single Tester");
@@ -154,24 +155,13 @@ public class SingleGUI extends JPanel {
         outputText.setFont(new java.awt.Font("Tahoma", 0, 14));
         outputText.setLineWrap(true);
         outputText.setWrapStyleWord(true);
-        outputText.setBounds(200, 300, 800, 300);
+        outputText.setBounds(frame.WIDTH / 2, frame.HEIGHT / 2 - 100, (frame.WIDTH / 2) - 50, (frame.HEIGHT / 2) - 50);
         outputText.setEditable(false);
         outputScroller.setVisible(true);
         outputScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        this.add(outputText);
-        this.add(outputScroller);
-//               Path file = FileSystems.getDefault().getPath("output.txt");  //Output file path - ("Whatever Folder has file", "Filename.txt")
-//            try(InputStream in = Files.newInputStream(file);
-//                    BufferedReader reader =
-//                            new BufferedReader(new InputStreamReader(in))){
-//                String line = null;
-//                while((line = reader.readLine()) != null){
-//                    outputText.append(line + "\n");;
-//                }
-//            } catch (IOException x){
-//                System.err.println(x);
-//            }           
+        outputScroller.setBounds(frame.WIDTH / 2, frame.HEIGHT / 2 - 100, (frame.WIDTH / 2) - 50, (frame.HEIGHT / 2) - 50);
         
+        this.add(outputScroller);
     }
     
     private void backButtonActionPerformed(ActionEvent evt) {
@@ -230,8 +220,12 @@ public class SingleGUI extends JPanel {
         
         if (success != 0 ) {
             System.err.println("compile failed: " + success);
+            readOutputFile();
+            outputText.setForeground(Color.red);
         } else {
             System.out.println("compile success");
+            readOutputFile();
+            outputText.setForeground(Color.black);
         }
     }
     
@@ -265,5 +259,18 @@ public class SingleGUI extends JPanel {
     
     private void runTestActionPerformed(ActionEvent evt) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    public void readOutputFile(){
+        Path file = FileSystems.getDefault().getPath("output.txt");  //Output file path - ("Whatever Folder has file", "Filename.txt")
+            try(InputStream in = Files.newInputStream(file);
+                    BufferedReader reader =
+                            new BufferedReader(new InputStreamReader(in))){
+                String line = null;
+                while((line = reader.readLine()) != null){
+                    outputText.append(line + "\n");;
+                }
+            } catch (IOException x){
+                System.err.println(x);
+            } 
     }
 }
