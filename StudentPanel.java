@@ -67,15 +67,28 @@ public class StudentPanel extends JPanel{
         }
     }
     
-    public void addCheckboxes() {
+    private void addCheckboxes() {
         for(Student s : students) {
             JCheckBox box = new JCheckBox(s.getInfo());
             box.setAlignmentY(LEFT_ALIGNMENT);
             box.setBounds(X, y, 200, 15);
             this.y += Y_INCREMENT;
             this.add(box);
+            checkboxes.add(box);
         }
         this.HEIGHT = y; // update height of panel so scrolling can happen
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+    }
+    
+    public ArrayList<Student> getSelectedStudents() {
+        // less than optimal way, but it works for now
+        ArrayList<Student> selected = new ArrayList<>();
+        for (int i = 0; i < checkboxes.size(); i++) {
+            if (checkboxes.get(i).isSelected()) {
+                selected.add(students.get(i));
+            }
+        }
+        
+        return selected;
     }
 }
