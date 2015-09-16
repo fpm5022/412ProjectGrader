@@ -27,14 +27,14 @@ public class SingleGUI extends JPanel {
     private JTextField nameOfClassTextField;
     private JButton compilePath;
     private JTextField compilePathTextField;
-    private JButton fileChooser;
+    private JButton classPathSelect;
     private JLabel jLabel1;
     private JButton compileButton;
     private Frame frame;
     private JTextField cmdLnArg;
     private JTextField expectedOutput;
     private JLabel nameOfClassLabel;
-    private JButton runTest;
+    private JButton testButton;
     private JTextArea outputText;
     private JScrollPane outputScroller;
     private BufferedReader reader;
@@ -42,10 +42,13 @@ public class SingleGUI extends JPanel {
     
     // fields
     private String compilePathDirectory;
+    private String classPathDirectory;
+    private JTextField classPathTextField;
     
     public SingleGUI(Frame frame) {
         this.frame = frame;
         this.compilePathDirectory = "";
+        this.classPathDirectory = "";
         this.setSize(frame.WIDTH, frame.HEIGHT);
         initComponents();
         this.setLayout(null); // yolo  ¯\_(ツ)_/¯ 
@@ -57,10 +60,11 @@ public class SingleGUI extends JPanel {
         this.nameOfClassTextField = new JTextField();
         this.nameOfClassLabel = new JLabel();
         this.compilePath = new JButton();
-        this.fileChooser = new JButton();
+        this.classPathSelect = new JButton();
+        this.classPathTextField = new JTextField();
         this.jLabel1 = new JLabel();
         this.compileButton = new JButton();
-        this.runTest = new JButton();
+        this.testButton = new JButton();
         this.cmdLnArg = new JTextField();
         this.expectedOutput = new JTextField();
         this.outputText = new JTextArea();
@@ -80,15 +84,21 @@ public class SingleGUI extends JPanel {
             }
         });
 
-        fileChooser.setText("Class To Compile");
-        fileChooser.setBounds(10, 100, 150, 30);
-        fileChooser.setEnabled(false);
-        this.add(fileChooser);
-        fileChooser.addActionListener(new java.awt.event.ActionListener() {
+        classPathSelect.setText("Class To Compile");
+        classPathSelect.setBounds(10, 100, 150, 30);
+//        fileChooser.setEnabled(false);
+        this.add(classPathSelect);
+        classPathSelect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileChooserActionPerformed(evt);
+                classChooserActionPerformed(evt);
             }
         });
+        
+        classPathTextField = new JTextField();
+        classPathTextField.setBounds(250, 100, 250, 30);
+        classPathTextField.setEditable(false);
+        classPathTextField.setText("location of class");
+        this.add(classPathTextField);
 
         nameOfClassLabel.setText("Class Name:");
         nameOfClassLabel.setBounds(10, 150, 100, 30);
@@ -133,11 +143,11 @@ public class SingleGUI extends JPanel {
             }
         });
         
-        runTest.setText("Test");
-        runTest.setBounds(frame.WIDTH / 2 + 50, 400, 100, 30);
-        runTest.setEnabled(false);
-        this.add(runTest);
-        runTest.addActionListener(new java.awt.event.ActionListener() {
+        testButton.setText("Test");
+        testButton.setBounds(frame.WIDTH / 2 + 50, 400, 100, 30);
+        testButton.setEnabled(false);
+        this.add(testButton);
+        testButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runTestActionPerformed(evt);
             }
@@ -152,38 +162,61 @@ public class SingleGUI extends JPanel {
         outputScroller.setBounds(frame.WIDTH / 2, frame.HEIGHT / 2 - 100, (frame.WIDTH / 2) - 50, (frame.HEIGHT / 2) - 50);
         
         this.add(outputScroller);
-        
     }
     
     private void backButtonActionPerformed(ActionEvent evt) {
         frame.swap(this, frame.splash);
     }
     
-    private void fileChooserActionPerformed(ActionEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void compileChooserActionPerformed(ActionEvent evt) {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+        chooser.setDialogTitle("Please select the class path");
+        this.add(chooser);
+        
+        int val = chooser.showOpenDialog(this);
+        if (val == JFileChooser.APPROVE_OPTION) {
+            this.compilePathDirectory = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
+            this.compilePathTextField.setText(this.compilePathDirectory);
+        }
     }
     
+        private void classChooserActionPerformed(ActionEvent evt) {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+        chooser.setDialogTitle("Please select the class path");
+        this.add(chooser);
+        
+        int val = chooser.showOpenDialog(this);
+        if (val == JFileChooser.APPROVE_OPTION) {
+            this.classPathDirectory = chooser.getSelectedFile().getAbsolutePath();// append trailing slash
+            this.classPathTextField.setText(this.classPathDirectory);
+        }
+    }
+        
     private void runCompileActionPerformed(ActionEvent evt) {
         String commandLineArguments = cmdLnArg.getText();
         String expectedTestOutput = expectedOutput.getText();
         String className = nameOfClassTextField.getText();
         
         int runNumber = 1;
-        String studentName = "smithjq";
-        String studentHandle = "fpm5022";
-        String classPath = compilePathDirectory + className + studentName;
-        String sourcePath = "/Users/Feek/repos/412ProjectGrader/src"; // hard coded for now. #14 will fix
-        String studentPath = sourcePath + "/" + studentName;
+        String studentName = "feek"; // TO DO: pull from class to compile
+        String studentHandle = "";
+        String compilePath = compilePathDirectory + className + studentName;
+        String sourcePath = classPathDirectory;
+        String studentPath = sourcePath;
         String outputFileName = "output.txt";
-        String mainClassName = "ArrayLoops.java"; // hard coded for now. #14 will fix
+        String mainClassName = "ArrayLoops.java"; // TO DO: pull from class to compile
         
-        Compiler compiler = new Compiler(runNumber, studentName, studentHandle, compilePathDirectory, classPath, sourcePath, studentPath, outputFileName, mainClassName);
+        Compiler compiler = new Compiler(runNumber, studentName, studentHandle, compilePathDirectory, compilePath, sourcePath, studentPath, outputFileName, mainClassName);
         int success = compiler.compileJava();
         
-        System.out.println(compilePathDirectory);
-        System.out.println(classPath);
-        System.out.println(sourcePath);
-        System.out.println(studentPath);
+//        System.out.println(compilePathDirectory);
+//        System.out.println(compilePath);
+//        System.out.println(sourcePath);
+//        System.out.println(studentPath);
         
         if (success != 0 ) {
             System.err.println("compile failed: " + success);
@@ -207,6 +240,20 @@ public class SingleGUI extends JPanel {
         if (val == JFileChooser.APPROVE_OPTION) {
             this.compilePathDirectory = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
             this.compilePathTextField.setText(this.compilePathDirectory);
+        }
+    }
+    
+        private void classPathActionPerformed(ActionEvent evt) {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+        chooser.setDialogTitle("Please select the class path");
+        this.add(chooser);
+        
+        int val = chooser.showOpenDialog(this);
+        if (val == JFileChooser.APPROVE_OPTION) {
+            this.classPathDirectory = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
+            this.classPathTextField.setText(this.classPathDirectory);
         }
     }
     
