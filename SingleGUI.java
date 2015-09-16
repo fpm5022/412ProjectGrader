@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,7 +29,7 @@ public class SingleGUI extends JPanel {
     private JTextField compilePathTextField;
     private JButton fileChooser;
     private JLabel jLabel1;
-    private JButton runCompile;
+    private JButton compileButton;
     private Frame frame;
     private JTextField cmdLnArg;
     private JTextField expectedOutput;
@@ -58,7 +59,7 @@ public class SingleGUI extends JPanel {
         this.compilePath = new JButton();
         this.fileChooser = new JButton();
         this.jLabel1 = new JLabel();
-        this.runCompile = new JButton();
+        this.compileButton = new JButton();
         this.runTest = new JButton();
         this.cmdLnArg = new JTextField();
         this.expectedOutput = new JTextField();
@@ -123,10 +124,10 @@ public class SingleGUI extends JPanel {
         expectedOutput.setEnabled(false);
         this.add(expectedOutput);
         
-        runCompile.setText("Compile");
-        runCompile.setBounds(frame.WIDTH / 2 - 50, 400, 100, 30);
-        this.add(runCompile);
-        runCompile.addActionListener(new java.awt.event.ActionListener() {
+        compileButton.setText("Compile");
+        compileButton.setBounds(frame.WIDTH / 2 - 50, 400, 100, 30);
+        this.add(compileButton);
+        compileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runCompileActionPerformed(evt);
             }
@@ -144,23 +145,13 @@ public class SingleGUI extends JPanel {
         outputText.setFont(new java.awt.Font("Tahoma", 0, 14));
         outputText.setLineWrap(true);
         outputText.setWrapStyleWord(true);
-        outputText.setBounds(200, 300, 800, 300);
+        outputText.setBounds(frame.WIDTH / 2, frame.HEIGHT / 2 - 100, (frame.WIDTH / 2) - 50, (frame.HEIGHT / 2) - 50);
         outputText.setEditable(false);
         outputScroller.setVisible(true);
         outputScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        outputScroller.setBounds(0,0, 50, 50);
         this.add(outputText);
         this.add(outputScroller);
-               Path file = FileSystems.getDefault().getPath("output.txt");  //Output file path - ("Whatever Folder has file", "Filename.txt")
-            try(InputStream in = Files.newInputStream(file);
-                    BufferedReader reader =
-                            new BufferedReader(new InputStreamReader(in))){
-                String line = null;
-                while((line = reader.readLine()) != null){
-                    outputText.append(line + "\n");;
-                }
-            } catch (IOException x){
-                System.err.println(x);
-            }           
         
     }
     
@@ -196,8 +187,12 @@ public class SingleGUI extends JPanel {
         
         if (success != 0 ) {
             System.err.println("compile failed: " + success);
+            readOutputFile();
+            outputText.setForeground(Color.red);
         } else {
             System.out.println("compile success");
+            readOutputFile();
+            outputText.setForeground(Color.black);
         }
     }
     
@@ -217,5 +212,18 @@ public class SingleGUI extends JPanel {
     
     private void runTestActionPerformed(ActionEvent evt) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    public void readOutputFile(){
+        Path file = FileSystems.getDefault().getPath("output.txt");  //Output file path - ("Whatever Folder has file", "Filename.txt")
+            try(InputStream in = Files.newInputStream(file);
+                    BufferedReader reader =
+                            new BufferedReader(new InputStreamReader(in))){
+                String line = null;
+                while((line = reader.readLine()) != null){
+                    outputText.append(line + "\n");;
+                }
+            } catch (IOException x){
+                System.err.println(x);
+            } 
     }
 }
