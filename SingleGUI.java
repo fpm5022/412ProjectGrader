@@ -202,13 +202,13 @@ public class SingleGUI extends JPanel {
         String className = nameOfClassTextField.getText();
         
         int runNumber = 1;
-        String studentName = "";
+        String studentName = "feek"; // TO DO: pull from class to compile
         String studentHandle = "";
         String compilePath = compilePathDirectory + className + studentName;
-        String sourcePath = classPathDirectory; // hard coded for now. #14 will fix
+        String sourcePath = classPathDirectory;
         String studentPath = sourcePath;
         String outputFileName = "output.txt";
-        String mainClassName = "ArrayLoops.java"; // hard coded for now. #14 will fix
+        String mainClassName = "ArrayLoops.java"; // TO DO: pull from class to compile
         
         Compiler compiler = new Compiler(runNumber, studentName, studentHandle, compilePathDirectory, compilePath, sourcePath, studentPath, outputFileName, mainClassName);
         int success = compiler.compileJava();
