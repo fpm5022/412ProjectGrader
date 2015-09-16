@@ -1,5 +1,5 @@
 
-import java.awt.Color;
+import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -41,7 +41,6 @@ public class StudentPanel extends JPanel{
     }
 
     private void initComponents() {
-        setBackground(Color.red);
         this.setSize(WIDTH, HEIGHT);
         this.setVisible(true);
         addCheckboxes();
@@ -76,5 +75,7 @@ public class StudentPanel extends JPanel{
             this.y += Y_INCREMENT;
             this.add(box);
         }
+        this.HEIGHT = y; // update height of panel so scrolling can happen
+        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
     }
 }

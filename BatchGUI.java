@@ -1,5 +1,6 @@
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
 @author Feek <feek@psu.edu>
@@ -9,6 +10,7 @@ import javax.swing.JPanel;
 public class BatchGUI extends JPanel {
     private final Frame frame;
     private StudentPanel studentPanel;
+    private JScrollPane scrollPane;
     
     public BatchGUI(Frame frame) {
         this.frame = frame;
@@ -20,6 +22,8 @@ public class BatchGUI extends JPanel {
 
     private void initComponents() {
         studentPanel = new StudentPanel(frame);
-        add(studentPanel);
+        scrollPane = new JScrollPane(studentPanel);
+        scrollPane.setBounds(0, 0, frame.WIDTH / 3, frame.HEIGHT);
+        add(scrollPane);
     }
 }
