@@ -45,6 +45,8 @@ public class Compiler {
             env.clear();
             env.put("PATH", path);
             env.put("CLASSPATH", classPath);
+            System.out.println(classPath);
+            System.out.println(studentPath);
 
 //    env.put("SOURCEPATH", sourcePath);
 //    env.remove("OTHERVAR");
