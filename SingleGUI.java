@@ -63,8 +63,8 @@ public class SingleGUI extends JPanel {
         this.runTest = new JButton();
         this.cmdLnArg = new JTextField();
         this.expectedOutput = new JTextField();
-        this.outputScroller = new JScrollPane(outputText);
         this.outputText = new JTextArea();
+        this.outputScroller = new JScrollPane(outputText);
         
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Single Tester");
@@ -149,8 +149,8 @@ public class SingleGUI extends JPanel {
         outputText.setEditable(false);
         outputScroller.setVisible(true);
         outputScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        outputScroller.setBounds(0,0, 50, 50);
-        this.add(outputText);
+        outputScroller.setBounds(frame.WIDTH / 2, frame.HEIGHT / 2 - 100, (frame.WIDTH / 2) - 50, (frame.HEIGHT / 2) - 50);
+        
         this.add(outputScroller);
         
     }
