@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
 @author Feek <feek@psu.edu>
@@ -16,21 +18,33 @@ import javax.swing.JPanel;
 public class StudentPanel extends JPanel{
     private final Frame frame;
     private ArrayList<Student> students;
+    private ArrayList<JCheckBox> checkboxes;
     private final String studentFileLocation = "/Users/Feek/repos/412ProjectGrader/"; // TO DO: make this a setting
     private final String studentFileName = "students.txt"; // to do: pull out like ^^^
     private final String delimiter = ", |\\n"; // delmiter seperating students in students.txt. , and new line
+    private final int X = 10;
+    private int y = 10;
+    private int Y_INCREMENT = 20; // space between boxes
+    private int WIDTH;
+    private int HEIGHT;
+    private JScrollPane scrollPane;
     
     public StudentPanel(Frame frame) {
         this.frame = frame;
         this.students = new ArrayList<>();
+        this.checkboxes = new ArrayList<>();
+        this.WIDTH = frame.WIDTH / 3;
+        this.HEIGHT = frame.HEIGHT;
+        this.setLayout(null);
         importStudents();
         initComponents();
     }
 
     private void initComponents() {
         setBackground(Color.red);
-        this.setSize(frame.WIDTH / 3, frame.HEIGHT);
+        this.setSize(WIDTH, HEIGHT);
         this.setVisible(true);
+        addCheckboxes();
     }
 
     private void importStudents() {
@@ -41,9 +55,7 @@ public class StudentPanel extends JPanel{
             
             while(read.hasNext()) {
                 String name = read.next();
-                System.out.println(name);
                 String handle = read.next();
-                System.out.println(handle);
                 
                 students.add(new Student(name, handle));
             }
@@ -53,6 +65,16 @@ public class StudentPanel extends JPanel{
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(StudentPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void addCheckboxes() {
+        for(Student s : students) {
+            JCheckBox box = new JCheckBox(s.getInfo());
+            box.setAlignmentY(LEFT_ALIGNMENT);
+            box.setBounds(X, y, 200, 15);
+            this.y += Y_INCREMENT;
+            this.add(box);
         }
     }
 }

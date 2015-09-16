@@ -16,4 +16,8 @@ public class Student {
     public void setSelected(boolean b) {
         this.selected = b;
     }
+
+    public String getInfo() {
+        return this.name + " | " + this.handle;
+    }
 }
