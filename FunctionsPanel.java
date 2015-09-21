@@ -23,8 +23,6 @@ public class FunctionsPanel extends JPanel {
     private String compilePathDirectory;
     private String classPathDirectory;
     private JButton backButton;
-    private JTextField nameOfClassTextField;
-    private JLabel nameOfClassLabel;
     private JButton compilePath;
     private JButton classPathSelect;
     private JTextField classPathTextField;
@@ -48,8 +46,6 @@ public class FunctionsPanel extends JPanel {
 
     private void initComponents() {
         this.backButton = new JButton();
-        this.nameOfClassTextField = new JTextField();
-        this.nameOfClassLabel = new JLabel();
         this.compilePath = new JButton();
         this.classPathSelect = new JButton();
         this.classPathTextField = new JTextField();
@@ -90,15 +86,6 @@ public class FunctionsPanel extends JPanel {
         classPathTextField.setEditable(false);
         classPathTextField.setText("location of class");
         this.add(classPathTextField);
-
-        nameOfClassLabel.setText("Class Name:");
-        nameOfClassLabel.setBounds(10, 150, 100, 30);
-        this.add(nameOfClassLabel);
-
-        nameOfClassTextField.setText("412"); // hard coded for now
-        nameOfClassTextField.setBounds(100, 150, 100, 30);
-        nameOfClassTextField.setEditable(false);
-        this.add(nameOfClassTextField);
 
         compilePath.setText("Compile Path..");
         compilePath.setBounds(10, 200, 100, 30);
@@ -190,12 +177,11 @@ public class FunctionsPanel extends JPanel {
     private void runCompileActionPerformed(ActionEvent evt) {
         String commandLineArguments = cmdLnArg.getText();
         String expectedTestOutput = expectedOutput.getText();
-        String className = nameOfClassTextField.getText();
 
         int runNumber = 1;
         String studentName = "feek"; // TO DO: pull from class to compile
         String studentHandle = "";
-        String compilePath = compilePathDirectory + className + studentName;
+        String compilePath = compilePathDirectory + studentName;
         String sourcePath = classPathDirectory;
         String studentPath = sourcePath;
         String outputFileName = "output.txt";
