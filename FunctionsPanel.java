@@ -21,11 +21,11 @@ public class FunctionsPanel extends JPanel {
 
     private Frame frame;
     private String compilePathDirectory;
-    private String classPathDirectory;
+    private String sourceCodeDirectory;
     private JButton backButton;
-    private JButton compilePath;
-    private JButton classPathSelect;
-    private JTextField classPathTextField;
+    private JButton compilePathButton;
+    private JButton sourceDirectoryButton;
+    private JTextField sourceDirectoryTextField;
     private JLabel jLabel1;
     private JButton compileButton;
     private JButton testButton;
@@ -38,7 +38,7 @@ public class FunctionsPanel extends JPanel {
     public FunctionsPanel(Frame frame) {
         this.frame = frame;
         this.compilePathDirectory = "";
-        this.classPathDirectory = "";
+        this.sourceCodeDirectory = "";
         initComponents();
         this.setLayout(null); // yolo  ¯\_(ツ)_/¯ 
         this.setVisible(true);
@@ -46,9 +46,9 @@ public class FunctionsPanel extends JPanel {
 
     private void initComponents() {
         this.backButton = new JButton();
-        this.compilePath = new JButton();
-        this.classPathSelect = new JButton();
-        this.classPathTextField = new JTextField();
+        this.compilePathButton = new JButton();
+        this.sourceDirectoryButton = new JButton();
+        this.sourceDirectoryTextField = new JTextField();
         this.jLabel1 = new JLabel();
         this.compileButton = new JButton();
         this.testButton = new JButton();
@@ -71,26 +71,25 @@ public class FunctionsPanel extends JPanel {
             }
         });
 
-        classPathSelect.setText("Class To Compile");
-        classPathSelect.setBounds(10, 100, 150, 30);
-//        fileChooser.setEnabled(false);
-        this.add(classPathSelect);
-        classPathSelect.addActionListener(new java.awt.event.ActionListener() {
+        sourceDirectoryButton.setText("Source Directory");
+        sourceDirectoryButton.setBounds(10, 100, 150, 30);
+        this.add(sourceDirectoryButton);
+        sourceDirectoryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                classChooserActionPerformed(evt);
+                sourceDirectoryActionPerformed(evt);
             }
         });
 
-        classPathTextField = new JTextField();
-        classPathTextField.setBounds(250, 100, 250, 30);
-        classPathTextField.setEditable(false);
-        classPathTextField.setText("location of class");
-        this.add(classPathTextField);
+        sourceDirectoryTextField = new JTextField();
+        sourceDirectoryTextField.setBounds(250, 100, 250, 30);
+        sourceDirectoryTextField.setEditable(false);
+        sourceDirectoryTextField.setText("Location of parent directory holding all students source codes");
+        this.add(sourceDirectoryTextField);
 
-        compilePath.setText("Compile Path..");
-        compilePath.setBounds(10, 200, 100, 30);
-        this.add(compilePath);
-        compilePath.addActionListener(new java.awt.event.ActionListener() {
+        compilePathButton.setText("Compile Path..");
+        compilePathButton.setBounds(10, 200, 100, 30);
+        this.add(compilePathButton);
+        compilePathButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 compilePathActionPerformed(evt);
             }
@@ -146,34 +145,28 @@ public class FunctionsPanel extends JPanel {
         frame.swap(frame.batchGUI, frame.splash);
     }
 
-    private void compileChooserActionPerformed(ActionEvent evt) {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-        chooser.setDialogTitle("Please select the class path");
-        this.add(chooser);
-
-        int val = chooser.showOpenDialog(this);
-        if (val == JFileChooser.APPROVE_OPTION) {
-            this.compilePathDirectory = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
-            this.compilePathTextField.setText(this.compilePathDirectory);
-        }
-    }
-
-    private void classChooserActionPerformed(ActionEvent evt) {
+    /*
+    The action listener for setting the source directory
+    */
+    private void sourceDirectoryActionPerformed(ActionEvent evt) {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-        chooser.setDialogTitle("Please select the class path");
+        chooser.setDialogTitle("Please select the directory containing all students source codes");
         this.add(chooser);
 
         int val = chooser.showOpenDialog(this);
         if (val == JFileChooser.APPROVE_OPTION) {
-            this.classPathDirectory = chooser.getSelectedFile().getAbsolutePath();// append trailing slash
-            this.classPathTextField.setText(this.classPathDirectory);
+            this.sourceCodeDirectory = chooser.getSelectedFile().getAbsolutePath();
+            this.sourceDirectoryTextField.setText(this.sourceCodeDirectory);
+            
+            System.out.println(sourceCodeDirectory);
         }
     }
 
+    /*
+    The action listener when the compile button is pressed
+    */
     private void runCompileActionPerformed(ActionEvent evt) {
         String commandLineArguments = cmdLnArg.getText();
         String expectedTestOutput = expectedOutput.getText();
@@ -182,7 +175,7 @@ public class FunctionsPanel extends JPanel {
         String studentName = "feek"; // TO DO: pull from class to compile
         String studentHandle = "";
         String compilePath = compilePathDirectory + studentName;
-        String sourcePath = classPathDirectory;
+        String sourcePath = sourceCodeDirectory;
         String studentPath = sourcePath;
         String outputFileName = "output.txt";
         String mainClassName = "ArrayLoops.java"; // TO DO: pull from class to compile
@@ -200,7 +193,10 @@ public class FunctionsPanel extends JPanel {
             outputText.setForeground(Color.black);
         }
     }
-
+    
+    /*
+    The action listener which sets the path to compile files into
+    */
     private void compilePathActionPerformed(ActionEvent evt) {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -212,20 +208,6 @@ public class FunctionsPanel extends JPanel {
         if (val == JFileChooser.APPROVE_OPTION) {
             this.compilePathDirectory = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
             this.compilePathTextField.setText(this.compilePathDirectory);
-        }
-    }
-
-    private void classPathActionPerformed(ActionEvent evt) {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-        chooser.setDialogTitle("Please select the class path");
-        this.add(chooser);
-
-        int val = chooser.showOpenDialog(this);
-        if (val == JFileChooser.APPROVE_OPTION) {
-            this.classPathDirectory = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
-            this.classPathTextField.setText(this.classPathDirectory);
         }
     }
 
