@@ -19,7 +19,7 @@ public class StudentPanel extends JPanel{
     private final Frame frame;
     private ArrayList<Student> students;
     private ArrayList<JCheckBox> checkboxes;
-    private final String studentFileLocation = "/Users/Feek/repos/412ProjectGrader/"; // TO DO: make this a setting
+    private final String studentFileLocation = "C:\\Users\\hites\\Documents\\GitHub\\412ProjectGrader\\"; // TO DO: make this a setting
     private final String studentFileName = "students.txt"; // to do: pull out like ^^^
     private final String delimiter = ", |\\n"; // delmiter seperating students in students.txt. , and new line
     private final int X = 10;

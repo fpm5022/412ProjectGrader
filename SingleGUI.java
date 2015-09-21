@@ -145,7 +145,7 @@ public class SingleGUI extends JPanel {
         
         testButton.setText("Test");
         testButton.setBounds(frame.WIDTH / 2 + 50, 400, 100, 30);
-        testButton.setEnabled(false);
+//        testButton.setEnabled(false);
         this.add(testButton);
         testButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -257,9 +257,13 @@ public class SingleGUI extends JPanel {
         }
     }
     
-    private void runTestActionPerformed(ActionEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void runTestActionPerformed(ActionEvent evt) 
+    {
+        SingleTester st = new SingleTester();
+        String [] stArg = {""};
+        SingleTester.main(stArg);
     }
+    
     public void readOutputFile(){
         Path file = FileSystems.getDefault().getPath("output.txt");  //Output file path - ("Whatever Folder has file", "Filename.txt")
             try(InputStream in = Files.newInputStream(file);
