@@ -1,7 +1,8 @@
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,7 +13,6 @@ public class Compiler {
     private String handle;
     private String path;
     private String classPath;
-    private String sourcePath;
     private String studentPath;
     private String outputFileName;
     private int success;
@@ -24,7 +24,6 @@ public class Compiler {
         handle = hndl;
         path = pth;
         classPath = clsPath;
-        sourcePath = srcPath;
         studentPath = stdPath;
         outputFileName = outFileName;
         success = 1;  // Outcome of compilation, success = 0

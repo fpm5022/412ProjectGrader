@@ -170,28 +170,32 @@ public class FunctionsPanel extends JPanel {
     private void runCompileActionPerformed(ActionEvent evt) {
         String commandLineArguments = cmdLnArg.getText();
         String expectedTestOutput = expectedOutput.getText();
-
         int runNumber = 1;
-        String studentName = "feek"; // TO DO: pull from class to compile
-        String studentHandle = "";
-        String compilePath = compilePathDirectory + studentName;
         String sourcePath = sourceCodeDirectory;
         String studentPath = sourcePath;
         String outputFileName = "output.txt";
         String mainClassName = "ArrayLoops.java"; // TO DO: pull from class to compile
+        
+        // loop through selected students and start compiling
+        for (Student s : frame.batchGUI.getSelectedStudents()) {
+            String studentName = s.getName();
+            String compilePath = compilePathDirectory + studentName; // directory to compile into
+            
+            Compiler compiler = new Compiler(runNumber, studentName, s.getHandle(), compilePathDirectory, compilePath, sourcePath, studentPath, outputFileName, mainClassName);
+            int success = compiler.compileJava();
 
-        Compiler compiler = new Compiler(runNumber, studentName, studentHandle, compilePathDirectory, compilePath, sourcePath, studentPath, outputFileName, mainClassName);
-        int success = compiler.compileJava();
-
-        if (success != 0) {
-            System.err.println("compile failed: " + success);
-            readOutputFile();
-            outputText.setForeground(Color.red);
-        } else {
-            System.out.println("compile success");
-            readOutputFile();
-            outputText.setForeground(Color.black);
+            if (success != 0) {
+                System.err.println("compile failed: " + success);
+                readOutputFile();
+                outputText.setForeground(Color.red);
+            } else {
+                System.out.println("compile success");
+                readOutputFile();
+                outputText.setForeground(Color.black);
+            }
         }
+
+        
     }
     
     /*
