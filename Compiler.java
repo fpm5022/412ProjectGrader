@@ -38,13 +38,15 @@ public class Compiler {
 
 //    create new javac ProcessBuilder        
             ProcessBuilder pb
-                    = new ProcessBuilder("javac", "-d", classPath, studentPath + "/" + mainClassName);
+                    = new ProcessBuilder("javac", "-d", classPath, studentPath);
 
 //    Create environment map and set environmental variables         
             Map<String, String> env = pb.environment();
             env.clear();
             env.put("PATH", path);
             env.put("CLASSPATH", classPath);
+            System.out.println(classPath);
+            System.out.println(studentPath);
 
 //    env.put("SOURCEPATH", sourcePath);
 //    env.remove("OTHERVAR");

@@ -173,4 +173,11 @@ public class TestRunner
           Logger.getLogger(TestRunner.class.getName()).log(Level.SEVERE, null, ex);
       }   
   }
+  public void compareResults()
+  {
+//      if (this.handle = 000)
+//      {
+//          
+//      }
+  }
 }

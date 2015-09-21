@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -45,7 +44,9 @@ public class SingleTester {
             studentName = in.next();
             studentHandle = in.next();
 
-            String classPath = compiledPath + className + studentName;
+            String classPath = compiledPath
+//                    + className + studentName
+                    ;
             String studentPath = sourcePath + "/" + studentName;
             String inputFileStub = studentPath + "/input";
             String outputFileName = "/output-" + studentName + ".txt";
