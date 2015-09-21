@@ -13,8 +13,11 @@ public class BatchGUI extends JPanel {
     private JScrollPane scrollPane;
     private FunctionsPanel functionsPanel;
     
+    private int scrollPaneWidth;
+    
     public BatchGUI(Frame frame) {
         this.frame = frame;
+        this.scrollPaneWidth = frame.WIDTH / 3;
         this.setSize(frame.WIDTH, frame.HEIGHT);
         initComponents();
         this.setLayout(null); // yolo  ¯\_(ツ)_/¯ 
@@ -24,11 +27,11 @@ public class BatchGUI extends JPanel {
     private void initComponents() {
         studentPanel = new StudentPanel(frame);
         scrollPane = new JScrollPane(studentPanel);
-        scrollPane.setBounds(0, 0, frame.WIDTH / 3, frame.HEIGHT);
+        scrollPane.setBounds(0, 0, scrollPaneWidth, frame.HEIGHT);
         add(scrollPane);
 
         functionsPanel = new FunctionsPanel(frame);
-        functionsPanel.setBounds(frame.WIDTH / 3, 0, frame.WIDTH/3 + frame.WIDTH / 3, frame.HEIGHT);
+        functionsPanel.setBounds(scrollPaneWidth, 0, scrollPaneWidth * 2, frame.HEIGHT);
         add(functionsPanel);
         
         /*
