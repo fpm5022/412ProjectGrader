@@ -36,7 +36,7 @@ public class SingleGUI extends JPanel
     private JTextField classPathTextField;
     private JButton testInputLocationButton;
     private JTextField testInputLocationField;
-    private JLabel jLabel1;
+    private JLabel programLabel;
     private JButton compileButton;
     private Frame frame;
     private JTextField expectedOutput;
@@ -82,7 +82,7 @@ public class SingleGUI extends JPanel
         this.compilePathButton = new JButton();
         this.classPathSelect = new JButton();
         this.classPathTextField = new JTextField();
-        this.jLabel1 = new JLabel();
+        this.programLabel = new JLabel();
         this.compileButton = new JButton();
         this.testButton = new JButton();
         this.testInputLocationButton = new JButton();
@@ -92,10 +92,10 @@ public class SingleGUI extends JPanel
         this.outputScroller = new JScrollPane(outputText);
         this.className = "412";
         
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("Single Tester");
-        jLabel1.setBounds(frame.WIDTH / 2 - 70, 10, 200, 40);
-        this.add(jLabel1);
+        programLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        programLabel.setText("Single Tester");
+        programLabel.setBounds(frame.WIDTH / 2 - 70, 10, 200, 40);
+        this.add(programLabel);
 
         backButton.setText("<- Back");
         backButton.setBounds(10, 20, 100, 30);
@@ -127,7 +127,7 @@ public class SingleGUI extends JPanel
         this.add(nameOfClassLabel);
         
         nameOfClassTextField.setText(className); // hard coded for now
-        nameOfClassTextField.setBounds(100, 150, 100, 30);
+        nameOfClassTextField.setBounds(250, 150, 100, 30);
         nameOfClassTextField.setEditable(false);
         this.add(nameOfClassTextField);
 
@@ -141,7 +141,7 @@ public class SingleGUI extends JPanel
         });
         
         compilePathTextField = new JTextField();
-        compilePathTextField.setBounds(125, 200, 200, 30);
+        compilePathTextField.setBounds(250, 200, 200, 30);
         compilePathTextField.setEditable(false);
         compilePathTextField.setText("directory to compile into");
         this.add(compilePathTextField);
@@ -157,7 +157,7 @@ public class SingleGUI extends JPanel
         });
         
         testInputLocationField.setText("Test File Location (fornow)");
-        testInputLocationField.setBounds(125, 250, 300, 30);
+        testInputLocationField.setBounds(250, 250, 300, 30);
 //        testInputLocationField.setEnabled(false);
         this.add(testInputLocationField);
         
@@ -188,11 +188,12 @@ public class SingleGUI extends JPanel
         outputText.setFont(new java.awt.Font("Tahoma", 0, 14));
         outputText.setLineWrap(true);
         outputText.setWrapStyleWord(true);
-        outputText.setBounds(frame.WIDTH / 2, frame.HEIGHT / 2 - 100, (frame.WIDTH / 2) - 50, (frame.HEIGHT / 2) - 50);
+        outputText.setBounds(0, 450, frame.WIDTH, 225);
         outputText.setEditable(false);
+        
         outputScroller.setVisible(true);
         outputScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        outputScroller.setBounds(frame.WIDTH / 2, frame.HEIGHT / 2 - 100, (frame.WIDTH / 2) - 50, (frame.HEIGHT / 2) - 50);
+        outputScroller.setBounds(0, 450, frame.WIDTH, 225);
         
         this.add(outputScroller);
     }
@@ -257,10 +258,12 @@ public class SingleGUI extends JPanel
             System.err.println("compile failed: " + success);
             readOutputFile();
             outputText.setForeground(Color.red);
+            outputText.setText("Your Compile has Failed. Please check all values and try again.");
         } else {
             System.out.println("compile success");
             readOutputFile();
             outputText.setForeground(Color.black);
+            outputText.setText("Your Compile Has Succeeded.");
         }
     }
     
