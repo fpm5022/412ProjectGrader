@@ -10,8 +10,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class Frame extends JFrame {
     
-    public final int WIDTH = 720;
-    public final int HEIGHT = 480;
+    public final int WIDTH = 1080;
+    public final int HEIGHT = 720;
     public SingleGUI singleGUI;
     public SplashScreen splash;
     public BatchGUI batchGUI;
