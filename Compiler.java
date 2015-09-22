@@ -63,7 +63,7 @@ public class Compiler {
 //    debug code - to confirm correct directory       
             //TestTools.dir(cwd);
 //    set up output file      
-            File outputFile = new File(classPath + "/" + outputFileName);
+            File outputFile = new File(sourcePath + outputFileName);
 //    System.out.println(outputFileName);
             outputFile.delete();
             pb.redirectErrorStream(true);

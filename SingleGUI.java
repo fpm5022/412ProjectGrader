@@ -25,17 +25,20 @@ import javax.swing.JTextField;
 **/
 
 
-public class SingleGUI extends JPanel {
+public class SingleGUI extends JPanel 
+{
     // COMPONENTS
     private JButton backButton;
     private JTextField nameOfClassTextField;
     private JButton compilePathButton;
     private JTextField compilePathTextField;
     private JButton classPathSelect;
+    private JTextField classPathTextField;
+    private JButton testInputLocationButton;
+    private JTextField testInputLocationField;
     private JLabel jLabel1;
     private JButton compileButton;
     private Frame frame;
-    private JTextField cmdLnArg;
     private JTextField expectedOutput;
     private JLabel nameOfClassLabel;
     private JButton testButton;
@@ -47,8 +50,8 @@ public class SingleGUI extends JPanel {
     // fields
     private String compilePathDirectory;
     private String classPathDirectory;
-    private JTextField classPathTextField;
     private String className;
+    private String testFileLocation;
     String commandLineArguments;
     String expectedTestOutput;
 
@@ -61,7 +64,8 @@ public class SingleGUI extends JPanel {
     private String outputFileName = "output.txt";
     private String mainClassName = "ArrayLoops.java"; // TO DO: pull from class to compile
     
-    public SingleGUI(Frame frame) {
+    public SingleGUI(Frame frame) 
+    {
         this.frame = frame;
         this.compilePathDirectory = "";
         this.classPathDirectory = "";
@@ -81,7 +85,8 @@ public class SingleGUI extends JPanel {
         this.jLabel1 = new JLabel();
         this.compileButton = new JButton();
         this.testButton = new JButton();
-        this.cmdLnArg = new JTextField();
+        this.testInputLocationButton = new JButton();
+        this.testInputLocationField = new JTextField();
         this.expectedOutput = new JTextField();
         this.outputText = new JTextArea();
         this.outputScroller = new JScrollPane(outputText);
@@ -141,10 +146,20 @@ public class SingleGUI extends JPanel {
         compilePathTextField.setText("directory to compile into");
         this.add(compilePathTextField);
         
-        cmdLnArg.setText("Command Line Arguments");
-        cmdLnArg.setBounds(10, 250, 300, 30);
-        cmdLnArg.setEnabled(false);
-        this.add(cmdLnArg);
+        testInputLocationButton.setText("Test Input Location");
+        testInputLocationButton.setBounds(10, 250, 150, 30);
+//        fileChooser.setEnabled(false);
+        this.add(testInputLocationButton);
+        testInputLocationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testFileLocationChooser(evt);
+            }
+        });
+        
+        testInputLocationField.setText("Test File Location (fornow)");
+        testInputLocationField.setBounds(125, 250, 300, 30);
+//        testInputLocationField.setEnabled(false);
+        this.add(testInputLocationField);
         
         expectedOutput.setText("Expected Output");
         expectedOutput.setBounds(10, 300, 300, 30);
@@ -169,6 +184,7 @@ public class SingleGUI extends JPanel {
                 runTestActionPerformed(evt);
             }
         });
+        
         outputText.setFont(new java.awt.Font("Tahoma", 0, 14));
         outputText.setLineWrap(true);
         outputText.setWrapStyleWord(true);
@@ -191,7 +207,7 @@ public class SingleGUI extends JPanel {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-        chooser.setDialogTitle("Please select the class path");
+        chooser.setDialogTitle("Please select the Compile Location");
         this.add(chooser);
         
         int val = chooser.showOpenDialog(this);
@@ -216,7 +232,7 @@ public class SingleGUI extends JPanel {
     }
         
     private void runCompileActionPerformed(ActionEvent evt) {
-        commandLineArguments = cmdLnArg.getText();
+        commandLineArguments = testInputLocationField.getText();
         expectedTestOutput = expectedOutput.getText();
         className = nameOfClassTextField.getText();
         
@@ -262,17 +278,17 @@ public class SingleGUI extends JPanel {
         }
     }
     
-        private void classPathActionPerformed(ActionEvent evt) {
+        private void testFileLocationChooser(ActionEvent evt) {
         JFileChooser chooser = new JFileChooser();
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-        chooser.setDialogTitle("Please select the class path");
+        chooser.setDialogTitle("Please Select the Test Input File");
         this.add(chooser);
         
         int val = chooser.showOpenDialog(this);
         if (val == JFileChooser.APPROVE_OPTION) {
-            this.classPathDirectory = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
-            this.classPathTextField.setText(this.classPathDirectory);
+            this.testFileLocation = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
+            this.testInputLocationField.setText(this.testFileLocation);
         }
     }
     
@@ -283,8 +299,10 @@ public class SingleGUI extends JPanel {
         String argsFileName = testDataPath + "/args.txt";
         String inputFileStub = studentPath + "/input";
         outputFileName = "/output-" + studentName + ".txt";
-        TestRunner r = new TestRunner(runNumber, studentName, studentHandle, compilePath, classPathDirectory, sourcePath, studentPath,  testDataPath, argsFileName, testInputFileName, inputFileStub, outputFileName);
-        r.runJava();
+        SingleTester st = new SingleTester(sourcePath,compilePath,testFileLocation);
+        st.runJava();
+//        TestRunner r = new TestRunner(runNumber, studentName, studentHandle, compilePath, classPathDirectory, sourcePath, studentPath,  testDataPath, argsFileName, testInputFileName, inputFileStub, outputFileName);
+//        r.runJava();
     }
     
     public void readOutputFile(){

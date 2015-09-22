@@ -156,6 +156,7 @@ public class TestRunner
                   */
                   assert pb.redirectInput() == Redirect.PIPE;
                   assert pb.redirectOutput().file() == outputFile;
+                  System.out.println(outputFile);
                   assert p.getInputStream().read() == -1;
                   /*
                   if(currentTime - startTime > timeOut)
