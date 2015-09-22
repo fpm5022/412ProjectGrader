@@ -25,10 +25,11 @@ public class Compiler {
         path = pth;
         classPath = clsPath;
         sourcePath = srcPath;
-        studentPath = stdPath;
         outputFileName = outFileName;
         success = 1;  // Outcome of compilation, success = 0
         this.mainClassName = mainClassName;
+        studentPath = stdPath + "\\" + mainClassName;
+
     }
 
     public int compileJava() {
@@ -45,8 +46,9 @@ public class Compiler {
             env.clear();
             env.put("PATH", path);
             env.put("CLASSPATH", classPath);
-            System.out.println(classPath);
             System.out.println(studentPath);
+            System.out.println(classPath);
+
 
 //    env.put("SOURCEPATH", sourcePath);
 //    env.remove("OTHERVAR");
@@ -63,7 +65,7 @@ public class Compiler {
 //    debug code - to confirm correct directory       
             //TestTools.dir(cwd);
 //    set up output file      
-            File outputFile = new File(sourcePath + outputFileName);
+            File outputFile = new File(path + outputFileName);
 //    System.out.println(outputFileName);
             outputFile.delete();
             pb.redirectErrorStream(true);

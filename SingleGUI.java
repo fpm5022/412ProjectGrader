@@ -306,7 +306,7 @@ public class SingleGUI extends JPanel
     }
     
     public void readOutputFile(){
-        Path file = FileSystems.getDefault().getPath("output.txt");  //Output file path - ("Whatever Folder has file", "Filename.txt")
+        Path file = FileSystems.getDefault().getPath(compilePathDirectory,"output.txt");  //Output file path - ("Whatever Folder has file", "Filename.txt")
             try(InputStream in = Files.newInputStream(file);
                     BufferedReader reader =
                             new BufferedReader(new InputStreamReader(in))){

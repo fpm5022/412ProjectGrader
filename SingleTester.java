@@ -29,7 +29,7 @@ public class SingleTester
          runNumber = 1;
          sourcePath = srcPath;
          compiledPath = cmpPath;
-         studentName = "blank";
+         studentName = "";
          studentHandle = "000000";
          testDataPath = tstFilLoc;
          argsFileName = testDataPath + "/args.txt";

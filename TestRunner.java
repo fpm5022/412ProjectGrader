@@ -33,7 +33,7 @@ public class TestRunner
     testDataPath = tstDataPath;
     argsFileName = argFileName;
     testInputFileName = tstInputFileName;
-    inputFileStub = inFileStub;
+    inputFileStub = tstDataPath;
     outputFileName = outFileName;
     success = 1;  // Outcome of compilation, success = 0
   }
@@ -86,6 +86,7 @@ public class TestRunner
                   inputs = TestTools.parseLine(testInputLine);
                   System.out.println("System.in inputs: " + inputs);
                   inputFileName = inputFileStub + run + ".txt";
+                  System.out.println(inputFileStub + "IS THE INPUT FILE STUB");
                   PrintWriter writeTests = new PrintWriter(inputFileName);
                   for(String element : inputs)
                   {
