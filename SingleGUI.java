@@ -2,12 +2,16 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -25,7 +29,7 @@ public class SingleGUI extends JPanel {
     // COMPONENTS
     private JButton backButton;
     private JTextField nameOfClassTextField;
-    private JButton compilePath;
+    private JButton compilePathButton;
     private JTextField compilePathTextField;
     private JButton classPathSelect;
     private JLabel jLabel1;
@@ -44,6 +48,18 @@ public class SingleGUI extends JPanel {
     private String compilePathDirectory;
     private String classPathDirectory;
     private JTextField classPathTextField;
+    private String className;
+    String commandLineArguments;
+    String expectedTestOutput;
+
+    int runNumber;
+    private String studentName; // TO DO: pull from class to compile
+    private String studentHandle;
+    private String compilePath;
+    private String sourcePath;
+    private String studentPath;
+    private String outputFileName = "output.txt";
+    private String mainClassName = "ArrayLoops.java"; // TO DO: pull from class to compile
     
     public SingleGUI(Frame frame) {
         this.frame = frame;
@@ -59,7 +75,7 @@ public class SingleGUI extends JPanel {
         this.backButton = new JButton();
         this.nameOfClassTextField = new JTextField();
         this.nameOfClassLabel = new JLabel();
-        this.compilePath = new JButton();
+        this.compilePathButton = new JButton();
         this.classPathSelect = new JButton();
         this.classPathTextField = new JTextField();
         this.jLabel1 = new JLabel();
@@ -69,6 +85,7 @@ public class SingleGUI extends JPanel {
         this.expectedOutput = new JTextField();
         this.outputText = new JTextArea();
         this.outputScroller = new JScrollPane(outputText);
+        this.className = "412";
         
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setText("Single Tester");
@@ -104,15 +121,15 @@ public class SingleGUI extends JPanel {
         nameOfClassLabel.setBounds(10, 150, 100, 30);
         this.add(nameOfClassLabel);
         
-        nameOfClassTextField.setText("412"); // hard coded for now
+        nameOfClassTextField.setText(className); // hard coded for now
         nameOfClassTextField.setBounds(100, 150, 100, 30);
         nameOfClassTextField.setEditable(false);
         this.add(nameOfClassTextField);
 
-        compilePath.setText("Compile Path..");
-        compilePath.setBounds(10, 200, 100, 30);
-        this.add(compilePath);
-        compilePath.addActionListener(new java.awt.event.ActionListener() {
+        compilePathButton.setText("Compile Path..");
+        compilePathButton.setBounds(10, 200, 100, 30);
+        this.add(compilePathButton);
+        compilePathButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 compilePathActionPerformed(evt);
             }
@@ -164,11 +181,13 @@ public class SingleGUI extends JPanel {
         this.add(outputScroller);
     }
     
-    private void backButtonActionPerformed(ActionEvent evt) {
+    private void backButtonActionPerformed(ActionEvent evt) 
+    {
         frame.swap(this, frame.splash);
     }
     
-    private void compileChooserActionPerformed(ActionEvent evt) {
+    private void compileChooserActionPerformed(ActionEvent evt) 
+    {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setDialogType(JFileChooser.OPEN_DIALOG);
@@ -197,18 +216,18 @@ public class SingleGUI extends JPanel {
     }
         
     private void runCompileActionPerformed(ActionEvent evt) {
-        String commandLineArguments = cmdLnArg.getText();
-        String expectedTestOutput = expectedOutput.getText();
-        String className = nameOfClassTextField.getText();
+        commandLineArguments = cmdLnArg.getText();
+        expectedTestOutput = expectedOutput.getText();
+        className = nameOfClassTextField.getText();
         
         int runNumber = 1;
-        String studentName = "feek"; // TO DO: pull from class to compile
-        String studentHandle = "";
-        String compilePath = compilePathDirectory + className + studentName;
-        String sourcePath = classPathDirectory;
-        String studentPath = sourcePath;
-        String outputFileName = "output.txt";
-        String mainClassName = "ArrayLoops.java"; // TO DO: pull from class to compile
+        studentName = "feek"; // TO DO: pull from class to compile
+        studentHandle = "";
+        compilePath = compilePathDirectory + className + studentName;
+        sourcePath = classPathDirectory;
+        studentPath = sourcePath;
+//        outputFileName = "output.txt";
+//        mainClassName = "ArrayLoops.java"; // TO DO: pull from class to compile
         
         Compiler compiler = new Compiler(runNumber, studentName, studentHandle, compilePathDirectory, compilePath, sourcePath, studentPath, outputFileName, mainClassName);
         int success = compiler.compileJava();
@@ -259,9 +278,13 @@ public class SingleGUI extends JPanel {
     
     private void runTestActionPerformed(ActionEvent evt) 
     {
-        SingleTester st = new SingleTester();
-        String [] stArg = {""};
-        SingleTester.main(stArg);
+        String testDataPath = sourcePath;
+        String testInputFileName = sourcePath + "/TestInput.txt";
+        String argsFileName = testDataPath + "/args.txt";
+        String inputFileStub = studentPath + "/input";
+        outputFileName = "/output-" + studentName + ".txt";
+        TestRunner r = new TestRunner(runNumber, studentName, studentHandle, compilePath, classPathDirectory, sourcePath, studentPath,  testDataPath, argsFileName, testInputFileName, inputFileStub, outputFileName);
+        r.runJava();
     }
     
     public void readOutputFile(){
