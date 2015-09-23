@@ -11,23 +11,35 @@ public class TestRunner {
     private final String path;
     private final String classPath;
     private final String outputFileName;
+    private String mainClassAbsolutePath;
+    
+    public static void main(String[] args) {
+        TestRunner t = new TestRunner("/Users/Feek/Desktop/compiled/412/", "/Users/Feek/Desktop/compiled/412/smithjq/", "ArrayLoops");
+        t.runJava();
+    }
+    private String mainClassName;
+    
 
     /*
     path:
-    classpath: absolute path to .class file to execute
+    classpath: absolute path containing .class files
+    mainClassName: name of .class file to compile (not containing .class in name)
     */
-    public TestRunner(String path, String classPath) {
+    public TestRunner(String path, String classPath, String mainClassName) {
         this.path = path;
         this.classPath = classPath;
         this.outputFileName = "test-output.txt";
+        this.mainClassName = mainClassName;
+        this.mainClassAbsolutePath = classPath + mainClassName;
     }
 
     public void runJava() {
         try {
             File outputFile = new File(classPath + outputFileName);
+            System.out.println(classPath + outputFileName);
             
 //        create new java ProcessBuilder using arg ArrayList
-            ProcessBuilder pb = new ProcessBuilder("java", classPath);
+            ProcessBuilder pb = new ProcessBuilder("java", mainClassName);
             
 //        Create environment map and set environmental variables
             Map<String, String> env = pb.environment();
@@ -35,12 +47,9 @@ public class TestRunner {
             env.put("PATH", path);
             env.put("CLASSPATH", classPath);
             
-//        Determine current working directory
+            // we need to get this process builder into the class path directory in order to execute .class
             File cwd = pb.directory();
-
             File nwd = TestTools.cd(cwd, classPath);
-            
-//        set ProcessBuilder working directory to new abstract path
             pb.directory(nwd);
             
             pb.redirectErrorStream(true);
