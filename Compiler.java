@@ -11,7 +11,7 @@ public class Compiler {
     private String classPath;
     private String sourcePath;
     private final String outputFileName = "output.txt";
-    private int success;
+    private int success;  // Outcome of compilation, success = 0
     
     /*
     Path: 
@@ -19,40 +19,28 @@ public class Compiler {
     Sourcepath: the absolute path to the .java file to compile into .class
     */
     public Compiler(String path, String classPath, String sourcePath) {
-        System.out.println("path: " + path);
-        System.out.println("clspath: " + classPath);
-        System.out.println("srcpath: " + sourcePath);
         this.path = path;
         this.classPath = classPath;
         this.sourcePath = sourcePath;
-        this.success = 1;  // Outcome of compilation, success = 0
+        this.success = 1;
     }
 
     public int compileJava() {
         try {
-            boolean createBin = new File(classPath).mkdir();
-            
-            System.out.println("creating bin directory here: " + classPath);
+            new File(classPath).mkdir();
        
             ProcessBuilder pb
                     = new ProcessBuilder("javac", sourcePath, "-d", classPath); // see if second is redundant
-            
-            System.out.println(pb.command());
       
             Map<String, String> env = pb.environment();
             env.clear();
             env.put("PATH", path);
-            System.out.println("putting path: " + path);
             env.put("CLASSPATH", classPath);
-            System.out.println("putting classpath: " + classPath);
 
             File cwd = pb.directory();
             File outputFile = new File(classPath + "/" + outputFileName);
-
-            //outputFile.delete();
             pb.redirectErrorStream(true);
             pb.redirectOutput(Redirect.appendTo(outputFile));
-      
             Process p = pb.start();
 
             //    need other processes to wait for compilation to finish

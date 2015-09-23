@@ -18,10 +18,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class FunctionsPanel extends JPanel {
-
     private Frame frame;
-    private String compilePathDirectory;
-    private String sourceCodeDirectory;
+    private String compilePathDirectory; // directory to compile code into TODO: PULL OUT OF CLASS VARIABLE
+    private String sourceCodeDirectory; // directory source code resides TODO: PULL OUT OF CLASS VARIABLE
     private JButton backButton;
     private JButton compilePathButton;
     private JButton sourceDirectoryButton;
@@ -57,7 +56,7 @@ public class FunctionsPanel extends JPanel {
         this.outputText = new JTextArea();
         this.outputScroller = new JScrollPane(outputText);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24));
         jLabel1.setText("Single Tester");
         jLabel1.setBounds(frame.WIDTH / 2 - 70, 10, 200, 40);
         this.add(jLabel1);
@@ -146,8 +145,8 @@ public class FunctionsPanel extends JPanel {
     }
 
     /*
-    The action listener for setting the source directory
-    */
+     The action listener for setting the source directory
+     */
     private void sourceDirectoryActionPerformed(ActionEvent evt) {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -159,28 +158,23 @@ public class FunctionsPanel extends JPanel {
         if (val == JFileChooser.APPROVE_OPTION) {
             this.sourceCodeDirectory = chooser.getSelectedFile().getAbsolutePath();
             this.sourceDirectoryTextField.setText(this.sourceCodeDirectory);
-            
-            System.out.println(sourceCodeDirectory);
         }
     }
 
     /*
-    The action listener when the compile button is pressed
-    */
+     The action listener when the compile button is pressed
+     */
     private void runCompileActionPerformed(ActionEvent evt) {
         String commandLineArguments = cmdLnArg.getText();
         String expectedTestOutput = expectedOutput.getText();
-        int runNumber = 1;
-       
-        String outputFileName = "output.txt";
         String mainClassName = "ArrayLoops.java"; // TO DO: pull from class to compile
-        
+
         // loop through selected students and start compiling
         for (Student s : frame.batchGUI.getSelectedStudents()) {
             String studentName = s.getName();
             String compilePath = compilePathDirectory + studentName; // directory to compile into
             String sourcePath = sourceCodeDirectory + File.separator + studentName + File.separator + mainClassName; // what to compile
-            
+
             Compiler compiler = new Compiler(compilePathDirectory, compilePath, sourcePath);
             int success = compiler.compileJava();
 
@@ -194,13 +188,11 @@ public class FunctionsPanel extends JPanel {
                 outputText.setForeground(Color.black);
             }
         }
-
-        
     }
-    
+
     /*
-    The action listener which sets the path to compile files into
-    */
+     The action listener which sets the path to compile files into
+     */
     private void compilePathActionPerformed(ActionEvent evt) {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
