@@ -36,6 +36,9 @@ public class StudentPanel extends JPanel{
     private JButton studentLocationButton;
     private JTextField studentFileLocationTextField;
     
+    private JButton selectAll;
+    private JButton deselectAll;
+    
     public StudentPanel(Frame frame) {
         this.frame = frame;
         this.students = new ArrayList<>();
@@ -49,7 +52,52 @@ public class StudentPanel extends JPanel{
     private void initComponents() {
         this.setSize(WIDTH, HEIGHT);
         initStudentLocationComponents();
+        initSelectButtons();
         this.setVisible(true);
+    }
+    
+    private void initSelectButtons() {
+        selectAll = new JButton("Select All");
+        deselectAll = new JButton("Deselect All");
+        
+        selectAll.setBounds(X, y, 100, 30);
+        deselectAll.setBounds(X + 110, y, 100, 30);
+        
+        selectAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectAllClicked(e);
+            }
+        });
+        deselectAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deselectAllClicked(e);
+            }
+        });
+        
+        add(selectAll);
+        add(deselectAll);
+        
+        // at this time, no students have been added
+        selectAll.setEnabled(false);
+        deselectAll.setEnabled(false);
+        
+        y += 40;
+    }
+    
+    private void selectAllClicked(ActionEvent e) {
+        // not optimal, but will do
+        for (JCheckBox box : checkboxes) {
+            box.setSelected(true);
+        }
+    }
+    
+    private void deselectAllClicked(ActionEvent e) {
+        // not optimal, but will do
+        for (JCheckBox box : checkboxes) {
+            box.setSelected(false);
+        }
     }
     
     private void initStudentLocationComponents() {
@@ -87,6 +135,10 @@ public class StudentPanel extends JPanel{
             this.studentFileLocationAbsolutePath = chooser.getSelectedFile().getAbsolutePath();
             this.studentFileLocationTextField.setText(this.studentFileLocationAbsolutePath);
             initCheckboxes();
+            
+            // enable the buttons now
+            selectAll.setEnabled(true);
+            deselectAll.setEnabled(true);
         }
     }
 
