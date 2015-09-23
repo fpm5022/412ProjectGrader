@@ -1,8 +1,15 @@
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,35 +17,31 @@ public class TestRunner {
 
     private final String path;
     private final String classPath;
-    private final String outputFileName;
-    private String mainClassAbsolutePath;
+    private String mainClassName;
+    private String[] scannerInput;
     
     public static void main(String[] args) {
-        TestRunner t = new TestRunner("/Users/Feek/Desktop/compiled/412/", "/Users/Feek/Desktop/compiled/412/smithjq/", "ArrayLoops");
+        String[] scannerInput = {"1", "1"};
+        TestRunner t = new TestRunner("/Users/Feek/Desktop/compiled/412/", "/Users/Feek/Desktop/compiled/412/smithjq/", "ArrayLoops", scannerInput);
         t.runJava();
     }
-    private String mainClassName;
     
 
     /*
-    path:
+    path: parent directory of classpath
     classpath: absolute path containing .class files
     mainClassName: name of .class file to compile (not containing .class in name)
+    scannerInput: array of strings to pass as scanner input
     */
-    public TestRunner(String path, String classPath, String mainClassName) {
+    public TestRunner(String path, String classPath, String mainClassName, String[] scannerInput) {
         this.path = path;
         this.classPath = classPath;
-        this.outputFileName = "test-output.txt";
         this.mainClassName = mainClassName;
-        this.mainClassAbsolutePath = classPath + mainClassName;
+        this.scannerInput = scannerInput;
     }
 
     public void runJava() {
         try {
-            File outputFile = new File(classPath + outputFileName);
-            System.out.println(classPath + outputFileName);
-            
-//        create new java ProcessBuilder using arg ArrayList
             ProcessBuilder pb = new ProcessBuilder("java", mainClassName);
             
 //        Create environment map and set environmental variables
@@ -53,10 +56,42 @@ public class TestRunner {
             pb.directory(nwd);
             
             pb.redirectErrorStream(true);
-            pb.redirectOutput(Redirect.appendTo(outputFile));
+            //pb.redirectOutput(Redirect.appendTo(outputFile));
             
-//        start java process
             Process p = pb.start();
+            
+            InputStream stdout = p.getInputStream();
+            OutputStream stdin = p.getOutputStream();
+            
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stdout));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
+            
+            // wait for the ready to be ready
+            while(!reader.ready()) {
+                Thread.yield();
+            }
+            
+            Scanner inScanner = new Scanner(stdout);
+            
+            
+            int i = 0; // index of scanner input to read from
+            System.out.println("scanner input length: " + scannerInput.length);
+            
+            while(inScanner.hasNextLine()) {
+                String line = inScanner.nextLine();
+                System.out.println(line);
+                
+                // only provide input if enough scanner inputs were provided 
+                if(scannerInput.length > i) {
+                    System.out.println("writing: " + scannerInput[i]);
+                    writer.write(scannerInput[i]);
+                    writer.newLine();
+                    writer.flush();
+                    i++;
+                } else {
+                    //System.out.println("not writing");
+                }
+            }
             
 //        want processes to run sequentially to keep output in order         
 //        basically joins thread to process to force sequential execution
@@ -64,7 +99,6 @@ public class TestRunner {
             p.waitFor();
             
             assert pb.redirectInput() == Redirect.PIPE;
-            assert pb.redirectOutput().file() == outputFile;
             assert p.getInputStream().read() == -1;
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(TestRunner.class.getName()).log(Level.SEVERE, null, ex);
