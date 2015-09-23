@@ -30,7 +30,7 @@ public class Compiler {
             new File(classPath).mkdir();
        
             ProcessBuilder pb
-                    = new ProcessBuilder("javac", sourcePath, "-d", classPath); // see if second is redundant
+                    = new ProcessBuilder("javac", sourcePath, "-d", classPath);
       
             Map<String, String> env = pb.environment();
             env.clear();
