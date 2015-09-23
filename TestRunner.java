@@ -1,183 +1,130 @@
-import java.io.*;
-import java.util.*;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.lang.ProcessBuilder.Redirect;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TestRunner
-{
-  private int number;
-  private String name;
-  private String handle;
-  private String path;
-  private String classPath;
-  private String sourcePath;
-  private String studentPath;
-  private String testDataPath;
-  private String argsFileName;
-  private String testInputFileName;
-  private String inputFileStub;
-  private String inputFileName;
-  private String outputFileName;
-  private int success;
+public class TestRunner {
+
+    private final String path;
+    private final String classPath;
+    private String mainClassName;
+    private String[] scannerInput;
+    private String[] commandLineArgs;
     
-  public TestRunner(int numbr, String nme, String hndl, String pth, String clsPath, String srcPath, String stdPath, String tstDataPath, String argFileName, String tstInputFileName, String inFileStub,String outFileName)
-  {
-    number = numbr;
-    name = nme;
-    handle = hndl;
-    path = pth;
-    classPath = clsPath;
-    sourcePath = srcPath;
-    studentPath = stdPath;
-    testDataPath = tstDataPath;
-    argsFileName = argFileName;
-    testInputFileName = tstInputFileName;
-    inputFileStub = inFileStub;
-    outputFileName = outFileName;
-    success = 1;  // Outcome of compilation, success = 0
-  }
+    /*
+        example usage: 
 
-  public void runJava()
-  {
-      try {
-          /*  timeout variables
-          long startTime;
-          long currentTime;
-          long timeOut = 60000000000L;
-          */
-          
-//    set up input files
-//    TestInput.txt has inputs for each test on a single line
-          File testInputFile = new File(testInputFileName);
-          Scanner testInputs = new Scanner(testInputFile);
-//    input.txt has inputs for a single run each on a separate line
-//    and is created immediately before each test run from TestInput.txt
-          
-//    instantiate output file
-          File outputFile = new File(classPath + outputFileName);
-          
-//    instantiate command-line arguments file
-          File argsFile = new File(argsFileName);
-          
-//    instantiate argument Scanner
-          Scanner argsInput = new Scanner(argsFile);
-          int run = 0;
-          
-          synchronized(outputFile)
-          {
-              while(argsInput.hasNextLine())
-              {
-                  run++;
-//        declare arg ArrayList for java ProcessBuilder
-                  List<String> arg = new ArrayList<String>();
-                  String argsLine = argsInput.nextLine();
-//        parse argsLine via TestTools.parseLine
-                  arg = TestTools.parseLine(argsLine);
-                  arg.add(0, "java");
-//        System.out.println(arg);
+            String[] scannerInput = {"1", "1"};
+            String[] commandLineArgs = {};
+            TestRunner t = new TestRunner("/Users/Feek/Desktop/compiled/412/", "/Users/Feek/Desktop/compiled/412/smithjq/", "ArrayLoops", commandLineArgs, scannerInput);
+            t.runJava();
 
-//        scan TestInput.txt
-                  String testInputLine = testInputs.nextLine();
-//        System.out.println(testInputLine);
+        -------------
 
-//        create input file for current run
-                  List<String> inputs = new ArrayList<String>();
-                  inputs = TestTools.parseLine(testInputLine);
-                  System.out.println("System.in inputs: " + inputs);
-                  inputFileName = inputFileStub + run + ".txt";
-                  PrintWriter writeTests = new PrintWriter(inputFileName);
-                  for(String element : inputs)
-                  {
-                      writeTests.println(element);
-                  }
-                  writeTests.close();
-                  File inputFile = new File(inputFileName);
-                  
-//        create new java ProcessBuilder using arg ArrayList
-                  ProcessBuilder pb = new ProcessBuilder(arg);
-                  
+        path: parent directory of classpath
+        classpath: absolute path containing .class files
+        mainClassName: name of .class file to compile (not containing .class in name)
+        commandLineArgs (OPTIONAL): array of strings to pass as command line args
+        scannerInput (OPTIONAL): array of strings to pass as scanner input 
+    */
+    public TestRunner(String path, String classPath, String mainClassName, String[] commandLineArgs, String[] scannerInput) {
+        this.path = path;
+        this.classPath = classPath;
+        this.mainClassName = mainClassName;
+        this.commandLineArgs = commandLineArgs;
+        this.scannerInput = scannerInput;
+    }
+
+    public void runJava() {
+        try {
+            // this args list will contain all arguments to pass to the process builder
+            ArrayList<String> args = new ArrayList<>();
+            
+            args.add("java");
+            args.add(mainClassName);
+            
+            // if command line args were supplied, pop them into the list of args to pass 
+            // to the process builder
+            if(commandLineArgs != null) {
+                args.addAll(Arrays.asList(commandLineArgs));
+            }
+            
+            // will look something like `java ArrayLoops "1" "1"`
+            ProcessBuilder pb = new ProcessBuilder(args);
+            
 //        Create environment map and set environmental variables
-                  Map<String, String> env = pb.environment();
-                  env.clear();
-                  env.put("PATH", path);
-                  env.put("CLASSPATH", classPath);
-                  
-//        Determine current working directory
-                  File cwd = pb.directory();
-//        NB - ProcessBuilder default is to return a null
-//        pointer for the abstract path to indicate that it
-//        is using System.Properties "user.dir", i.e., the 
-//        current system working directory; hence the
-//        critical need to handle a NullPointerException.
-//        Also returns a null pointer if the directory
-//        doesn't exist.
-
-//        compute new abstract working directory path = studentPath
-                  File nwd = TestTools.cd(cwd, studentPath);
-                  
-                  /*        debug code - to confirm correct new path
-                  String nwdPath = nwd.getAbsolutePath();
-                  System.out.println("new cwd path: " + nwdPath);
-                  TestTools.dir(nwd);
-                  */
-                  
-//        set ProcessBuilder working directory to new abstract path
-                  pb.directory(nwd);
-
-//        redirect standard input, error, and output files; print process arguments
-                  pb.redirectInput(Redirect.from(inputFile));
-                  pb.redirectErrorStream(true);
-                  pb.redirectOutput(Redirect.appendTo(outputFile));
-                  //System.out.println("java process arguments: " + pb.command());
-                  
-//        start java process
-                  
-                  Process p = pb.start();
-                  
+            Map<String, String> env = pb.environment();
+            env.clear();
+            env.put("PATH", path);
+            env.put("CLASSPATH", classPath);
+            
+            // we need to get this process builder into the class path directory in order to execute .class
+            File cwd = pb.directory();
+            File nwd = TestTools.cd(cwd, classPath);
+            pb.directory(nwd);
+            
+            pb.redirectErrorStream(true);
+            //pb.redirectOutput(Redirect.appendTo(outputFile)); we want to be able to capture output in this class, so
+            // not writing to file direclty
+            
+            Process p = pb.start();
+            
+            // these allow communication with program being tested
+            InputStream stdout = p.getInputStream();
+            OutputStream stdin = p.getOutputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stdout));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stdin));
+            
+            // wait for the reader to be ready
+            while(!reader.ready()) {
+                Thread.yield();
+            }
+            
+            Scanner inScanner = new Scanner(stdout);
+            
+            int i = 0; // index of scanner input to read from
+            
+            // read from program being tested
+            while(inScanner.hasNextLine()) {
+                String line = inScanner.nextLine();
+                System.out.println(line);
+                
+                // only provide input if enough scanner inputs were provided 
+                if(scannerInput != null && scannerInput.length > i) {
+                    System.out.println("writing: " + scannerInput[i]);
+                    writer.write(scannerInput[i]);
+                    writer.newLine();
+                    writer.flush();
+                    i++;
+                } else {
+                    //System.out.println("not writing");
+                }
+            }
+            
 //        want processes to run sequentially to keep output in order         
 //        basically joins thread to process to force sequential execution
 //        need to be careful - if any process hangs, whole run hangs
-                  p.waitFor();
-                  
-//        alternately, can get it sequential most times by sleeping a bit
-//        Thread.sleep(1000);
-                  
-                  /*        Timeout code to deal with missing Scanner input
-                  //        Fixed by just redirecting standard.input to input.txt
-                  startTime = System.nanoTime();
-                  currentTime = System.nanoTime();
-                  while(currentTime - startTime < timeOut & p.exitValue() != 0)
-                  {
-                  Thread.sleep(1000);
-                  currentTime = System.nanoTime();
-                  //          System.out.println("Time:" + currentTime + "; success = " + success);
-                  }
-                  */
-                  assert pb.redirectInput() == Redirect.PIPE;
-                  assert pb.redirectOutput().file() == outputFile;
-                  assert p.getInputStream().read() == -1;
-                  /*
-                  if(currentTime - startTime > timeOut)
-                  {
-                  p.destroy();
-                  }
-                  */
-              }
-          }
-      } catch (FileNotFoundException ex) {
-          Logger.getLogger(TestRunner.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (IOException ex) {
-          Logger.getLogger(TestRunner.class.getName()).log(Level.SEVERE, null, ex);
-      } catch (InterruptedException ex) {
-          Logger.getLogger(TestRunner.class.getName()).log(Level.SEVERE, null, ex);
-      }   
-  }
-  public void compareResults()
-  {
-//      if (this.handle = 000)
-//      {
-//          
-//      }
-  }
+            p.waitFor();
+            
+            assert pb.redirectInput() == Redirect.PIPE;
+            assert p.getInputStream().read() == -1;
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(TestRunner.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void compareResults() {
+    }
 }
