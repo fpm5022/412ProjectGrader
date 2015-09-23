@@ -10,20 +10,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
 @author Feek <feek@psu.edu>
 **/
 
-
 public class StudentPanel extends JPanel{
     private final Frame frame;
     private final ArrayList<Student> students;
     private final ArrayList<JCheckBox> checkboxes;
-    private final String studentFileLocation = "/Users/Feek/repos/412ProjectGrader/"; // TO DO: make this a setting
-    private final String studentFileName = "students.txt"; // to do: pull out like ^^^
+    private String studentFileLocationAbsolutePath;
     private final String delimiter = ", |\\n"; // delmiter seperating students in students.txt. , and new line
     private final int X = 10;
     private int y = 10;
@@ -33,6 +34,7 @@ public class StudentPanel extends JPanel{
     private JScrollPane scrollPane;
     
     private JButton studentLocationButton;
+    private JTextField studentFileLocationTextField;
     
     public StudentPanel(Frame frame) {
         this.frame = frame;
@@ -41,14 +43,12 @@ public class StudentPanel extends JPanel{
         this.WIDTH = frame.WIDTH / 3;
         this.HEIGHT = frame.HEIGHT;
         this.setLayout(null);
-        importStudents();
         initComponents();
     }
 
     private void initComponents() {
         this.setSize(WIDTH, HEIGHT);
         initStudentLocationComponents();
-        initCheckboxes();
         this.setVisible(true);
     }
     
@@ -62,15 +62,37 @@ public class StudentPanel extends JPanel{
             }
         });
         add(studentLocationButton);
+        
+        studentFileLocationTextField = new JTextField();
+        studentFileLocationTextField.setBounds(X + 165, y, 150, 30);
+        studentFileLocationTextField.setEnabled(false);
+        add(studentFileLocationTextField);
+        
         y += 40;
     }
     
+    // adds a file chooser accepting .text files and then calls init checkboxes
     private void studentLocationButtonClicked(ActionEvent e) {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
+        // only allow text file to be selected
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Please select the text file containing students");
+        this.add(chooser);
+
+        int val = chooser.showOpenDialog(this);
+        if (val == JFileChooser.APPROVE_OPTION) {
+            this.studentFileLocationAbsolutePath = chooser.getSelectedFile().getAbsolutePath();
+            this.studentFileLocationTextField.setText(this.studentFileLocationAbsolutePath);
+            initCheckboxes();
+        }
     }
 
     private void importStudents() {
         try {
-            File file = new File(studentFileLocation + studentFileName);
+            File file = new File(this.studentFileLocationAbsolutePath);
             Scanner read = new Scanner (file);
             read.useDelimiter(delimiter);
             
@@ -82,14 +104,15 @@ public class StudentPanel extends JPanel{
             }
             
             read.close();
-            
-            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(StudentPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    // loads in the students from the file and displays them along with checkboxes
     private void initCheckboxes() {
+        importStudents();
+        
         for(Student s : students) {
             JCheckBox box = new JCheckBox(s.getInfo());
             box.setAlignmentY(LEFT_ALIGNMENT);
@@ -98,8 +121,10 @@ public class StudentPanel extends JPanel{
             this.add(box);
             checkboxes.add(box);
         }
+        
         this.HEIGHT = y; // update height of panel so scrolling can happen
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.revalidate();
     }
     
     public ArrayList<Student> getSelectedStudents() {

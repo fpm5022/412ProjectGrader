@@ -159,8 +159,6 @@ public class FunctionsPanel extends JPanel {
         if (val == JFileChooser.APPROVE_OPTION) {
             this.sourceCodeDirectory = chooser.getSelectedFile().getAbsolutePath();
             this.sourceDirectoryTextField.setText(this.sourceCodeDirectory);
-            
-            System.out.println(sourceCodeDirectory);
         }
     }
 
