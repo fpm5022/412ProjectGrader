@@ -171,8 +171,7 @@ public class FunctionsPanel extends JPanel {
         String commandLineArguments = cmdLnArg.getText();
         String expectedTestOutput = expectedOutput.getText();
         int runNumber = 1;
-        String sourcePath = sourceCodeDirectory;
-        String studentPath = sourcePath;
+       
         String outputFileName = "output.txt";
         String mainClassName = "ArrayLoops.java"; // TO DO: pull from class to compile
         
@@ -180,8 +179,9 @@ public class FunctionsPanel extends JPanel {
         for (Student s : frame.batchGUI.getSelectedStudents()) {
             String studentName = s.getName();
             String compilePath = compilePathDirectory + studentName; // directory to compile into
+            String sourcePath = sourceCodeDirectory + File.separator + studentName + File.separator + mainClassName; // what to compile
             
-            Compiler compiler = new Compiler(runNumber, studentName, s.getHandle(), compilePathDirectory, compilePath, sourcePath, studentPath, outputFileName, mainClassName);
+            Compiler compiler = new Compiler(compilePathDirectory, compilePath, sourcePath);
             int success = compiler.compileJava();
 
             if (success != 0) {

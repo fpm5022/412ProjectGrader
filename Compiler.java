@@ -9,36 +9,47 @@ import java.util.logging.Logger;
 public class Compiler {
     private String path;
     private String classPath;
-    private String studentPath;
-    private String outputFileName;
+    private String sourcePath;
+    private final String outputFileName = "output.txt";
     private int success;
-    private String mainClassName; // main java file to compile
-
-    public Compiler(String pth, String clsPath, String srcPath, String stdPath, String outFileName, String mainClassName) {
-        path = pth;
-        classPath = clsPath;
-        studentPath = stdPath;
-        outputFileName = outFileName;
-        success = 1;  // Outcome of compilation, success = 0
-        this.mainClassName = mainClassName;
+    
+    /*
+    Path: 
+    Classpath: directory to compile the resulting .class file into
+    Sourcepath: the absolute path to the .java file to compile into .class
+    */
+    public Compiler(String path, String classPath, String sourcePath) {
+        System.out.println("path: " + path);
+        System.out.println("clspath: " + classPath);
+        System.out.println("srcpath: " + sourcePath);
+        this.path = path;
+        this.classPath = classPath;
+        this.sourcePath = sourcePath;
+        this.success = 1;  // Outcome of compilation, success = 0
     }
 
     public int compileJava() {
         try {
             boolean createBin = new File(classPath).mkdir();
+            
+            System.out.println("creating bin directory here: " + classPath);
        
             ProcessBuilder pb
-                    = new ProcessBuilder("javac", "-d", classPath, studentPath);
+                    = new ProcessBuilder("javac", sourcePath, "-d", classPath); // see if second is redundant
+            
+            System.out.println(pb.command());
       
             Map<String, String> env = pb.environment();
             env.clear();
             env.put("PATH", path);
+            System.out.println("putting path: " + path);
             env.put("CLASSPATH", classPath);
+            System.out.println("putting classpath: " + classPath);
 
             File cwd = pb.directory();
             File outputFile = new File(classPath + "/" + outputFileName);
 
-            outputFile.delete();
+            //outputFile.delete();
             pb.redirectErrorStream(true);
             pb.redirectOutput(Redirect.appendTo(outputFile));
       
