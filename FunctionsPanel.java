@@ -184,11 +184,11 @@ public class FunctionsPanel extends JPanel {
             int success = compiler.compileJava();
 
             if (success != 0) {
-                System.err.println("compile failed: " + success);
+                System.err.println(s.getInfo() + " compile failed: " + success);
                 readOutputFile();
                 outputText.setForeground(Color.red);
             } else {
-                System.out.println("compile success");
+                System.out.println(s.getInfo() + " compile success");
                 readOutputFile();
                 outputText.setForeground(Color.black);
             }
