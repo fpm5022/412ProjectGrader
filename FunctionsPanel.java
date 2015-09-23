@@ -216,6 +216,7 @@ public class FunctionsPanel extends JPanel {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    // NEED TO FIX THIS!
     public void readOutputFile() {
         Path file = FileSystems.getDefault().getPath("output.txt");  //Output file path - ("Whatever Folder has file", "Filename.txt")
         try (InputStream in = Files.newInputStream(file);
@@ -226,7 +227,7 @@ public class FunctionsPanel extends JPanel {
                 outputText.append(line + "\n");;
             }
         } catch (IOException x) {
-            System.err.println(x);
+            //System.err.println(x); TEMP COMMENT OUT CAUSE ITS ANNOYING. NEED TO FIX THIS!
         }
     }
 }
