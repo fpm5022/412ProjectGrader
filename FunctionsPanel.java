@@ -33,6 +33,7 @@ public class FunctionsPanel extends JPanel {
     private JScrollPane outputScroller;
     private JTextArea outputText;
     private JTextField compilePathTextField;
+    private JTextField mainClassNameTextField;
 
     public FunctionsPanel(Frame frame) {
         this.frame = frame;
@@ -138,6 +139,10 @@ public class FunctionsPanel extends JPanel {
         outputScroller.setBounds(frame.WIDTH / 2, frame.HEIGHT / 2 - 100, (frame.WIDTH / 2) - 50, (frame.HEIGHT / 2) - 50);
 
         this.add(outputScroller);
+        
+        mainClassNameTextField = new JTextField("Name of java class to compile (include .java)");
+        mainClassNameTextField.setBounds(10, 150, 300, 30);
+        add(mainClassNameTextField);
     }
 
     private void backButtonActionPerformed(ActionEvent evt) {
@@ -167,7 +172,7 @@ public class FunctionsPanel extends JPanel {
     private void runCompileActionPerformed(ActionEvent evt) {
         String commandLineArguments = cmdLnArg.getText();
         String expectedTestOutput = expectedOutput.getText();
-        String mainClassName = "ArrayLoops.java"; // TO DO: pull from class to compile
+        String mainClassName = mainClassNameTextField.getText();
 
         // loop through selected students and start compiling
         for (Student s : frame.batchGUI.getSelectedStudents()) {
