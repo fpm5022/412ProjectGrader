@@ -1,11 +1,14 @@
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,17 +20,19 @@ import javax.swing.JScrollPane;
 
 public class StudentPanel extends JPanel{
     private final Frame frame;
-    private ArrayList<Student> students;
-    private ArrayList<JCheckBox> checkboxes;
+    private final ArrayList<Student> students;
+    private final ArrayList<JCheckBox> checkboxes;
     private final String studentFileLocation = "/Users/Feek/repos/412ProjectGrader/"; // TO DO: make this a setting
     private final String studentFileName = "students.txt"; // to do: pull out like ^^^
     private final String delimiter = ", |\\n"; // delmiter seperating students in students.txt. , and new line
     private final int X = 10;
     private int y = 10;
-    private int Y_INCREMENT = 20; // space between boxes
-    private int WIDTH;
-    private int HEIGHT;
+    private final int Y_INCREMENT = 20; // space between boxes
+    private final int WIDTH;
+    private int HEIGHT; // adjusted when students are added
     private JScrollPane scrollPane;
+    
+    private JButton studentLocationButton;
     
     public StudentPanel(Frame frame) {
         this.frame = frame;
@@ -42,8 +47,25 @@ public class StudentPanel extends JPanel{
 
     private void initComponents() {
         this.setSize(WIDTH, HEIGHT);
+        initStudentLocationComponents();
+        initCheckboxes();
         this.setVisible(true);
-        addCheckboxes();
+    }
+    
+    private void initStudentLocationComponents() {
+        studentLocationButton = new JButton("Student File Location");
+        studentLocationButton.setBounds(X, y, 150, 30);
+        studentLocationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                studentLocationButtonClicked(e);
+            }
+        });
+        add(studentLocationButton);
+        y += 40;
+    }
+    
+    private void studentLocationButtonClicked(ActionEvent e) {
     }
 
     private void importStudents() {
@@ -67,7 +89,7 @@ public class StudentPanel extends JPanel{
         }
     }
     
-    private void addCheckboxes() {
+    private void initCheckboxes() {
         for(Student s : students) {
             JCheckBox box = new JCheckBox(s.getInfo());
             box.setAlignmentY(LEFT_ALIGNMENT);
