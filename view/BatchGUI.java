@@ -1,4 +1,7 @@
+package view;
 
+
+import model.Student;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;

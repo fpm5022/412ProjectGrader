@@ -1,3 +1,5 @@
+package view;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
