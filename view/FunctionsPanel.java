@@ -2,6 +2,7 @@ package view;
 
 
 import controller.Compiler;
+import controller.TestRunner;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
@@ -112,7 +113,6 @@ public class FunctionsPanel extends JPanel {
 
         expectedOutput.setText("Expected Output");
         expectedOutput.setBounds(10, 300, 300, 30);
-        expectedOutput.setEnabled(false);
         this.add(expectedOutput);
 
         compileButton.setText("Compile");
@@ -174,8 +174,6 @@ public class FunctionsPanel extends JPanel {
      The action listener when the compile button is pressed
      */
     private void runCompileActionPerformed(ActionEvent evt) {
-        String commandLineArguments = cmdLnArg.getText();
-        String expectedTestOutput = expectedOutput.getText();
         String mainClassName = mainClassNameTextField.getText();
 
         // loop through selected students and start compiling
@@ -195,6 +193,24 @@ public class FunctionsPanel extends JPanel {
                 System.out.println(s.getInfo() + " compile success");
                 readOutputFile();
                 outputText.setForeground(Color.black);
+                
+                
+                // for now, since it compiled lets test it. 
+                // TO DO: do all compiling at once and store those that passed in a list.
+                // to be tested afterwards
+                String commandLineArguments = cmdLnArg.getText();
+                String expectedTestOutput = expectedOutput.getText();
+                
+                // command line args should be a CSV. We need to parse that into an array.
+                // this will split on zero or more whitespace, a literal comma, zero or more whitespace
+                String[] splitCommandLineArgs = commandLineArguments.split("\\s*,\\s*");
+                String[] scannerInput = {"1", "1"}; // to do
+                
+                // remove the .java from the class name
+                String mainClassNameWithoutFileType = mainClassName.substring(0, mainClassName.length() - 5);
+                
+                TestRunner testRunner = new TestRunner(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput);
+                testRunner.runJava();
             }
         }
     }
