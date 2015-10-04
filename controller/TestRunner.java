@@ -25,6 +25,8 @@ public class TestRunner {
     private String mainClassName;
     private String[] scannerInput;
     private String[] commandLineArgs;
+    private String expectedOutput;
+    private String actualOutput;
     
     /*
         example usage: 
@@ -32,7 +34,7 @@ public class TestRunner {
             String[] scannerInput = {"1", "1"};
             String[] commandLineArgs = {};
             TestRunner t = new TestRunner("/Users/Feek/Desktop/compiled/412/", "/Users/Feek/Desktop/compiled/412/smithjq/", "ArrayLoops", commandLineArgs, scannerInput);
-            t.runJava();
+            t.testJava();
 
         -------------
 
@@ -42,15 +44,16 @@ public class TestRunner {
         commandLineArgs (OPTIONAL): array of strings to pass as command line args
         scannerInput (OPTIONAL): array of strings to pass as scanner input 
     */
-    public TestRunner(String path, String classPath, String mainClassName, String[] commandLineArgs, String[] scannerInput) {
+    public TestRunner(String path, String classPath, String mainClassName, String[] commandLineArgs, String[] scannerInput, String expectedOutput) {
         this.path = path;
         this.classPath = classPath;
         this.mainClassName = mainClassName;
         this.commandLineArgs = commandLineArgs;
         this.scannerInput = scannerInput;
+        this.expectedOutput = expectedOutput;
     }
 
-    public void runJava() {
+    public boolean testJava() {
         try {
             // this args list will contain all arguments to pass to the process builder
             ArrayList<String> args = new ArrayList<>();
@@ -82,6 +85,8 @@ public class TestRunner {
             //pb.redirectOutput(Redirect.appendTo(outputFile)); we want to be able to capture output in this class, so
             // not writing to file direclty
             
+            System.out.println("Beginning testing of " + classPath + File.separator + mainClassName);
+            
             Process p = pb.start();
             
             // these allow communication with program being tested
@@ -99,22 +104,28 @@ public class TestRunner {
             
             int i = 0; // index of scanner input to read from
             
+            StringBuilder sb = new StringBuilder();
             // read from program being tested
             while(inScanner.hasNextLine()) {
                 String line = inScanner.nextLine();
-                System.out.println(line);
                 
                 // only provide input if enough scanner inputs were provided 
                 if(scannerInput != null && scannerInput.length > i) {
-                    System.out.println("writing: " + scannerInput[i]);
+                    //System.out.println("writing: " + scannerInput[i]);
                     writer.write(scannerInput[i]);
                     writer.newLine();
                     writer.flush();
                     i++;
                 } else {
-                    //System.out.println("not writing");
+                    if (scannerInput != null) {
+                        // there is no more scanner input, start building the output
+                        // to compare
+                        sb.append(line);
+                    }
                 }
             }
+            
+            this.actualOutput = sb.toString();
             
 //        want processes to run sequentially to keep output in order         
 //        basically joins thread to process to force sequential execution
@@ -126,8 +137,21 @@ public class TestRunner {
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(TestRunner.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return compareResults();
     }
 
-    public void compareResults() {
+    public boolean compareResults() {
+        System.out.println("expected: " + expectedOutput);
+        System.out.println("actual: " + actualOutput);
+        
+        // might want to refine this...
+        if (actualOutput.equals(expectedOutput) ||
+                expectedOutput.contains(actualOutput) ||
+                actualOutput.contains(expectedOutput)
+        ) {
+            return true;
+        }
+        return false;
     }
 }

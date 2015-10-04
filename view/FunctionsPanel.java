@@ -111,7 +111,8 @@ public class FunctionsPanel extends JPanel {
         cmdLnArg.setEnabled(false);
         this.add(cmdLnArg);
 
-        expectedOutput.setText("Expected Output");
+        //expectedOutput.setText("Expected Output");
+        expectedOutput.setText("n = 1; range = 1; average = 1.0; stdDev = 0.0");
         expectedOutput.setBounds(10, 300, 300, 30);
         this.add(expectedOutput);
 
@@ -209,8 +210,9 @@ public class FunctionsPanel extends JPanel {
                 // remove the .java from the class name
                 String mainClassNameWithoutFileType = mainClassName.substring(0, mainClassName.length() - 5);
                 
-                TestRunner testRunner = new TestRunner(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput);
-                testRunner.runJava();
+                TestRunner testRunner = new TestRunner(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, expectedTestOutput);
+                boolean passed = testRunner.testJava();
+                System.out.println("test passed: " + passed);
             }
         }
     }
