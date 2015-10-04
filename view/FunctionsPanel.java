@@ -5,14 +5,7 @@ import controller.Compiler;
 import controller.TestRunner;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -187,14 +180,9 @@ public class FunctionsPanel extends JPanel {
             int success = compiler.compileJava();
 
             if (success != 0) {
-                System.err.println(s.getInfo() + " compile failed: " + success);
-                readOutputFile();
-                outputText.setForeground(Color.red);
+                appendToTextArea(s.getInfo() + " compile failed: " + success, true);
             } else {
-                System.out.println(s.getInfo() + " compile success");
-                readOutputFile();
-                outputText.setForeground(Color.black);
-                
+                appendToTextArea(s.getInfo() + " compile success", false);
                 
                 // for now, since it compiled lets test it. 
                 // TO DO: do all compiling at once and store those that passed in a list.
@@ -212,7 +200,7 @@ public class FunctionsPanel extends JPanel {
                 
                 TestRunner testRunner = new TestRunner(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, expectedTestOutput);
                 boolean passed = testRunner.testJava();
-                System.out.println("test passed: " + passed);
+                appendToTextArea(studentName + " test passed: " + passed, !passed);
             }
         }
     }
@@ -239,6 +227,8 @@ public class FunctionsPanel extends JPanel {
     }
 
     // NEED TO FIX THIS!
+    /*
+    not being used right now
     public void readOutputFile() {
         Path file = FileSystems.getDefault().getPath("output.txt");  //Output file path - ("Whatever Folder has file", "Filename.txt")
         try (InputStream in = Files.newInputStream(file);
@@ -251,5 +241,16 @@ public class FunctionsPanel extends JPanel {
         } catch (IOException x) {
             //System.err.println(x); TEMP COMMENT OUT CAUSE ITS ANNOYING. NEED TO FIX THIS!
         }
+    }
+    */
+    
+    // if error, output will be red
+    public void appendToTextArea(String message, boolean error) {
+        if (error) {
+            outputText.setForeground(Color.red);
+        } else {
+            outputText.setForeground(Color.black);
+        }
+        outputText.append(message + "\n");
     }
 }
