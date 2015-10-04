@@ -1,4 +1,7 @@
+package view;
 
+
+import controller.Compiler;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
@@ -16,12 +19,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import model.Student;
 
 public class FunctionsPanel extends JPanel {
-
     private Frame frame;
-    private String compilePathDirectory;
-    private String sourceCodeDirectory;
+    private String compilePathDirectory; // directory to compile code into TODO: PULL OUT OF CLASS VARIABLE
+    private String sourceCodeDirectory; // directory source code resides TODO: PULL OUT OF CLASS VARIABLE
     private JButton backButton;
     private JButton compilePathButton;
     private JButton sourceDirectoryButton;
@@ -34,6 +37,7 @@ public class FunctionsPanel extends JPanel {
     private JScrollPane outputScroller;
     private JTextArea outputText;
     private JTextField compilePathTextField;
+    private JTextField mainClassNameTextField;
 
     public FunctionsPanel(Frame frame) {
         this.frame = frame;
@@ -57,7 +61,7 @@ public class FunctionsPanel extends JPanel {
         this.outputText = new JTextArea();
         this.outputScroller = new JScrollPane(outputText);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24));
         jLabel1.setText("Single Tester");
         jLabel1.setBounds(frame.WIDTH / 2 - 70, 10, 200, 40);
         this.add(jLabel1);
@@ -139,6 +143,10 @@ public class FunctionsPanel extends JPanel {
         outputScroller.setBounds(frame.WIDTH / 2, frame.HEIGHT / 2 - 100, (frame.WIDTH / 2) - 50, (frame.HEIGHT / 2) - 50);
 
         this.add(outputScroller);
+        
+        mainClassNameTextField = new JTextField("Name of java class to compile (include .java)");
+        mainClassNameTextField.setBounds(10, 150, 300, 30);
+        add(mainClassNameTextField);
     }
 
     private void backButtonActionPerformed(ActionEvent evt) {
@@ -146,8 +154,8 @@ public class FunctionsPanel extends JPanel {
     }
 
     /*
-    The action listener for setting the source directory
-    */
+     The action listener for setting the source directory
+     */
     private void sourceDirectoryActionPerformed(ActionEvent evt) {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -159,44 +167,41 @@ public class FunctionsPanel extends JPanel {
         if (val == JFileChooser.APPROVE_OPTION) {
             this.sourceCodeDirectory = chooser.getSelectedFile().getAbsolutePath();
             this.sourceDirectoryTextField.setText(this.sourceCodeDirectory);
-            
-            System.out.println(sourceCodeDirectory);
         }
     }
 
     /*
-    The action listener when the compile button is pressed
-    */
+     The action listener when the compile button is pressed
+     */
     private void runCompileActionPerformed(ActionEvent evt) {
         String commandLineArguments = cmdLnArg.getText();
         String expectedTestOutput = expectedOutput.getText();
+        String mainClassName = mainClassNameTextField.getText();
 
-        int runNumber = 1;
-        String studentName = "feek"; // TO DO: pull from class to compile
-        String studentHandle = "";
-        String compilePath = compilePathDirectory + studentName;
-        String sourcePath = sourceCodeDirectory;
-        String studentPath = sourcePath;
-        String outputFileName = "output.txt";
-        String mainClassName = "ArrayLoops.java"; // TO DO: pull from class to compile
+        // loop through selected students and start compiling
+        for (Student s : frame.batchGUI.getSelectedStudents()) {
+            String studentName = s.getName();
+            String compilePath = compilePathDirectory + studentName; // directory to compile into
+            String sourcePath = sourceCodeDirectory + File.separator + studentName + File.separator + mainClassName; // what to compile
 
-        Compiler compiler = new Compiler(runNumber, studentName, studentHandle, compilePathDirectory, compilePath, sourcePath, studentPath, outputFileName, mainClassName);
-        int success = compiler.compileJava();
+            Compiler compiler = new Compiler(compilePathDirectory, compilePath, sourcePath);
+            int success = compiler.compileJava();
 
-        if (success != 0) {
-            System.err.println("compile failed: " + success);
-            readOutputFile();
-            outputText.setForeground(Color.red);
-        } else {
-            System.out.println("compile success");
-            readOutputFile();
-            outputText.setForeground(Color.black);
+            if (success != 0) {
+                System.err.println(s.getInfo() + " compile failed: " + success);
+                readOutputFile();
+                outputText.setForeground(Color.red);
+            } else {
+                System.out.println(s.getInfo() + " compile success");
+                readOutputFile();
+                outputText.setForeground(Color.black);
+            }
         }
     }
-    
+
     /*
-    The action listener which sets the path to compile files into
-    */
+     The action listener which sets the path to compile files into
+     */
     private void compilePathActionPerformed(ActionEvent evt) {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -215,6 +220,7 @@ public class FunctionsPanel extends JPanel {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    // NEED TO FIX THIS!
     public void readOutputFile() {
         Path file = FileSystems.getDefault().getPath("output.txt");  //Output file path - ("Whatever Folder has file", "Filename.txt")
         try (InputStream in = Files.newInputStream(file);
@@ -225,7 +231,7 @@ public class FunctionsPanel extends JPanel {
                 outputText.append(line + "\n");;
             }
         } catch (IOException x) {
-            System.err.println(x);
+            //System.err.println(x); TEMP COMMENT OUT CAUSE ITS ANNOYING. NEED TO FIX THIS!
         }
     }
 }

@@ -1,3 +1,5 @@
+package model;
+
 /**
 @author Feek <feek@psu.edu>
 **/
@@ -14,5 +16,13 @@ public class Student {
 
     public String getInfo() {
         return this.name + " | " + this.handle;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public String getHandle() {
+        return handle;
     }
 }

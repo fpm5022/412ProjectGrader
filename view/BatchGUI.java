@@ -1,4 +1,8 @@
+package view;
 
+
+import model.Student;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -32,15 +36,14 @@ public class BatchGUI extends JPanel {
 
         functionsPanel = new FunctionsPanel(frame);
         functionsPanel.setBounds(scrollPaneWidth, 0, scrollPaneWidth * 2, frame.HEIGHT);
-        add(functionsPanel);
-        
-        /*
-        HOW TO GET SELECTED STUDENTS
+        add(functionsPanel); 
+    }
+    
+    /*
+    returns info regarding which students have been selected in the student panel
+    */
+    public ArrayList<Student> getSelectedStudents() {
         ArrayList<Student> selected = studentPanel.getSelectedStudents();
-        for (Student s : selected) {
-            System.out.println(s.getInfo());
-        }
-               */  
-            
+        return selected;
     }
 }
