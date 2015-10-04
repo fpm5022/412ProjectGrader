@@ -1,7 +1,7 @@
 package view;
 
 
-import model.Student;
+import controller.Compiler;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import model.Student;
 
 public class FunctionsPanel extends JPanel {
     private Frame frame;
