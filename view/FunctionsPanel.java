@@ -200,7 +200,7 @@ public class FunctionsPanel extends JPanel {
                 
                 TestRunner testRunner = new TestRunner(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, expectedTestOutput);
                 boolean passed = testRunner.testJava();
-                System.out.println("test passed: " + passed);
+                appendToTextArea(studentName + " test passed: " + passed, !passed);
             }
         }
     }
@@ -251,6 +251,6 @@ public class FunctionsPanel extends JPanel {
         } else {
             outputText.setForeground(Color.black);
         }
-        outputText.append(message);
+        outputText.append(message + "\n");
     }
 }
