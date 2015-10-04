@@ -252,4 +252,14 @@ public class FunctionsPanel extends JPanel {
             //System.err.println(x); TEMP COMMENT OUT CAUSE ITS ANNOYING. NEED TO FIX THIS!
         }
     }
+    
+    // if error, output will be red
+    public void appendToTextArea(String message, boolean error) {
+        if (error) {
+            outputText.setForeground(Color.red);
+        } else {
+            outputText.setForeground(Color.black);
+        }
+        outputText.append(message);
+    }
 }
