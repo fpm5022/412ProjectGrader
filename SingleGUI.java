@@ -53,6 +53,7 @@ public class SingleGUI extends JPanel {
         initComponents();
         this.setLayout(null); // yolo  ¯\_(ツ)_/¯ 
         this.setVisible(true);
+        this.setBackground(Color.PINK);
     }
     
     private void initComponents() {
@@ -95,22 +96,22 @@ public class SingleGUI extends JPanel {
         });
         
         classPathTextField = new JTextField();
-        classPathTextField.setBounds(250, 100, 250, 30);
+        classPathTextField.setBounds(200, 100, 250, 30);
         classPathTextField.setEditable(false);
         classPathTextField.setText("location of class");
         this.add(classPathTextField);
 
         nameOfClassLabel.setText("Class Name:");
-        nameOfClassLabel.setBounds(10, 150, 100, 30);
+        nameOfClassLabel.setBounds(35, 150, 100, 30);
         this.add(nameOfClassLabel);
         
         nameOfClassTextField.setText("412"); // hard coded for now
-        nameOfClassTextField.setBounds(100, 150, 100, 30);
+        nameOfClassTextField.setBounds(200, 150, 100, 30);
         nameOfClassTextField.setEditable(false);
         this.add(nameOfClassTextField);
 
         compilePath.setText("Compile Path..");
-        compilePath.setBounds(10, 200, 100, 30);
+        compilePath.setBounds(10, 200, 150, 30);
         this.add(compilePath);
         compilePath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,23 +120,23 @@ public class SingleGUI extends JPanel {
         });
         
         compilePathTextField = new JTextField();
-        compilePathTextField.setBounds(125, 200, 200, 30);
+        compilePathTextField.setBounds(200, 200, 250, 30);
         compilePathTextField.setEditable(false);
         compilePathTextField.setText("directory to compile into");
         this.add(compilePathTextField);
         
         cmdLnArg.setText("Command Line Arguments");
-        cmdLnArg.setBounds(10, 250, 300, 30);
+        cmdLnArg.setBounds(500, 100, 300, 30);
         cmdLnArg.setEnabled(false);
         this.add(cmdLnArg);
         
         expectedOutput.setText("Expected Output");
-        expectedOutput.setBounds(10, 300, 300, 30);
+        expectedOutput.setBounds(500, 150, 300, 30);
         expectedOutput.setEnabled(false);
         this.add(expectedOutput);
         
         compileButton.setText("Compile");
-        compileButton.setBounds(frame.WIDTH / 2 - 50, 400, 100, 30);
+        compileButton.setBounds(850, 265, 150, 30);
         this.add(compileButton);
         compileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,8 +145,8 @@ public class SingleGUI extends JPanel {
         });
         
         testButton.setText("Test");
-        testButton.setBounds(frame.WIDTH / 2 + 50, 400, 100, 30);
-        testButton.setEnabled(false);
+        testButton.setBounds(850, 315, 150, 30);
+        testButton.setEnabled(true);
         this.add(testButton);
         testButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,11 +156,11 @@ public class SingleGUI extends JPanel {
         outputText.setFont(new java.awt.Font("Tahoma", 0, 14));
         outputText.setLineWrap(true);
         outputText.setWrapStyleWord(true);
-        outputText.setBounds(frame.WIDTH / 2, frame.HEIGHT / 2 - 100, (frame.WIDTH / 2) - 50, (frame.HEIGHT / 2) - 50);
+        outputText.setBounds(10, 265, 800, 400);
         outputText.setEditable(false);
         outputScroller.setVisible(true);
         outputScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        outputScroller.setBounds(frame.WIDTH / 2, frame.HEIGHT / 2 - 100, (frame.WIDTH / 2) - 50, (frame.HEIGHT / 2) - 50);
+        outputScroller.setBounds(10, 265, 800, 400);
         
         this.add(outputScroller);
     }

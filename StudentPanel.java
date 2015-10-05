@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,6 +47,7 @@ public class StudentPanel extends JPanel{
         this.WIDTH = frame.WIDTH / 3;
         this.HEIGHT = frame.HEIGHT;
         this.setLayout(null);
+        this.setBackground(Color.pink);
         initComponents();
     }
 

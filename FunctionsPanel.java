@@ -42,6 +42,7 @@ public class FunctionsPanel extends JPanel {
         initComponents();
         this.setLayout(null); // yolo  ¯\_(ツ)_/¯ 
         this.setVisible(true);
+        this.setBackground(Color.pink);
     }
 
     private void initComponents() {
@@ -58,8 +59,8 @@ public class FunctionsPanel extends JPanel {
         this.outputScroller = new JScrollPane(outputText);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24));
-        jLabel1.setText("Single Tester");
-        jLabel1.setBounds(frame.WIDTH / 2 - 70, 10, 200, 40);
+        jLabel1.setText("Batch Tester");
+        jLabel1.setBounds(frame.WIDTH / 3 - 70, 10, 200, 40);
         this.add(jLabel1);
 
         backButton.setText("<- Back");
@@ -81,13 +82,13 @@ public class FunctionsPanel extends JPanel {
         });
 
         sourceDirectoryTextField = new JTextField();
-        sourceDirectoryTextField.setBounds(250, 100, 250, 30);
+        sourceDirectoryTextField.setBounds(230, 100, 400, 30);
         sourceDirectoryTextField.setEditable(false);
         sourceDirectoryTextField.setText("Location of parent directory holding all students source codes");
         this.add(sourceDirectoryTextField);
 
         compilePathButton.setText("Compile Path..");
-        compilePathButton.setBounds(10, 200, 100, 30);
+        compilePathButton.setBounds(10, 150, 150, 30);
         this.add(compilePathButton);
         compilePathButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,9 +97,9 @@ public class FunctionsPanel extends JPanel {
         });
 
         compilePathTextField = new JTextField();
-        compilePathTextField.setBounds(125, 200, 200, 30);
+        compilePathTextField.setBounds(230, 150, 400, 30);
         compilePathTextField.setEditable(false);
-        compilePathTextField.setText("directory to compile into");
+        compilePathTextField.setText("Directory to compile into");
         this.add(compilePathTextField);
 
         cmdLnArg.setText("Command Line Arguments");
@@ -112,7 +113,7 @@ public class FunctionsPanel extends JPanel {
         this.add(expectedOutput);
 
         compileButton.setText("Compile");
-        compileButton.setBounds(frame.WIDTH / 2 - 50, 400, 100, 30);
+        compileButton.setBounds(500, 365, 150, 30);
         this.add(compileButton);
         compileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,8 +122,8 @@ public class FunctionsPanel extends JPanel {
         });
 
         testButton.setText("Test");
-        testButton.setBounds(frame.WIDTH / 2 + 50, 400, 100, 30);
-        testButton.setEnabled(false);
+        testButton.setBounds(500, 415, 150, 30);
+        testButton.setEnabled(true);
         this.add(testButton);
         testButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,16 +133,16 @@ public class FunctionsPanel extends JPanel {
         outputText.setFont(new java.awt.Font("Tahoma", 0, 14));
         outputText.setLineWrap(true);
         outputText.setWrapStyleWord(true);
-        outputText.setBounds(frame.WIDTH / 2, frame.HEIGHT / 2 - 100, (frame.WIDTH / 2) - 50, (frame.HEIGHT / 2) - 50);
+        outputText.setBounds(10, 365, 450, 300);
         outputText.setEditable(false);
         outputScroller.setVisible(true);
         outputScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        outputScroller.setBounds(frame.WIDTH / 2, frame.HEIGHT / 2 - 100, (frame.WIDTH / 2) - 50, (frame.HEIGHT / 2) - 50);
+        outputScroller.setBounds(10, 365, 450, 300);
 
         this.add(outputScroller);
         
         mainClassNameTextField = new JTextField("Name of java class to compile (include .java)");
-        mainClassNameTextField.setBounds(10, 150, 300, 30);
+        mainClassNameTextField.setBounds(230, 200, 400, 30);
         add(mainClassNameTextField);
     }
 
