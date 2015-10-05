@@ -1,3 +1,5 @@
+package view;
+
 
 /**
  *
@@ -91,7 +93,7 @@ public class SplashScreen extends JPanel {
     }
 
     private void SingleSelectorActionPerformed(java.awt.event.ActionEvent evt) {
-        frame.swap(this, frame.singleGUI);
+        //frame.swap(this, frame.singleGUI);
     }
 
     private void BatchSelectorActionPerformed(java.awt.event.ActionEvent evt) {

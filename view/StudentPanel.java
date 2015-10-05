@@ -1,5 +1,10 @@
+package view;
+
 
 import java.awt.Color;
+
+
+import model.Student;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

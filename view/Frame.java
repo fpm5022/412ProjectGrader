@@ -1,3 +1,5 @@
+package view;
+
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,7 +14,7 @@ public class Frame extends JFrame {
     
     public final int WIDTH = 1080;
     public final int HEIGHT = 720;
-    public SingleGUI singleGUI;
+    //public SingleGUI singleGUI;
     public SplashScreen splash;
     public BatchGUI batchGUI;
     
@@ -29,7 +31,7 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         
-        this.singleGUI = new SingleGUI(this);
+        //this.singleGUI = new SingleGUI(this);
         this.splash = new SplashScreen(this);
         this.batchGUI = new BatchGUI(this);
         add(splash);

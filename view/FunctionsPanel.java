@@ -1,14 +1,11 @@
+package view;
 
+
+import controller.Compiler;
+import controller.TestRunner;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -16,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import model.Student;
 
 public class FunctionsPanel extends JPanel {
     private Frame frame;
@@ -107,9 +105,9 @@ public class FunctionsPanel extends JPanel {
         cmdLnArg.setEnabled(false);
         this.add(cmdLnArg);
 
-        expectedOutput.setText("Expected Output");
+        //expectedOutput.setText("Expected Output");
+        expectedOutput.setText("n = 1; range = 1; average = 1.0; stdDev = 0.0");
         expectedOutput.setBounds(10, 300, 300, 30);
-        expectedOutput.setEnabled(false);
         this.add(expectedOutput);
 
         compileButton.setText("Compile");
@@ -171,8 +169,6 @@ public class FunctionsPanel extends JPanel {
      The action listener when the compile button is pressed
      */
     private void runCompileActionPerformed(ActionEvent evt) {
-        String commandLineArguments = cmdLnArg.getText();
-        String expectedTestOutput = expectedOutput.getText();
         String mainClassName = mainClassNameTextField.getText();
 
         // loop through selected students and start compiling
@@ -185,13 +181,27 @@ public class FunctionsPanel extends JPanel {
             int success = compiler.compileJava();
 
             if (success != 0) {
-                System.err.println(s.getInfo() + " compile failed: " + success);
-                readOutputFile();
-                outputText.setForeground(Color.red);
+                appendToTextArea(s.getInfo() + " compile failed: " + success, true);
             } else {
-                System.out.println(s.getInfo() + " compile success");
-                readOutputFile();
-                outputText.setForeground(Color.black);
+                appendToTextArea(s.getInfo() + " compile success", false);
+                
+                // for now, since it compiled lets test it. 
+                // TO DO: do all compiling at once and store those that passed in a list.
+                // to be tested afterwards
+                String commandLineArguments = cmdLnArg.getText();
+                String expectedTestOutput = expectedOutput.getText();
+                
+                // command line args should be a CSV. We need to parse that into an array.
+                // this will split on zero or more whitespace, a literal comma, zero or more whitespace
+                String[] splitCommandLineArgs = commandLineArguments.split("\\s*,\\s*");
+                String[] scannerInput = {"1", "1"}; // to do
+                
+                // remove the .java from the class name
+                String mainClassNameWithoutFileType = mainClassName.substring(0, mainClassName.length() - 5);
+                
+                TestRunner testRunner = new TestRunner(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, expectedTestOutput);
+                boolean passed = testRunner.testJava();
+                appendToTextArea(studentName + " test passed: " + passed, !passed);
             }
         }
     }
@@ -218,6 +228,8 @@ public class FunctionsPanel extends JPanel {
     }
 
     // NEED TO FIX THIS!
+    /*
+    not being used right now
     public void readOutputFile() {
         Path file = FileSystems.getDefault().getPath("output.txt");  //Output file path - ("Whatever Folder has file", "Filename.txt")
         try (InputStream in = Files.newInputStream(file);
@@ -230,5 +242,16 @@ public class FunctionsPanel extends JPanel {
         } catch (IOException x) {
             //System.err.println(x); TEMP COMMENT OUT CAUSE ITS ANNOYING. NEED TO FIX THIS!
         }
+    }
+    */
+    
+    // if error, output will be red
+    public void appendToTextArea(String message, boolean error) {
+        if (error) {
+            outputText.setForeground(Color.red);
+        } else {
+            outputText.setForeground(Color.black);
+        }
+        outputText.append(message + "\n");
     }
 }
