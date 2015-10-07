@@ -24,13 +24,13 @@ public class BatchGUI extends JPanel {
         this.scrollPaneWidth = frame.WIDTH / 3;
         this.setSize(frame.WIDTH, frame.HEIGHT);
         initComponents();
-        this.setLayout(null); // yolo  ¯\_(ツ)_/¯ 
+        this.setLayout(null); // yolo  Â¯\_(ãƒ„)_/Â¯ 
         this.setVisible(true);
     }
 
     private void initComponents() {
         studentPanel = new StudentPanel(frame);
-        scrollPane = new JScrollPane(studentPanel);
+        scrollPane = new JScrollPane(getStudentPanel());
         scrollPane.setBounds(0, 0, scrollPaneWidth, frame.HEIGHT);
         add(scrollPane);
 
@@ -43,7 +43,14 @@ public class BatchGUI extends JPanel {
     returns info regarding which students have been selected in the student panel
     */
     public ArrayList<Student> getSelectedStudents() {
-        ArrayList<Student> selected = studentPanel.getSelectedStudents();
+        ArrayList<Student> selected = getStudentPanel().getSelectedStudents();
         return selected;
+    }
+
+    /**
+     * @return the studentPanel
+     */
+    public StudentPanel getStudentPanel() {
+        return studentPanel;
     }
 }
