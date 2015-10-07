@@ -5,7 +5,16 @@ import controller.Compiler;
 import controller.TestRunner;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -32,13 +41,16 @@ public class FunctionsPanel extends JPanel {
     private JTextArea outputText;
     private JTextField compilePathTextField;
     private JTextField mainClassNameTextField;
+    XMLEncoder savePaths;
+    XMLDecoder readPaths;
 
     public FunctionsPanel(Frame frame) {
         this.frame = frame;
         this.compilePathDirectory = "";
         this.sourceCodeDirectory = "";
         initComponents();
-        this.setLayout(null); // yolo  ¯\_(ツ)_/¯ 
+        pathReader();
+        this.setLayout(null); // yolo  Â¯\_(ãƒ„)_/Â¯ 
         this.setVisible(true);
         this.setBackground(Color.pink);
     }
@@ -224,27 +236,39 @@ public class FunctionsPanel extends JPanel {
     }
 
     private void runTestActionPerformed(ActionEvent evt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    // NEED TO FIX THIS!
-    /*
-    not being used right now
-    public void readOutputFile() {
-        Path file = FileSystems.getDefault().getPath("output.txt");  //Output file path - ("Whatever Folder has file", "Filename.txt")
-        try (InputStream in = Files.newInputStream(file);
-                BufferedReader reader
-                = new BufferedReader(new InputStreamReader(in))) {
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                outputText.append(line + "\n");;
-            }
-        } catch (IOException x) {
-            //System.err.println(x); TEMP COMMENT OUT CAUSE ITS ANNOYING. NEED TO FIX THIS!
+        try {
+            savePaths = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(compilePathDirectory + "/paths.xml")));
+            System.out.println("File created");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FunctionsPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        try{
+            savePaths.writeObject(sourceCodeDirectory);
+            savePaths.writeObject(compilePathDirectory);
+            savePaths.writeObject(frame.batchGUI.getStudentPanel().getStudentFileLocationAbsolutePath());
+            savePaths.writeObject(mainClassNameTextField.getText());
+        } catch(Exception xx) {xx.printStackTrace();}
+        try{
+            savePaths.close();
+        } catch(Exception xx) {xx.printStackTrace();}
+        
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    */
     
+    private void pathReader(){
+//        try{
+//            readPaths = new XMLDecoder(new BufferedInputStream(new FileInputStream("/paths.xml")));
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(FunctionsPanel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        try{
+//            sourceCodeDirectory = (String)readPaths.readObject();
+//            compilePathDirectory = (String)readPaths.readObject();
+//            frame.batchGUI.getStudentPanel().setStudentFileLocationAbsolutePath((String)readPaths.readObject());
+//            mainClassNameTextField.setText((String)readPaths.readObject());
+//            
+//        } catch (Exception xx) {xx.printStackTrace();}
+    }
     // if error, output will be red
     public void appendToTextArea(String message, boolean error) {
         if (error) {
