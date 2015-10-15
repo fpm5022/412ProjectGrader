@@ -38,9 +38,10 @@ public class FunctionsPanel extends JPanel {
     private JTextField cmdLnArg;
     private JTextField expectedOutput;
     private JScrollPane outputScroller;
-    private JTextArea outputText;
+    private JLabel outputText;
     private JTextField compilePathTextField;
     private JTextField mainClassNameTextField;
+    private TextPanel textPanel;
     XMLEncoder savePaths;
     XMLDecoder readPaths;
 
@@ -65,8 +66,9 @@ public class FunctionsPanel extends JPanel {
         this.testButton = new JButton();
         this.cmdLnArg = new JTextField();
         this.expectedOutput = new JTextField();
-        this.outputText = new JTextArea();
-        this.outputScroller = new JScrollPane(outputText);
+        this.textPanel = new TextPanel();
+        this.outputText = new JLabel();
+        this.outputScroller = new JScrollPane(textPanel);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24));
         jLabel1.setText("Batch Tester");
@@ -140,11 +142,12 @@ public class FunctionsPanel extends JPanel {
                 runTestActionPerformed(evt);
             }
         });
-        outputText.setFont(new java.awt.Font("Tahoma", 0, 14));
-        outputText.setLineWrap(true);
-        outputText.setWrapStyleWord(true);
-        outputText.setBounds(10, 365, 450, 300);
-        outputText.setEditable(false);
+//        outputText.setFont(new java.awt.Font("Tahoma", 0, 14));
+//        outputText.setLineWrap(true);
+//        outputText.setWrapStyleWord(true);
+//        outputText.setBounds(10, 365, 450, 300);
+//        outputText.setEditable(false);
+        
         outputScroller.setVisible(true);
         outputScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         outputScroller.setBounds(10, 365, 450, 300);
@@ -271,11 +274,18 @@ public class FunctionsPanel extends JPanel {
     }
     // if error, output will be red
     public void appendToTextArea(String message, boolean error) {
+        JLabel text = new JLabel(message + "\n");
         if (error) {
-            outputText.setForeground(Color.red);
+            text.setForeground(Color.red);
         } else {
-            outputText.setForeground(Color.black);
+            text.setForeground(Color.black);
         }
-        outputText.append(message + "\n");
+        textPanel.add(text);
+        textPanel.repaint();
+        textPanel.validate();
+        outputScroller.repaint();
+        outputScroller.revalidate();
+        System.out.println(message);
+        
     }
 }
