@@ -1,3 +1,5 @@
+package controller;
+
 
 import java.io.*;
 import java.util.*;
@@ -13,23 +15,19 @@ public class Compiler {
     private String path;
     private String classPath;
     private String sourcePath;
-    private String studentPath;
-    private String outputFileName;
-    private int success;
-    private String mainClassName; // main java file to compile
-
-    public Compiler(int numbr, String nme, String hndl, String pth, String clsPath, String srcPath, String stdPath, String outFileName, String mainClassName) {
-        number = numbr;
-        name = nme;
-        handle = hndl;
-        path = pth;
-        classPath = clsPath;
-        sourcePath = srcPath;
-        outputFileName = outFileName;
-        success = 1;  // Outcome of compilation, success = 0
-        this.mainClassName = mainClassName;
-        studentPath = stdPath + "\\" + mainClassName;
-
+    private final String outputFileName = "output.txt";
+    private int success;  // Outcome of compilation, success = 0
+    
+    /*
+    Path: 
+    Classpath: directory to compile the resulting .class file into
+    Sourcepath: the absolute path to the .java file to compile into .class
+    */
+    public Compiler(String path, String classPath, String sourcePath) {
+        this.path = path;
+        this.classPath = classPath;
+        this.sourcePath = sourcePath;
+        this.success = 1;
     }
 
     public int compileJava() {
@@ -46,28 +44,12 @@ public class Compiler {
             env.clear();
             env.put("PATH", path);
             env.put("CLASSPATH", classPath);
-            System.out.println(studentPath);
-            System.out.println(classPath);
-
 
 //    env.put("SOURCEPATH", sourcePath);
 //    env.remove("OTHERVAR");
 //    Determine current working directory
             File cwd = pb.directory();
-//    NB - ProcessBuilder default is to return a null
-//    pointer for the abstract path to indicate that it
-//    is using System.Properties "user.dir", i.e., the 
-//    current system working directory; hence the
-//    critical need to handle a NullPointerException.
-//    Also returns a null pointer if the directory
-//    doesn't exist.
-
-//    debug code - to confirm correct directory       
-            //TestTools.dir(cwd);
-//    set up output file      
-            File outputFile = new File(path + outputFileName);
-//    System.out.println(outputFileName);
-            outputFile.delete();
+            File outputFile = new File(classPath + "/" + outputFileName);
             pb.redirectErrorStream(true);
             pb.redirectOutput(Redirect.appendTo(outputFile));
 

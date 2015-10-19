@@ -1,3 +1,5 @@
+package model;
+
 /**
 @author Feek <feek@psu.edu>
 **/
