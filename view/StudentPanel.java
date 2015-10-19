@@ -195,7 +195,6 @@ public class StudentPanel extends JPanel{
                 selected.add(students.get(i));
             }
         }
-        
         return selected;
     }
 

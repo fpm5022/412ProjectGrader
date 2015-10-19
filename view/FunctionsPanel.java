@@ -4,6 +4,7 @@ package view;
 import controller.Compiler;
 import controller.TestRunner;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -25,6 +26,11 @@ import javax.swing.JTextField;
 import model.Student;
 
 public class FunctionsPanel extends JPanel {
+    private final int Y_INCREMENT = 20; // space between boxes
+    private int y = 10;        
+    private int HEIGHT; // adjusted when students are added
+
+        
     private Frame frame;
     private String compilePathDirectory; // directory to compile code into TODO: PULL OUT OF CLASS VARIABLE
     private String sourceCodeDirectory; // directory source code resides TODO: PULL OUT OF CLASS VARIABLE
@@ -142,16 +148,15 @@ public class FunctionsPanel extends JPanel {
                 runTestActionPerformed(evt);
             }
         });
-//        outputText.setFont(new java.awt.Font("Tahoma", 0, 14));
-//        outputText.setLineWrap(true);
-//        outputText.setWrapStyleWord(true);
-//        outputText.setBounds(10, 365, 450, 300);
-//        outputText.setEditable(false);
+        
+        textPanel.setBounds(5, 5 ,450, y);
+        textPanel.setVisible(true);
         
         outputScroller.setVisible(true);
         outputScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        outputScroller.setBounds(10, 365, 450, 300);
-
+        outputScroller.setPreferredSize(new Dimension(10,365));
+        outputScroller.setMinimumSize(new Dimension(10,365));
+        outputScroller.setBounds(10,365,450, 300);
         this.add(outputScroller);
         
         mainClassNameTextField = new JTextField("Name of java class to compile (include .java)");
@@ -274,7 +279,17 @@ public class FunctionsPanel extends JPanel {
     }
     // if error, output will be red
     public void appendToTextArea(String message, boolean error) {
+                        
+        textPanel.setBounds(5, 5 ,450, y);
+        this.y += Y_INCREMENT;
+        HEIGHT = y; // update height of panel so scrolling can happen
+        textPanel.setSize(new Dimension(5, HEIGHT));
+        textPanel.setPreferredSize(new Dimension(5, HEIGHT));
+
+                
         JLabel text = new JLabel(message + "\n");
+        text.setLocation(0, y);
+        
         if (error) {
             text.setForeground(Color.red);
         } else {
@@ -282,10 +297,9 @@ public class FunctionsPanel extends JPanel {
         }
         textPanel.add(text);
         textPanel.repaint();
-        textPanel.validate();
+        
         outputScroller.repaint();
         outputScroller.revalidate();
         System.out.println(message);
-        
     }
 }
