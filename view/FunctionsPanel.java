@@ -50,6 +50,7 @@ public class FunctionsPanel extends JPanel {
     private TextPanel textPanel;
     XMLEncoder savePaths;
     XMLDecoder readPaths;
+    int numOfOutputLines;
 
     public FunctionsPanel(Frame frame) {
         this.frame = frame;
@@ -74,7 +75,9 @@ public class FunctionsPanel extends JPanel {
         this.expectedOutput = new JTextField();
         this.textPanel = new TextPanel();
         this.outputText = new JLabel();
-        this.outputScroller = new JScrollPane(textPanel);
+        this.outputScroller = new JScrollPane();
+        
+        numOfOutputLines = 0;
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24));
         jLabel1.setText("Batch Tester");
@@ -149,13 +152,11 @@ public class FunctionsPanel extends JPanel {
             }
         });
         
-        textPanel.setBounds(5, 5 ,450, y);
-        textPanel.setVisible(true);
-        
         outputScroller.setVisible(true);
         outputScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         outputScroller.setPreferredSize(new Dimension(10,365));
         outputScroller.setMinimumSize(new Dimension(10,365));
+        outputScroller.setViewportView(textPanel);
         outputScroller.setBounds(10,365,450, 300);
         this.add(outputScroller);
         
@@ -279,27 +280,25 @@ public class FunctionsPanel extends JPanel {
     }
     // if error, output will be red
     public void appendToTextArea(String message, boolean error) {
-                        
-        textPanel.setBounds(5, 5 ,450, y);
-        this.y += Y_INCREMENT;
-        HEIGHT = y; // update height of panel so scrolling can happen
-        textPanel.setSize(new Dimension(5, HEIGHT));
-        textPanel.setPreferredSize(new Dimension(5, HEIGHT));
-
-                
+        numOfOutputLines++;
         JLabel text = new JLabel(message + "\n");
-        text.setLocation(0, y);
-        
         if (error) {
             text.setForeground(Color.red);
         } else {
             text.setForeground(Color.black);
         }
         textPanel.add(text);
-        textPanel.repaint();
+        y = numOfOutputLines * Y_INCREMENT;
+        HEIGHT = y; // update height of panel so scrolling can happen
+        outputScroller.setPreferredSize(new Dimension(450,300));
+        System.out.println("height" + y);
+
         
-        outputScroller.repaint();
-        outputScroller.revalidate();
+        this.textPanel.setSize(new Dimension(450, y));
+        this.textPanel.setPreferredSize(new Dimension(450, y)); 
+            
+        textPanel.repaint();
+        textPanel.revalidate();
         System.out.println(message);
     }
 }

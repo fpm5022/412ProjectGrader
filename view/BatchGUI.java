@@ -46,4 +46,12 @@ public class BatchGUI extends JPanel {
         ArrayList<Student> selected = studentPanel.getSelectedStudents();
         return selected;
     }
+    
+    /**
+     * @return the studentPanel
+     */
+    public StudentPanel getStudentPanel() {
+        return studentPanel;
+    }
+
 }
