@@ -15,7 +15,7 @@ public class TextPanel extends JPanel {
     
     public TextPanel(){
         this.setVisible(true);
-        this.setBackground(Color.GREEN);
+        this.setBackground(Color.white);
         this.setLayout(null);
         this.setFont(new java.awt.Font("Tahoma", 0, 14));
         WIDTH = 450;
@@ -23,11 +23,17 @@ public class TextPanel extends JPanel {
         //this.setBounds(10, 365, WIDTH, HEIGHT);
     }
     
-    public void addLabel(JLabel l){
+    public void addLabel(JLabel l,boolean error){
         l.setBounds(X, Y, WIDTH, 10);
         this.add(l);
         this.repaint();
         Y += Y_INCREMENT;
+        
+                if (error) {
+            l.setForeground(Color.red);
+        } else {
+            l.setForeground(Color.black);
+        }
         
         this.HEIGHT = Y; // update height of panel so scrolling can happen
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));

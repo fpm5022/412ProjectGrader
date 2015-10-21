@@ -77,10 +77,10 @@ public class FunctionsPanel extends JPanel {
         this.outputText = new JLabel();
         this.outputScroller = new JScrollPane(textPanel);
         
-        for(int i = 0; i < 100; i++) {
-            JLabel label = new JLabel("hey");
-            this.textPanel.addLabel(label);
-        }
+//        for(int i = 0; i < 100; i++) {
+//            JLabel label = new JLabel("hey");
+//            this.textPanel.addLabel(label);
+//        }
         
         numOfOutputLines = 0;
 
@@ -286,12 +286,8 @@ public class FunctionsPanel extends JPanel {
     public void appendToTextArea(String message, boolean error) {
         numOfOutputLines++;
         JLabel text = new JLabel(message + "\n");
-        if (error) {
-            text.setForeground(Color.red);
-        } else {
-            text.setForeground(Color.black);
-        }
-        textPanel.add(text);
+
+        textPanel.addLabel(text,error);
         y = numOfOutputLines * Y_INCREMENT;
         HEIGHT = y; // update height of panel so scrolling can happen
         outputScroller.setPreferredSize(new Dimension(450,300));
