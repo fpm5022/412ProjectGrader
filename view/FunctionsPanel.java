@@ -34,7 +34,6 @@ public class FunctionsPanel extends JPanel {
     private Frame frame;
     private String compilePathDirectory; // directory to compile code into TODO: PULL OUT OF CLASS VARIABLE
     private String sourceCodeDirectory; // directory source code resides TODO: PULL OUT OF CLASS VARIABLE
-    private JButton backButton;
     private JButton compilePathButton;
     private JButton sourceDirectoryButton;
     private JTextField sourceDirectoryTextField;
@@ -64,7 +63,6 @@ public class FunctionsPanel extends JPanel {
     }
 
     private void initComponents() {
-        this.backButton = new JButton();
         this.compilePathButton = new JButton();
         this.sourceDirectoryButton = new JButton();
         this.sourceDirectoryTextField = new JTextField();
@@ -83,15 +81,6 @@ public class FunctionsPanel extends JPanel {
         jLabel1.setText("Batch Tester");
         jLabel1.setBounds(frame.WIDTH / 3 - 70, 10, 200, 40);
         this.add(jLabel1);
-
-        backButton.setText("<- Back");
-        backButton.setBounds(10, 20, 100, 30);
-        this.add(backButton);
-        backButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backButtonActionPerformed(evt);
-            }
-        });
 
         sourceDirectoryButton.setText("Source Directory");
         sourceDirectoryButton.setBounds(10, 100, 150, 30);
@@ -163,10 +152,6 @@ public class FunctionsPanel extends JPanel {
         mainClassNameTextField = new JTextField("Name of java class to compile (include .java)");
         mainClassNameTextField.setBounds(230, 200, 400, 30);
         add(mainClassNameTextField);
-    }
-
-    private void backButtonActionPerformed(ActionEvent evt) {
-        frame.swap(frame.batchGUI, frame.splash);
     }
 
     /*

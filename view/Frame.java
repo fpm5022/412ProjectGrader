@@ -14,8 +14,6 @@ public class Frame extends JFrame {
     
     public final int WIDTH = 1080;
     public final int HEIGHT = 720;
-    //public SingleGUI singleGUI;
-    public SplashScreen splash;
     public BatchGUI batchGUI;
     
     public Frame() {
@@ -31,10 +29,8 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         
-        //this.singleGUI = new SingleGUI(this);
-        this.splash = new SplashScreen(this);
         this.batchGUI = new BatchGUI(this);
-        add(splash);
+        add(batchGUI);
         
         validate();
         repaint();
