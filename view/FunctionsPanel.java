@@ -217,6 +217,8 @@ public class FunctionsPanel extends JPanel {
                 String[] splitCommandLineArgs = commandLineArguments.split("\\s*,\\s*");
                 String[] scannerInput = {"1", "1"}; // to do
                 
+                System.out.println("args: " + commandLineArguments);
+                
                 // remove the .java from the class name
                 String mainClassNameWithoutFileType = mainClassName.substring(0, mainClassName.length() - 5);
                 
