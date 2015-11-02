@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import model.XMLObject;
 
 /**
 @author Feek <feek@psu.edu>
@@ -46,7 +47,7 @@ public class StudentPanel extends JPanel{
     private JButton selectAll;
     private JButton deselectAll;
     
-    public StudentPanel(Frame frame) {
+    public StudentPanel(Frame frame, XMLObject xmlObject) {
         this.frame = frame;
         this.students = new ArrayList<>();
         this.checkboxes = new ArrayList<>();
@@ -55,6 +56,14 @@ public class StudentPanel extends JPanel{
         this.setLayout(null);
         this.setBackground(Color.pink);
         initComponents();
+        
+        if (xmlObject.studentFileLocationAbsolutePath != null) {
+            this.studentFileLocationAbsolutePath = xmlObject.studentFileLocationAbsolutePath;
+            this.studentFileLocationTextField.setText(xmlObject.studentFileLocationAbsolutePath);
+            initCheckboxes();
+            selectAll.setEnabled(true);
+            deselectAll.setEnabled(true);
+        }
     }
 
     private void initComponents() {

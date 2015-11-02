@@ -5,6 +5,7 @@ import model.Student;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import model.XMLObject;
 
 /**
 @author Feek <feek@psu.edu>
@@ -16,11 +17,13 @@ public class BatchGUI extends JPanel {
     private StudentPanel studentPanel;
     private JScrollPane scrollPane;
     private FunctionsPanel functionsPanel;
+    private XMLObject xmlObject;
     
     private int scrollPaneWidth;
     
-    public BatchGUI(Frame frame) {
+    public BatchGUI(Frame frame, XMLObject xmlObject) {
         this.frame = frame;
+        this.xmlObject = xmlObject;
         this.scrollPaneWidth = frame.WIDTH / 3;
         this.setSize(frame.WIDTH, frame.HEIGHT);
         initComponents();
@@ -29,12 +32,12 @@ public class BatchGUI extends JPanel {
     }
 
     private void initComponents() {
-        studentPanel = new StudentPanel(frame);
+        studentPanel = new StudentPanel(frame, xmlObject);
         scrollPane = new JScrollPane(studentPanel);
         scrollPane.setBounds(0, 0, scrollPaneWidth, frame.HEIGHT);
         add(scrollPane);
 
-        functionsPanel = new FunctionsPanel(frame);
+        functionsPanel = new FunctionsPanel(frame, xmlObject);
         functionsPanel.setBounds(scrollPaneWidth, 0, scrollPaneWidth * 2, frame.HEIGHT);
         add(functionsPanel); 
     }

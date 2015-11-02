@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import model.Student;
+import model.XMLObject;
 
 public class FunctionsPanel extends JPanel {
     private Frame frame;
@@ -33,11 +34,13 @@ public class FunctionsPanel extends JPanel {
     private TextPanel textPanel;
     XMLDecoder readPaths;
     int numOfOutputLines;
+    private XMLObject xmlObject;
     
-    public FunctionsPanel(Frame frame) {
+    public FunctionsPanel(Frame frame, XMLObject xmlObject) {
         this.frame = frame;
+        this.xmlObject = xmlObject;
         this.compilePathDirectory = "";
-        this.sourceCodeDirectory = "";
+        this.sourceCodeDirectory =  "";
         initComponents();
         pathReader();
         this.setLayout(null); // yolo  Â¯\_(ãƒ„)_/Â¯ 
@@ -67,7 +70,7 @@ public class FunctionsPanel extends JPanel {
         jLabel1.setText("Batch Tester");
         jLabel1.setBounds(frame.WIDTH / 3 - 70, 10, 200, 40);
         this.add(jLabel1);
-
+          
         sourceDirectoryButton.setText("Source Directory");
         sourceDirectoryButton.setBounds(10, 100, 150, 30);
         this.add(sourceDirectoryButton);
@@ -80,7 +83,13 @@ public class FunctionsPanel extends JPanel {
         sourceDirectoryTextField = new JTextField();
         sourceDirectoryTextField.setBounds(230, 100, 400, 30);
         sourceDirectoryTextField.setEditable(false);
-        sourceDirectoryTextField.setText("Location of parent directory holding all students source codes");
+        if (xmlObject.sourceCodeDirectory != null) {
+            sourceDirectoryTextField.setText(xmlObject.sourceCodeDirectory);
+            this.sourceCodeDirectory = xmlObject.sourceCodeDirectory;
+        } else {
+            sourceDirectoryTextField.setText("Location of parent directory holding all students source codes");
+        }
+        
         this.add(sourceDirectoryTextField);
 
         compilePathButton.setText("Compile Path..");
@@ -95,16 +104,27 @@ public class FunctionsPanel extends JPanel {
         compilePathTextField = new JTextField();
         compilePathTextField.setBounds(230, 150, 400, 30);
         compilePathTextField.setEditable(false);
-        compilePathTextField.setText("Directory to compile into");
+        
+        if (xmlObject.compilePathDirectory != null) {
+            compilePathTextField.setText(xmlObject.compilePathDirectory);
+            compilePathDirectory = xmlObject.compilePathDirectory;
+        } else {
+            compilePathTextField.setText("Directory to compile into");
+        }
+        
         this.add(compilePathTextField);
 
         cmdLnArg.setText("Command Line Arguments");
         cmdLnArg.setBounds(10, 250, 300, 30);
         cmdLnArg.setEnabled(false);
         this.add(cmdLnArg);
-
-        //expectedOutput.setText("Expected Output");
-        expectedOutput.setText("1n = 1; range = 1; average = 1.0; stdDev = 0.0");
+        
+        if (xmlObject.expectedOutput != null) {
+            expectedOutput.setText(xmlObject.expectedOutput);
+        } else {
+            expectedOutput.setText("Expected Output");
+        }
+        //expectedOutput.setText("1n = 1; range = 1; average = 1.0; stdDev = 0.0");
         expectedOutput.setBounds(10, 300, 300, 30);
         this.add(expectedOutput);
 
@@ -125,6 +145,9 @@ public class FunctionsPanel extends JPanel {
         this.add(outputScroller);
         
         mainClassNameTextField = new JTextField("Name of java class to compile (include .java)");
+        if (xmlObject.mainClassName != null) {
+            mainClassNameTextField.setText(xmlObject.mainClassName);
+        }
         mainClassNameTextField.setBounds(230, 200, 400, 30);
         add(mainClassNameTextField);
     }

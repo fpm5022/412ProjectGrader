@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import model.XMLObject;
 
 /**
 @author Feek <feek@psu.edu>
@@ -33,16 +34,16 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         
-        this.batchGUI = new BatchGUI(this);
+        this.xmlReader = new XMLReader("/Users/Feek/Desktop/paths.xml");// temp, get from runtime / classpath
+        XMLObject xmlObject = xmlReader.getObject();
+        this.xmlSaver = new XMLSaver("/Users/Feek/Desktop", xmlObject); // temp, get from runtime / classpath
+        Runtime.getRuntime().addShutdownHook(new Thread(this.xmlSaver));
+        
+        this.batchGUI = new BatchGUI(this, xmlObject);
         add(batchGUI);
         
         validate();
         repaint();
-        
-        this.xmlReader = new XMLReader("/Users/Feek/Desktop/paths.xml");// temp, get from runtime / classpath
-        xmlReader.getObject();
-        this.xmlSaver = new XMLSaver("/Users/Feek/Desktop"); // temp, get from runtime / classpath
-        Runtime.getRuntime().addShutdownHook(new Thread(this.xmlSaver));
     }
     
     public void swap(JPanel remove, JPanel add) {

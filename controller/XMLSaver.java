@@ -18,8 +18,8 @@ public class XMLSaver implements Runnable {
     private final String location; // location to save this xml file
     private XMLObject object;
     
-    public XMLSaver(String location) {
-        this.object = new XMLObject();
+    public XMLSaver(String location, XMLObject xmlObject) {
+        this.object = xmlObject;
         this.location = location;
     }
     
