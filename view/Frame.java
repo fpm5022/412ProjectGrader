@@ -1,6 +1,7 @@
 package view;
 
 
+import controller.XMLSaver;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -15,6 +16,7 @@ public class Frame extends JFrame {
     public final int WIDTH = 1080;
     public final int HEIGHT = 720;
     public BatchGUI batchGUI;
+    public XMLSaver xmlSaver;
     
     public Frame() {
         super("Project Grader");
@@ -34,6 +36,9 @@ public class Frame extends JFrame {
         
         validate();
         repaint();
+        
+        this.xmlSaver = new XMLSaver();
+        Runtime.getRuntime().addShutdownHook(new Thread(this.xmlSaver));
     }
     
     public void swap(JPanel remove, JPanel add) {

@@ -2,17 +2,12 @@ package view;
 
 
 import controller.Compiler;
+import controller.XMLSaver;
 import controller.TestRunner;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -33,14 +28,12 @@ public class FunctionsPanel extends JPanel {
     private JTextField cmdLnArg;
     private JTextField expectedOutput;
     private JScrollPane outputScroller;
-    private JLabel outputText;
     private JTextField compilePathTextField;
     private JTextField mainClassNameTextField;
     private TextPanel textPanel;
-    XMLEncoder savePaths;
     XMLDecoder readPaths;
     int numOfOutputLines;
-
+    
     public FunctionsPanel(Frame frame) {
         this.frame = frame;
         this.compilePathDirectory = "";
@@ -61,7 +54,6 @@ public class FunctionsPanel extends JPanel {
         this.cmdLnArg = new JTextField();
         this.expectedOutput = new JTextField();
         this.textPanel = new TextPanel();
-        this.outputText = new JLabel();
         this.outputScroller = new JScrollPane(textPanel);
         
 //        for(int i = 0; i < 100; i++) {
@@ -173,10 +165,6 @@ public class FunctionsPanel extends JPanel {
                 appendToTextArea(s.getInfo() + " compile failed: " + success, true);
             } else {
                 appendToTextArea(s.getInfo() + " compile success", false);
-                
-                // for now, since it compiled lets test it. 
-                // TO DO: do all compiling at once and store those that passed in a list.
-                // to be tested afterwards
                 String commandLineArguments = cmdLnArg.getText();
                 String expectedTestOutput = expectedOutput.getText();
                 
@@ -196,6 +184,12 @@ public class FunctionsPanel extends JPanel {
                 appendToTextArea(studentName + " " + similarity + "% similar to expected output", failed);
             }
         }
+        
+        // save the settings...
+        frame.xmlSaver.addValueToWrite("mainClassName", mainClassName);
+        frame.xmlSaver.addValueToWrite("compilePathDirectory", compilePathDirectory);
+        frame.xmlSaver.addValueToWrite("sourceCodeDirectory", sourceCodeDirectory);
+        frame.xmlSaver.addValueToWrite("expectedOutput", expectedOutput.getText());
     }
 
     /*
@@ -213,26 +207,6 @@ public class FunctionsPanel extends JPanel {
             this.compilePathDirectory = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
             this.compilePathTextField.setText(this.compilePathDirectory);
         }
-    }
-
-    private void runTestActionPerformed(ActionEvent evt) {
-        try {
-            savePaths = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(compilePathDirectory + "/paths.xml")));
-            //System.out.println("File created");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FunctionsPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try{
-            savePaths.writeObject(sourceCodeDirectory);
-            savePaths.writeObject(compilePathDirectory);
-            savePaths.writeObject(frame.batchGUI.getStudentPanel().getStudentFileLocationAbsolutePath());
-            savePaths.writeObject(mainClassNameTextField.getText());
-        } catch(Exception xx) {xx.printStackTrace();}
-        try{
-            savePaths.close();
-        } catch(Exception xx) {xx.printStackTrace();}
-        
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     private void pathReader(){

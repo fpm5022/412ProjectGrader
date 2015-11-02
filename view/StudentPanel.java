@@ -140,8 +140,9 @@ public class StudentPanel extends JPanel{
 
         int val = chooser.showOpenDialog(this);
         if (val == JFileChooser.APPROVE_OPTION) {
-            this.setStudentFileLocationAbsolutePath(chooser.getSelectedFile().getAbsolutePath());
-            this.studentFileLocationTextField.setText(this.getStudentFileLocationAbsolutePath());
+            this.studentFileLocationAbsolutePath = chooser.getSelectedFile().getAbsolutePath();
+            this.studentFileLocationTextField.setText(this.studentFileLocationAbsolutePath);
+            this.frame.xmlSaver.addValueToWrite("studentFileLocationAbsolutePath", this.studentFileLocationAbsolutePath);
             initCheckboxes();
             
             // enable the buttons now
@@ -152,7 +153,7 @@ public class StudentPanel extends JPanel{
 
     private void importStudents() {
         try {
-            File file = new File(this.getStudentFileLocationAbsolutePath());
+            File file = new File(this.studentFileLocationAbsolutePath);
             Scanner read = new Scanner (file);
             read.useDelimiter(delimiter);
             
@@ -196,20 +197,6 @@ public class StudentPanel extends JPanel{
             }
         }
         return selected;
-    }
-
-    /**
-     * @return the studentFileLocationAbsolutePath
-     */
-    public String getStudentFileLocationAbsolutePath() {
-        return studentFileLocationAbsolutePath;
-    }
-
-    /**
-     * @param studentFileLocationAbsolutePath the studentFileLocationAbsolutePath to set
-     */
-    public void setStudentFileLocationAbsolutePath(String studentFileLocationAbsolutePath) {
-        this.studentFileLocationAbsolutePath = studentFileLocationAbsolutePath;
     }
     
 }
