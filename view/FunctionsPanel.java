@@ -4,14 +4,11 @@ package view;
 import controller.Compiler;
 import controller.TestRunner;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.logging.Level;
@@ -21,16 +18,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import model.Student;
 
 public class FunctionsPanel extends JPanel {
-    private final int Y_INCREMENT = 20; // space between boxes
-    private int y = 10;        
-    private int HEIGHT; // adjusted when students are added
-
-        
     private Frame frame;
     private String compilePathDirectory; // directory to compile code into TODO: PULL OUT OF CLASS VARIABLE
     private String sourceCodeDirectory; // directory source code resides TODO: PULL OUT OF CLASS VARIABLE
@@ -270,21 +261,10 @@ public class FunctionsPanel extends JPanel {
 //            
 //        } catch (Exception xx) {xx.printStackTrace();}
     }
+    
     // if error, output will be red
     public void appendToTextArea(String message, boolean error) {
-        numOfOutputLines++;
         JLabel text = new JLabel(message + "\n");
-
         textPanel.addLabel(text,error);
-        y = numOfOutputLines * Y_INCREMENT;
-        HEIGHT = y; // update height of panel so scrolling can happen
-        outputScroller.setPreferredSize(new Dimension(450,300));
-
-        
-        this.textPanel.setSize(new Dimension(450, y));
-        this.textPanel.setPreferredSize(new Dimension(450, y)); 
-            
-        textPanel.repaint();
-        textPanel.revalidate();
     }
 }
