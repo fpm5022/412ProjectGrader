@@ -29,8 +29,7 @@ public class FunctionsPanel extends JPanel {
     private JButton sourceDirectoryButton;
     private JTextField sourceDirectoryTextField;
     private JLabel jLabel1;
-    private JButton compileButton;
-    private JButton testButton;
+    private JButton compileAndTestButton;
     private JTextField cmdLnArg;
     private JTextField expectedOutput;
     private JScrollPane outputScroller;
@@ -58,8 +57,7 @@ public class FunctionsPanel extends JPanel {
         this.sourceDirectoryButton = new JButton();
         this.sourceDirectoryTextField = new JTextField();
         this.jLabel1 = new JLabel();
-        this.compileButton = new JButton();
-        this.testButton = new JButton();
+        this.compileAndTestButton = new JButton();
         this.cmdLnArg = new JTextField();
         this.expectedOutput = new JTextField();
         this.textPanel = new TextPanel();
@@ -118,22 +116,12 @@ public class FunctionsPanel extends JPanel {
         expectedOutput.setBounds(10, 300, 300, 30);
         this.add(expectedOutput);
 
-        compileButton.setText("Compile");
-        compileButton.setBounds(500, 365, 150, 30);
-        this.add(compileButton);
-        compileButton.addActionListener(new java.awt.event.ActionListener() {
+        compileAndTestButton.setText("Compile And Test");
+        compileAndTestButton.setBounds(500, 365, 150, 30);
+        this.add(compileAndTestButton);
+        compileAndTestButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runCompileActionPerformed(evt);
-            }
-        });
-
-        testButton.setText("Test");
-        testButton.setBounds(500, 415, 150, 30);
-        testButton.setEnabled(true);
-        this.add(testButton);
-        testButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                runTestActionPerformed(evt);
             }
         });
         
