@@ -3,6 +3,7 @@ package view;
 
 import controller.XMLReader;
 import controller.XMLSaver;
+import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -34,9 +35,10 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         
-        this.xmlReader = new XMLReader("/Users/Feek/Desktop/paths.xml");// temp, get from runtime / classpath
+        String xmlFileLocation = new File("").getAbsolutePath();
+        this.xmlReader = new XMLReader(xmlFileLocation + "/paths.xml");
         XMLObject xmlObject = xmlReader.getObject();
-        this.xmlSaver = new XMLSaver("/Users/Feek/Desktop", xmlObject); // temp, get from runtime / classpath
+        this.xmlSaver = new XMLSaver(xmlFileLocation, xmlObject);
         Runtime.getRuntime().addShutdownHook(new Thread(this.xmlSaver));
         
         this.batchGUI = new BatchGUI(this, xmlObject);
