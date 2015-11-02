@@ -141,7 +141,7 @@ public class TestRunner {
         return compareResults();
     }
 
-    public boolean compareResults() {
+    private boolean compareResults() {
         System.out.println("expected: " + expectedOutput);
         System.out.println("actual: " + actualOutput);
         
