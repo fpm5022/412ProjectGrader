@@ -118,7 +118,7 @@ public class FunctionsPanel extends JPanel {
         this.add(cmdLnArg);
 
         //expectedOutput.setText("Expected Output");
-        expectedOutput.setText("n = 1; range = 1; average = 1.0; stdDev = 0.0");
+        expectedOutput.setText("1n = 1; range = 1; average = 1.0; stdDev = 0.0");
         expectedOutput.setBounds(10, 300, 300, 30);
         this.add(expectedOutput);
 
@@ -202,14 +202,15 @@ public class FunctionsPanel extends JPanel {
                 String[] splitCommandLineArgs = commandLineArguments.split("\\s*,\\s*");
                 String[] scannerInput = {"1", "1"}; // to do
                 
-                System.out.println("args: " + commandLineArguments);
-                
                 // remove the .java from the class name
                 String mainClassNameWithoutFileType = mainClassName.substring(0, mainClassName.length() - 5);
                 
                 TestRunner testRunner = new TestRunner(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, expectedTestOutput);
-                boolean passed = testRunner.testJava();
-                appendToTextArea(studentName + " test passed: " + passed, !passed);
+                
+                double similarity = testRunner.testJava();
+                boolean failed = (similarity != 100);
+                
+                appendToTextArea(studentName + " " + similarity + "% similar to expected output", failed);
             }
         }
     }
@@ -234,7 +235,7 @@ public class FunctionsPanel extends JPanel {
     private void runTestActionPerformed(ActionEvent evt) {
         try {
             savePaths = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(compilePathDirectory + "/paths.xml")));
-            System.out.println("File created");
+            //System.out.println("File created");
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FunctionsPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -278,7 +279,6 @@ public class FunctionsPanel extends JPanel {
         y = numOfOutputLines * Y_INCREMENT;
         HEIGHT = y; // update height of panel so scrolling can happen
         outputScroller.setPreferredSize(new Dimension(450,300));
-        System.out.println("height" + y);
 
         
         this.textPanel.setSize(new Dimension(450, y));
@@ -286,6 +286,5 @@ public class FunctionsPanel extends JPanel {
             
         textPanel.repaint();
         textPanel.revalidate();
-        System.out.println(message);
     }
 }
