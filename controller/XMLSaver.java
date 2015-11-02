@@ -18,9 +18,9 @@ public class XMLSaver implements Runnable {
     private final String location; // location to save this xml file
     private XMLObject object;
     
-    public XMLSaver() {
+    public XMLSaver(String location) {
         this.object = new XMLObject();
-        this.location = "/Users/Feek/Desktop"; // temp. Get from runtime / classpath
+        this.location = location;
     }
     
     public void addValueToWrite(String key, String value) {

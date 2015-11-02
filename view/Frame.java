@@ -1,6 +1,7 @@
 package view;
 
 
+import controller.XMLReader;
 import controller.XMLSaver;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,6 +18,7 @@ public class Frame extends JFrame {
     public final int HEIGHT = 720;
     public BatchGUI batchGUI;
     public XMLSaver xmlSaver;
+    public XMLReader xmlReader;
     
     public Frame() {
         super("Project Grader");
@@ -37,7 +39,9 @@ public class Frame extends JFrame {
         validate();
         repaint();
         
-        this.xmlSaver = new XMLSaver();
+        this.xmlReader = new XMLReader("/Users/Feek/Desktop/paths.xml");// temp, get from runtime / classpath
+        xmlReader.getObject();
+        this.xmlSaver = new XMLSaver("/Users/Feek/Desktop"); // temp, get from runtime / classpath
         Runtime.getRuntime().addShutdownHook(new Thread(this.xmlSaver));
     }
     
