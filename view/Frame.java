@@ -1,10 +1,14 @@
 package view;
 
 
+import controller.XMLReader;
+import controller.XMLSaver;
+import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import model.XMLObject;
 
 /**
 @author Feek <feek@psu.edu>
@@ -15,6 +19,8 @@ public class Frame extends JFrame {
     public final int WIDTH = 1080;
     public final int HEIGHT = 720;
     public BatchGUI batchGUI;
+    public XMLSaver xmlSaver;
+    public XMLReader xmlReader;
     
     public Frame() {
         super("Project Grader");
@@ -29,7 +35,13 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         
-        this.batchGUI = new BatchGUI(this);
+        String xmlFileLocation = new File("").getAbsolutePath();
+        this.xmlReader = new XMLReader(xmlFileLocation + "/paths.xml");
+        XMLObject xmlObject = xmlReader.getObject();
+        this.xmlSaver = new XMLSaver(xmlFileLocation, xmlObject);
+        Runtime.getRuntime().addShutdownHook(new Thread(this.xmlSaver));
+        
+        this.batchGUI = new BatchGUI(this, xmlObject);
         add(batchGUI);
         
         validate();

@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import model.XMLObject;
 
 /**
 @author Feek <feek@psu.edu>
@@ -46,7 +47,7 @@ public class StudentPanel extends JPanel{
     private JButton selectAll;
     private JButton deselectAll;
     
-    public StudentPanel(Frame frame) {
+    public StudentPanel(Frame frame, XMLObject xmlObject) {
         this.frame = frame;
         this.students = new ArrayList<>();
         this.checkboxes = new ArrayList<>();
@@ -55,6 +56,14 @@ public class StudentPanel extends JPanel{
         this.setLayout(null);
         this.setBackground(Color.pink);
         initComponents();
+        
+        if (xmlObject.studentFileLocationAbsolutePath != null) {
+            this.studentFileLocationAbsolutePath = xmlObject.studentFileLocationAbsolutePath;
+            this.studentFileLocationTextField.setText(xmlObject.studentFileLocationAbsolutePath);
+            initCheckboxes();
+            selectAll.setEnabled(true);
+            deselectAll.setEnabled(true);
+        }
     }
 
     private void initComponents() {
@@ -140,8 +149,9 @@ public class StudentPanel extends JPanel{
 
         int val = chooser.showOpenDialog(this);
         if (val == JFileChooser.APPROVE_OPTION) {
-            this.setStudentFileLocationAbsolutePath(chooser.getSelectedFile().getAbsolutePath());
-            this.studentFileLocationTextField.setText(this.getStudentFileLocationAbsolutePath());
+            this.studentFileLocationAbsolutePath = chooser.getSelectedFile().getAbsolutePath();
+            this.studentFileLocationTextField.setText(this.studentFileLocationAbsolutePath);
+            this.frame.xmlSaver.addValueToWrite("studentFileLocationAbsolutePath", this.studentFileLocationAbsolutePath);
             initCheckboxes();
             
             // enable the buttons now
@@ -152,7 +162,7 @@ public class StudentPanel extends JPanel{
 
     private void importStudents() {
         try {
-            File file = new File(this.getStudentFileLocationAbsolutePath());
+            File file = new File(this.studentFileLocationAbsolutePath);
             Scanner read = new Scanner (file);
             read.useDelimiter(delimiter);
             
@@ -196,20 +206,6 @@ public class StudentPanel extends JPanel{
             }
         }
         return selected;
-    }
-
-    /**
-     * @return the studentFileLocationAbsolutePath
-     */
-    public String getStudentFileLocationAbsolutePath() {
-        return studentFileLocationAbsolutePath;
-    }
-
-    /**
-     * @param studentFileLocationAbsolutePath the studentFileLocationAbsolutePath to set
-     */
-    public void setStudentFileLocationAbsolutePath(String studentFileLocationAbsolutePath) {
-        this.studentFileLocationAbsolutePath = studentFileLocationAbsolutePath;
     }
     
 }

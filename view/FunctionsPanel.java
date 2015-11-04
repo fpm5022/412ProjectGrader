@@ -2,35 +2,22 @@ package view;
 
 
 import controller.Compiler;
+import controller.XMLSaver;
 import controller.TestRunner;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import model.Student;
+import model.XMLObject;
 
 public class FunctionsPanel extends JPanel {
-    private final int Y_INCREMENT = 20; // space between boxes
-    private int y = 10;        
-    private int HEIGHT; // adjusted when students are added
-
-        
     private Frame frame;
     private String compilePathDirectory; // directory to compile code into TODO: PULL OUT OF CLASS VARIABLE
     private String sourceCodeDirectory; // directory source code resides TODO: PULL OUT OF CLASS VARIABLE
@@ -42,18 +29,18 @@ public class FunctionsPanel extends JPanel {
     private JTextField cmdLnArg;
     private JTextField expectedOutput;
     private JScrollPane outputScroller;
-    private JLabel outputText;
     private JTextField compilePathTextField;
     private JTextField mainClassNameTextField;
     private TextPanel textPanel;
-    XMLEncoder savePaths;
     XMLDecoder readPaths;
     int numOfOutputLines;
-
-    public FunctionsPanel(Frame frame) {
+    private XMLObject xmlObject;
+    
+    public FunctionsPanel(Frame frame, XMLObject xmlObject) {
         this.frame = frame;
+        this.xmlObject = xmlObject;
         this.compilePathDirectory = "";
-        this.sourceCodeDirectory = "";
+        this.sourceCodeDirectory =  "";
         initComponents();
         pathReader();
         this.setLayout(null); // yolo  Â¯\_(ãƒ„)_/Â¯ 
@@ -70,8 +57,12 @@ public class FunctionsPanel extends JPanel {
         this.cmdLnArg = new JTextField();
         this.expectedOutput = new JTextField();
         this.textPanel = new TextPanel();
-        this.outputText = new JLabel();
-        this.outputScroller = new JScrollPane();
+        this.outputScroller = new JScrollPane(textPanel);
+        
+//        for(int i = 0; i < 100; i++) {
+//            JLabel label = new JLabel("hey");
+//            this.textPanel.addLabel(label);
+//        }
         
         numOfOutputLines = 0;
 
@@ -79,7 +70,7 @@ public class FunctionsPanel extends JPanel {
         jLabel1.setText("Batch Tester");
         jLabel1.setBounds(frame.WIDTH / 3 - 70, 10, 200, 40);
         this.add(jLabel1);
-
+          
         sourceDirectoryButton.setText("Source Directory");
         sourceDirectoryButton.setBounds(10, 100, 150, 30);
         this.add(sourceDirectoryButton);
@@ -92,7 +83,13 @@ public class FunctionsPanel extends JPanel {
         sourceDirectoryTextField = new JTextField();
         sourceDirectoryTextField.setBounds(230, 100, 400, 30);
         sourceDirectoryTextField.setEditable(false);
-        sourceDirectoryTextField.setText("Location of parent directory holding all students source codes");
+        if (xmlObject.sourceCodeDirectory != null) {
+            sourceDirectoryTextField.setText(xmlObject.sourceCodeDirectory);
+            this.sourceCodeDirectory = xmlObject.sourceCodeDirectory;
+        } else {
+            sourceDirectoryTextField.setText("Location of parent directory holding all students source codes");
+        }
+        
         this.add(sourceDirectoryTextField);
 
         compilePathButton.setText("Compile Path..");
@@ -107,16 +104,27 @@ public class FunctionsPanel extends JPanel {
         compilePathTextField = new JTextField();
         compilePathTextField.setBounds(230, 150, 400, 30);
         compilePathTextField.setEditable(false);
-        compilePathTextField.setText("Directory to compile into");
+        
+        if (xmlObject.compilePathDirectory != null) {
+            compilePathTextField.setText(xmlObject.compilePathDirectory);
+            compilePathDirectory = xmlObject.compilePathDirectory;
+        } else {
+            compilePathTextField.setText("Directory to compile into");
+        }
+        
         this.add(compilePathTextField);
 
         cmdLnArg.setText("Command Line Arguments");
         cmdLnArg.setBounds(10, 250, 300, 30);
         cmdLnArg.setEnabled(false);
         this.add(cmdLnArg);
-
-        //expectedOutput.setText("Expected Output");
-        expectedOutput.setText("n = 1; range = 1; average = 1.0; stdDev = 0.0");
+        
+        if (xmlObject.expectedOutput != null) {
+            expectedOutput.setText(xmlObject.expectedOutput);
+        } else {
+            expectedOutput.setText("Expected Output");
+        }
+        //expectedOutput.setText("1n = 1; range = 1; average = 1.0; stdDev = 0.0");
         expectedOutput.setBounds(10, 300, 300, 30);
         this.add(expectedOutput);
 
@@ -130,14 +138,16 @@ public class FunctionsPanel extends JPanel {
         });
         
         outputScroller.setVisible(true);
-        outputScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        outputScroller.setPreferredSize(new Dimension(10,365));
-        outputScroller.setMinimumSize(new Dimension(10,365));
-        outputScroller.setViewportView(textPanel);
+        //outputScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        //outputScroller.setPreferredSize(new Dimension(10,365));
+        //outputScroller.setMinimumSize(new Dimension(10,365));
         outputScroller.setBounds(10,365,450, 300);
         this.add(outputScroller);
         
         mainClassNameTextField = new JTextField("Name of java class to compile (include .java)");
+        if (xmlObject.mainClassName != null) {
+            mainClassNameTextField.setText(xmlObject.mainClassName);
+        }
         mainClassNameTextField.setBounds(230, 200, 400, 30);
         add(mainClassNameTextField);
     }
@@ -178,10 +188,6 @@ public class FunctionsPanel extends JPanel {
                 appendToTextArea(s.getInfo() + " compile failed: " + success, true);
             } else {
                 appendToTextArea(s.getInfo() + " compile success", false);
-                
-                // for now, since it compiled lets test it. 
-                // TO DO: do all compiling at once and store those that passed in a list.
-                // to be tested afterwards
                 String commandLineArguments = cmdLnArg.getText();
                 String expectedTestOutput = expectedOutput.getText();
                 
@@ -190,16 +196,23 @@ public class FunctionsPanel extends JPanel {
                 String[] splitCommandLineArgs = commandLineArguments.split("\\s*,\\s*");
                 String[] scannerInput = {"1", "1"}; // to do
                 
-                System.out.println("args: " + commandLineArguments);
-                
                 // remove the .java from the class name
                 String mainClassNameWithoutFileType = mainClassName.substring(0, mainClassName.length() - 5);
                 
                 TestRunner testRunner = new TestRunner(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, expectedTestOutput);
-                boolean passed = testRunner.testJava();
-                appendToTextArea(studentName + " test passed: " + passed, !passed);
+                
+                double similarity = testRunner.testJava();
+                boolean failed = (similarity != 100);
+                
+                appendToTextArea(studentName + " " + similarity + "% similar to expected output", failed);
             }
         }
+        
+        // save the settings...
+        frame.xmlSaver.addValueToWrite("mainClassName", mainClassName);
+        frame.xmlSaver.addValueToWrite("compilePathDirectory", compilePathDirectory);
+        frame.xmlSaver.addValueToWrite("sourceCodeDirectory", sourceCodeDirectory);
+        frame.xmlSaver.addValueToWrite("expectedOutput", expectedOutput.getText());
     }
 
     /*
@@ -218,26 +231,6 @@ public class FunctionsPanel extends JPanel {
             this.compilePathTextField.setText(this.compilePathDirectory);
         }
     }
-
-    private void runTestActionPerformed(ActionEvent evt) {
-        try {
-            savePaths = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(compilePathDirectory + "/paths.xml")));
-            System.out.println("File created");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FunctionsPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try{
-            savePaths.writeObject(sourceCodeDirectory);
-            savePaths.writeObject(compilePathDirectory);
-            savePaths.writeObject(frame.batchGUI.getStudentPanel().getStudentFileLocationAbsolutePath());
-            savePaths.writeObject(mainClassNameTextField.getText());
-        } catch(Exception xx) {xx.printStackTrace();}
-        try{
-            savePaths.close();
-        } catch(Exception xx) {xx.printStackTrace();}
-        
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     private void pathReader(){
 //        try{
@@ -253,27 +246,10 @@ public class FunctionsPanel extends JPanel {
 //            
 //        } catch (Exception xx) {xx.printStackTrace();}
     }
+    
     // if error, output will be red
     public void appendToTextArea(String message, boolean error) {
-        numOfOutputLines++;
         JLabel text = new JLabel(message + "\n");
-        if (error) {
-            text.setForeground(Color.red);
-        } else {
-            text.setForeground(Color.black);
-        }
-        textPanel.add(text);
-        y = numOfOutputLines * Y_INCREMENT;
-        HEIGHT = y; // update height of panel so scrolling can happen
-        outputScroller.setPreferredSize(new Dimension(450,300));
-        System.out.println("height" + y);
-
-        
-        this.textPanel.setSize(new Dimension(450, y));
-        this.textPanel.setPreferredSize(new Dimension(450, y)); 
-            
-        textPanel.repaint();
-        textPanel.revalidate();
-        System.out.println(message);
+        textPanel.addLabel(text,error);
     }
 }

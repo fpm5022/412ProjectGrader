@@ -2,39 +2,42 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Panel;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-public class TextPanel extends Panel {
+public class TextPanel extends JPanel {
+    private final int X = 10;
+    private int Y = 10; 
+    private final int Y_INCREMENT = 25; // space between boxes
+    private final int WIDTH;
+    private int HEIGHT; // adjusted when students are added
     
     public TextPanel(){
         this.setVisible(true);
-        this.setBackground(Color.WHITE);
-        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        this.setBackground(Color.white);
+        this.setLayout(null);
         this.setFont(new java.awt.Font("Tahoma", 0, 14));
-        this.setBounds(10, 365, 450, 300);
+        WIDTH = 450;
+        HEIGHT = 300;
+        //this.setBounds(10, 365, WIDTH, HEIGHT);
     }
     
-//    public void addLabels(){
-//        textPanel.setBounds(5, 5 ,450, y);
-//        this.y += Y_INCREMENT;
-//        HEIGHT = y; // update height of panel so scrolling can happen
-//        textPanel.setSize(new Dimension(5, HEIGHT));
-//        textPanel.setPreferredSize(new Dimension(5, HEIGHT));
-//
-//                
-//        JLabel text = new JLabel(message + "\n");
-//        text.setLocation(0, y);
-//        
-//        if (error) {
-//            text.setForeground(Color.red);
-//        } else {
-//            text.setForeground(Color.black);
-//        }
-//        textPanel.add(text);
-//        textPanel.repaint();
-//        
-//    }
+    public void addLabel(JLabel l,boolean error){
+        l.setBounds(X, Y, WIDTH, 15);
+        this.add(l);
+        this.repaint();
+        Y += Y_INCREMENT;
+        
+        if (error) {
+            l.setForeground(Color.red);
+        } else {
+            l.setForeground(Color.black);
+        }
+        
+        this.HEIGHT = Y; // update height of panel so scrolling can happen
+        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.revalidate();
+    }
     
 }

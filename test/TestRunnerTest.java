@@ -1,6 +1,7 @@
 package test;
 
 import controller.TestRunner;
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +30,7 @@ public class TestRunnerTest {
 
     @Test
     public void testTestJava() throws Exception {
-        boolean res = this.runner.testJava();
-        assertTrue("error message", res);
+        int similarity = this.runner.testJava();
+        assertEquals("test java similarity was not correct", similarity, 100);
     }
 }
