@@ -33,7 +33,7 @@ public class TestRunner {
      String[] scannerInput = {"1", "1"};
      String[] commandLineArgs = {};
      TestRunner t = new TestRunner("/Users/Feek/Desktop/compiled/412/", "/Users/Feek/Desktop/compiled/412/smithjq/", "ArrayLoops", commandLineArgs, scannerInput);
-     t.testJava();
+     t.runAndTestJava();
 
      -------------
 
@@ -51,47 +51,76 @@ public class TestRunner {
         this.scannerInput = scannerInput;
         this.expectedOutput = expectedOutput;
     }
-
     /**
      * 
+     * @return ProcessBuilder
+     * command will look something like `java ArrayLoops "1" "1"`
+     */
+    private ProcessBuilder buildProcess() {
+        // this args list will contain all arguments to pass to the process builder
+        ArrayList<String> args = new ArrayList<>();
+
+        args.add("java");
+        args.add(mainClassName);
+
+        // if command line args were supplied, pop them into the list of args to pass 
+        // to the process builder
+        if (commandLineArgs != null) {
+            args.addAll(Arrays.asList(commandLineArgs));
+        }
+
+        return new ProcessBuilder(args);
+    }
+
+    // Create environment map and set environmental variables
+    // change process builder directory
+    private void setUpEnvironment(ProcessBuilder pb) {
+        Map<String, String> env = pb.environment();
+        env.clear();
+        env.put("PATH", path);
+        env.put("CLASSPATH", classPath);
+
+        // we need to get this process builder into the class path directory in order to execute .class
+        File cwd = pb.directory();
+        File nwd = TestTools.cd(cwd, classPath);
+        pb.directory(nwd);
+    }
+
+    /**
+     *
      * @return int percentage similar (0 - 100)
      */
-    public int testJava() {
+    public int runAndTestJava() {
         try {
-            // this args list will contain all arguments to pass to the process builder
-            ArrayList<String> args = new ArrayList<>();
-
-            args.add("java");
-            args.add(mainClassName);
-
-            // if command line args were supplied, pop them into the list of args to pass 
-            // to the process builder
-            if (commandLineArgs != null) {
-                args.addAll(Arrays.asList(commandLineArgs));
-            }
-
-            // will look something like `java ArrayLoops "1" "1"`
-            ProcessBuilder pb = new ProcessBuilder(args);
-
-//        Create environment map and set environmental variables
-            Map<String, String> env = pb.environment();
-            env.clear();
-            env.put("PATH", path);
-            env.put("CLASSPATH", classPath);
-
-            // we need to get this process builder into the class path directory in order to execute .class
-            File cwd = pb.directory();
-            File nwd = TestTools.cd(cwd, classPath);
-            pb.directory(nwd);
+            //
+            ProcessBuilder pb = buildProcess();
+            setUpEnvironment(pb);
 
             pb.redirectErrorStream(true);
-            //pb.redirectOutput(Redirect.appendTo(outputFile)); we want to be able to capture output in this class, so
-            // not writing to file direclty
-
-            System.out.println("Beginning testing of " + classPath + File.separator + mainClassName);
 
             Process p = pb.start();
 
+            this.actualOutput = captureProcessOutput(p);
+
+            /*
+             want processes to run sequentially to keep output in order
+             basically joins thread to process to force sequential execution
+             need to be careful - if any process hangs, whole run hangs
+             */
+            p.waitFor();
+
+            assert pb.redirectInput() == Redirect.PIPE;
+            assert p.getInputStream().read() == -1;
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(TestRunner.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return compareResults(this.actualOutput, this.expectedOutput);
+    }
+
+    private String captureProcessOutput(Process p) {
+        StringBuilder sb = new StringBuilder();
+        try {
             // these allow communication with program being tested
             InputStream stdout = p.getInputStream();
             OutputStream stdin = p.getOutputStream();
@@ -107,12 +136,11 @@ public class TestRunner {
 
             int i = 0; // index of scanner input to read from
 
-            StringBuilder sb = new StringBuilder();
             // read from program being tested
             while (inScanner.hasNextLine()) {
                 String line = inScanner.nextLine();
 
-                // only provide input if enough scanner inputs were provided 
+                // only provide input if enough scanner inputs were provided
                 if (scannerInput != null && scannerInput.length > i) {
                     //System.out.println("writing: " + scannerInput[i]);
                     writer.write(scannerInput[i]);
@@ -128,45 +156,36 @@ public class TestRunner {
                 }
             }
 
-            this.actualOutput = sb.toString();
-
-//        want processes to run sequentially to keep output in order         
-//        basically joins thread to process to force sequential execution
-//        need to be careful - if any process hangs, whole run hangs
-            p.waitFor();
-
-            assert pb.redirectInput() == Redirect.PIPE;
-            assert p.getInputStream().read() == -1;
-        } catch (IOException | InterruptedException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(TestRunner.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return compareResults();
+        return sb.toString();
     }
-    
+
     /**
-     * 
+     *
      * @return int between 0 - 100
      */
-    private int compareResults() {
-        System.out.println("expected: " + expectedOutput);
-        System.out.println("actual: " + actualOutput);
+    private int compareResults(String actual, String expected) {
+        System.out.println("expected: " + expected);
+        System.out.println("actual: " + actual);
 
         String longer;
         String shorter;
 
-        if (expectedOutput.length() > actualOutput.length()) {
-            longer = expectedOutput;
-            shorter = actualOutput;
+        if (expected.length() > actual.length()) {
+            longer = expected;
+            shorter = actual;
         } else {
-            longer = actualOutput;
-            shorter = expectedOutput;
+            longer = actual;
+            shorter = expected;
         }
 
         int longerLength = longer.length();
-        
+
         double similarity = (longerLength - editDistance(longer, shorter)) / (double) longerLength;
-        
+
         return (int) (similarity * 100);
     }
 

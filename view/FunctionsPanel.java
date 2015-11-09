@@ -201,7 +201,7 @@ public class FunctionsPanel extends JPanel {
                 
                 TestRunner testRunner = new TestRunner(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, expectedTestOutput);
                 
-                double similarity = testRunner.testJava();
+                double similarity = testRunner.runAndTestJava();
                 boolean failed = (similarity != 100);
                 
                 appendToTextArea(studentName + " " + similarity + "% similar to expected output", failed);

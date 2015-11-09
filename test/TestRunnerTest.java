@@ -30,7 +30,7 @@ public class TestRunnerTest {
 
     @Test
     public void testTestJava() throws Exception {
-        int similarity = this.runner.testJava();
+        int similarity = this.runner.runAndTestJava();
         assertEquals("test java similarity was not correct", similarity, 100);
     }
 }
