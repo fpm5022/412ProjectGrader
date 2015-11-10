@@ -3,7 +3,7 @@ package view;
 
 import controller.Compiler;
 import controller.XMLSaver;
-import controller.TestRunner;
+import controller.TestRunnerController;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.beans.XMLDecoder;
@@ -199,7 +199,7 @@ public class FunctionsPanel extends JPanel {
                 // remove the .java from the class name
                 String mainClassNameWithoutFileType = mainClassName.substring(0, mainClassName.length() - 5);
                 
-                TestRunner testRunner = new TestRunner(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, expectedTestOutput);
+                TestRunnerController testRunner = new TestRunnerController(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, expectedTestOutput);
                 
                 double similarity = testRunner.runAndTestJava();
                 boolean failed = (similarity != 100);

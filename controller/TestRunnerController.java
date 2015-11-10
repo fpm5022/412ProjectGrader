@@ -15,48 +15,49 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.TestRunnerModel;
 import util.TestTools;
 
-public class TestRunner {
-
-    private final String path;
-    private final String classPath;
-    private String mainClassName;
-    private String[] scannerInput;
-    private String[] commandLineArgs;
-    private String expectedOutput;
-    private String actualOutput;
+public class TestRunnerController {
 
     /*
-     example usage: 
+        @return int percentage similar (0 - 100)
+    */
+    public static int runAndTestJava(TestRunnerModel model) {
+        String actualOutput = "";
+        try {
+            ProcessBuilder pb = buildProcess(model.mainClassName, model.commandLineArgs);
+            setUpEnvironment(pb, model.path, model.classPath);
 
-     String[] scannerInput = {"1", "1"};
-     String[] commandLineArgs = {};
-     TestRunner t = new TestRunner("/Users/Feek/Desktop/compiled/412/", "/Users/Feek/Desktop/compiled/412/smithjq/", "ArrayLoops", commandLineArgs, scannerInput);
-     t.runAndTestJava();
+            pb.redirectErrorStream(true);
 
-     -------------
+            Process p = pb.start();
 
-     path: parent directory of classpath
-     classpath: absolute path containing .class files
-     mainClassName: name of .class file to compile (not containing .class in name)
-     commandLineArgs (OPTIONAL): array of strings to pass as command line args
-     scannerInput (OPTIONAL): array of strings to pass as scanner input 
-     */
-    public TestRunner(String path, String classPath, String mainClassName, String[] commandLineArgs, String[] scannerInput, String expectedOutput) {
-        this.path = path;
-        this.classPath = classPath;
-        this.mainClassName = mainClassName;
-        this.commandLineArgs = commandLineArgs;
-        this.scannerInput = scannerInput;
-        this.expectedOutput = expectedOutput;
+            actualOutput = captureProcessOutput(p, model.scannerInput);
+
+            /*
+             want processes to run sequentially to keep output in order
+             basically joins thread to process to force sequential execution
+             need to be careful - if any process hangs, whole run hangs
+             */
+            p.waitFor();
+
+            assert pb.redirectInput() == Redirect.PIPE;
+            assert p.getInputStream().read() == -1;
+            
+            
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(TestRunnerController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return compareResults(actualOutput, model.expectedOutput);
     }
+    
     /**
-     * 
      * @return ProcessBuilder
      * command will look something like `java ArrayLoops "1" "1"`
      */
-    private ProcessBuilder buildProcess() {
+    public static ProcessBuilder buildProcess(String mainClassName, String[] commandLineArgs) {
         // this args list will contain all arguments to pass to the process builder
         ArrayList<String> args = new ArrayList<>();
 
@@ -74,7 +75,7 @@ public class TestRunner {
 
     // Create environment map and set environmental variables
     // change process builder directory
-    private void setUpEnvironment(ProcessBuilder pb) {
+    public static void setUpEnvironment(ProcessBuilder pb, String path, String classPath) {
         Map<String, String> env = pb.environment();
         env.clear();
         env.put("PATH", path);
@@ -87,38 +88,9 @@ public class TestRunner {
     }
 
     /**
-     *
-     * @return int percentage similar (0 - 100)
+     * captures all of the output of the program and returns the combined string
      */
-    public int runAndTestJava() {
-        try {
-            //
-            ProcessBuilder pb = buildProcess();
-            setUpEnvironment(pb);
-
-            pb.redirectErrorStream(true);
-
-            Process p = pb.start();
-
-            this.actualOutput = captureProcessOutput(p);
-
-            /*
-             want processes to run sequentially to keep output in order
-             basically joins thread to process to force sequential execution
-             need to be careful - if any process hangs, whole run hangs
-             */
-            p.waitFor();
-
-            assert pb.redirectInput() == Redirect.PIPE;
-            assert p.getInputStream().read() == -1;
-        } catch (IOException | InterruptedException ex) {
-            Logger.getLogger(TestRunner.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return compareResults(this.actualOutput, this.expectedOutput);
-    }
-
-    private String captureProcessOutput(Process p) {
+    public static String captureProcessOutput(Process p, String[] scannerInput) {
         StringBuilder sb = new StringBuilder();
         try {
             // these allow communication with program being tested
@@ -142,7 +114,6 @@ public class TestRunner {
 
                 // only provide input if enough scanner inputs were provided
                 if (scannerInput != null && scannerInput.length > i) {
-                    //System.out.println("writing: " + scannerInput[i]);
                     writer.write(scannerInput[i]);
                     writer.newLine();
                     writer.flush();
@@ -155,19 +126,20 @@ public class TestRunner {
                     }
                 }
             }
+            
+            writer.close();
 
         } catch (IOException ex) {
-            Logger.getLogger(TestRunner.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TestRunnerController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return sb.toString();
     }
 
     /**
-     *
      * @return int between 0 - 100
      */
-    private int compareResults(String actual, String expected) {
+    public static int compareResults(String actual, String expected) {
         System.out.println("expected: " + expected);
         System.out.println("actual: " + actual);
 
@@ -191,7 +163,7 @@ public class TestRunner {
 
     // Example implementation of the Levenshtein Edit Distance
     // See http://rosettacode.org/wiki/Levenshtein_distance#Java
-    private int editDistance(String s1, String s2) {
+    private static int editDistance(String s1, String s2) {
         s1 = s1.toLowerCase();
         s2 = s2.toLowerCase();
 
