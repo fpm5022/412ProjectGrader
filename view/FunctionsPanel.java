@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import model.Student;
+import model.TestRunnerModel;
 import model.XMLObject;
 
 public class FunctionsPanel extends JPanel {
@@ -199,9 +200,9 @@ public class FunctionsPanel extends JPanel {
                 // remove the .java from the class name
                 String mainClassNameWithoutFileType = mainClassName.substring(0, mainClassName.length() - 5);
                 
-                TestRunnerController testRunner = new TestRunnerController(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, expectedTestOutput);
+                TestRunnerModel testRunnerModel = new TestRunnerModel(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, expectedTestOutput);
                 
-                double similarity = testRunner.runAndTestJava();
+                double similarity = TestRunnerController.runAndTestJava(testRunnerModel);
                 boolean failed = (similarity != 100);
                 
                 appendToTextArea(studentName + " " + similarity + "% similar to expected output", failed);
