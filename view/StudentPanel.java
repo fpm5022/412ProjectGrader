@@ -1,6 +1,7 @@
 package view;
 
 
+import controller.StudentPanelController;
 import java.awt.Color;
 import static java.awt.Component.LEFT_ALIGNMENT;
 
@@ -9,12 +10,7 @@ import model.Student;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -30,7 +26,7 @@ import model.XMLObject;
 
 public class StudentPanel extends JPanel{
     private final Frame frame;
-    private final ArrayList<Student> students;
+    private ArrayList<Student> students;
     private final ArrayList<JCheckBox> checkboxes;
     private String studentFileLocationAbsolutePath;
     private final String delimiter = ", |\\n"; // delmiter seperating students in students.txt. , and new line
@@ -104,17 +100,11 @@ public class StudentPanel extends JPanel{
     }
     
     private void selectAllClicked(ActionEvent e) {
-        // not optimal, but will do
-        for (JCheckBox box : checkboxes) {
-            box.setSelected(true);
-        }
+        StudentPanelController.selectAllBoxes(this.checkboxes);
     }
     
     private void deselectAllClicked(ActionEvent e) {
-        // not optimal, but will do
-        for (JCheckBox box : checkboxes) {
-            box.setSelected(false);
-        }
+        StudentPanelController.deselectAllBoxes(this.checkboxes);
     }
     
     private void initStudentLocationComponents() {
@@ -138,13 +128,7 @@ public class StudentPanel extends JPanel{
     
     // adds a file chooser accepting .text files and then calls init checkboxes
     private void studentLocationButtonClicked(ActionEvent e) {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        chooser.setDialogType(JFileChooser.OPEN_DIALOG);
-        // only allow text file to be selected
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
-        chooser.setFileFilter(filter);
-        chooser.setDialogTitle("Please select the text file containing students");
+        StudentFileChooser chooser = new StudentFileChooser();
         this.add(chooser);
 
         int val = chooser.showOpenDialog(this);
@@ -161,22 +145,7 @@ public class StudentPanel extends JPanel{
     }
 
     private void importStudents() {
-        try {
-            File file = new File(this.studentFileLocationAbsolutePath);
-            Scanner read = new Scanner (file);
-            read.useDelimiter(delimiter);
-            
-            while(read.hasNext()) {
-                String name = read.next();
-                String handle = read.next();
-                
-                students.add(new Student(name, handle));
-            }
-            
-            read.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(StudentPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.students = StudentPanelController.importStudents(this.studentFileLocationAbsolutePath, this.delimiter);
     }
     
     // loads in the students from the file and displays them along with checkboxes
@@ -198,14 +167,7 @@ public class StudentPanel extends JPanel{
     }
     
     public ArrayList<Student> getSelectedStudents() {
-        // less than optimal way, but it works for now
-        ArrayList<Student> selected = new ArrayList<>();
-        for (int i = 0; i < checkboxes.size(); i++) {
-            if (checkboxes.get(i).isSelected()) {
-                selected.add(students.get(i));
-            }
-        }
-        return selected;
+        return StudentPanelController.getSelectedStudents(this.checkboxes, this.students);
     }
     
 }
