@@ -17,10 +17,23 @@ public class StudentFileChooser extends JFileChooser {
     public StudentFileChooser() {
         this.setFileSelectionMode(JFileChooser.FILES_ONLY);
         this.setDialogType(JFileChooser.OPEN_DIALOG);
-        // only allow text file to be selected
         FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
         this.setFileFilter(filter);
         this.setDialogTitle("Please select the text file containing students");
     }
-        
+    
+    /**
+     * can override this to change where on the screen the chooser is placed
+     * @param parent
+     * @return
+     * @throws HeadlessException 
+     */
+    /*
+    protected JDialog createDialog(Component parent)
+                throws HeadlessException {
+            JDialog dlg = super.createDialog(parent);
+            dlg.setLocation(20, 20);
+            return dlg;
+        }
+        */
 }

@@ -13,7 +13,11 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import model.Student;
+import model.StudentPanelModel;
+import model.XMLObject;
+import view.StudentFileChooser;
 import view.StudentPanel;
 
 /**
@@ -47,8 +51,7 @@ public class StudentPanelController {
         return selected;
     }
 
-    public static ArrayList<Student> importStudents(String studentFileLocationAbsolutePath, String delimiter) {
-        ArrayList<Student> students = new ArrayList();
+    public static void importStudents(String studentFileLocationAbsolutePath, String delimiter, ArrayList<Student> students) {
         try {
             File file = new File(studentFileLocationAbsolutePath);
             Scanner read = new Scanner(file);
@@ -65,8 +68,34 @@ public class StudentPanelController {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(StudentPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        return students;
     }
 
+    // adds a file chooser accepting .text files and then calls init checkboxes
+    public static void studentLocationButtonClicked(StudentPanel studentPanel, StudentPanelModel model) {
+        StudentFileChooser chooser = new StudentFileChooser();
+        studentPanel.add(chooser);
+
+        int val = chooser.showOpenDialog(studentPanel);
+        if (val == JFileChooser.APPROVE_OPTION) {
+            model.studentFileLocationAbsolutePath = chooser.getSelectedFile().getAbsolutePath();
+            studentPanel.studentFileLocationTextField.setText(model.studentFileLocationAbsolutePath);
+            studentPanel.frame.xmlSaver.addValueToWrite("studentFileLocationAbsolutePath", model.studentFileLocationAbsolutePath);
+            studentPanel.initCheckboxes();
+            studentPanel.enableSelectButtons();
+        }
+    }
+    
+    /**
+     * 
+     * @param xmlObject
+     * @param model
+     * @return true if model was updated
+     */
+    public static boolean setDefaults(XMLObject xmlObject, StudentPanelModel model) {
+        if (xmlObject.studentFileLocationAbsolutePath != null) {
+            model.studentFileLocationAbsolutePath = xmlObject.studentFileLocationAbsolutePath;
+            return true;
+        }
+        return false;
+    }
 }

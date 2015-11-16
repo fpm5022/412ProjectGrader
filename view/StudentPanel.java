@@ -1,11 +1,8 @@
 package view;
 
-
 import controller.StudentPanelController;
 import java.awt.Color;
 import static java.awt.Component.LEFT_ALIGNMENT;
-
-
 import model.Student;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -13,11 +10,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import model.StudentPanelModel;
 import model.XMLObject;
 
 /**
@@ -25,27 +20,22 @@ import model.XMLObject;
 **/
 
 public class StudentPanel extends JPanel{
-    private final Frame frame;
-    private ArrayList<Student> students;
+    public final Frame frame;
     private final ArrayList<JCheckBox> checkboxes;
-    private String studentFileLocationAbsolutePath;
-    private final String delimiter = ", |\\n"; // delmiter seperating students in students.txt. , and new line
     private final int X = 10;
     private int y = 10;
     private final int Y_INCREMENT = 20; // space between boxes
     private final int WIDTH;
     private int HEIGHT; // adjusted when students are added
-    private JScrollPane scrollPane;
-    
     private JButton studentLocationButton;
-    private JTextField studentFileLocationTextField;
-    
-    private JButton selectAll;
-    private JButton deselectAll;
+    public JTextField studentFileLocationTextField;
+    public JButton selectAll;
+    public JButton deselectAll;
+    private StudentPanelModel model;
     
     public StudentPanel(Frame frame, XMLObject xmlObject) {
         this.frame = frame;
-        this.students = new ArrayList<>();
+        this.model = new StudentPanelModel();
         this.checkboxes = new ArrayList<>();
         this.WIDTH = frame.WIDTH / 3;
         this.HEIGHT = frame.HEIGHT;
@@ -53,12 +43,10 @@ public class StudentPanel extends JPanel{
         this.setBackground(Color.pink);
         initComponents();
         
-        if (xmlObject.studentFileLocationAbsolutePath != null) {
-            this.studentFileLocationAbsolutePath = xmlObject.studentFileLocationAbsolutePath;
-            this.studentFileLocationTextField.setText(xmlObject.studentFileLocationAbsolutePath);
+        if(StudentPanelController.setDefaults(xmlObject, model)) {
+            this.studentFileLocationTextField.setText(model.studentFileLocationAbsolutePath);
             initCheckboxes();
-            selectAll.setEnabled(true);
-            deselectAll.setEnabled(true);
+            enableSelectButtons();
         }
     }
 
@@ -79,13 +67,13 @@ public class StudentPanel extends JPanel{
         selectAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                selectAllClicked(e);
+                StudentPanelController.selectAllBoxes(checkboxes);
             }
         });
         deselectAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                deselectAllClicked(e);
+                StudentPanelController.deselectAllBoxes(checkboxes);
             }
         });
         
@@ -93,27 +81,19 @@ public class StudentPanel extends JPanel{
         add(deselectAll);
         
         // at this time, no students have been added
-        selectAll.setEnabled(false);
-        deselectAll.setEnabled(false);
+        disableSelectButtons();
         
         y += 40;
-    }
-    
-    private void selectAllClicked(ActionEvent e) {
-        StudentPanelController.selectAllBoxes(this.checkboxes);
-    }
-    
-    private void deselectAllClicked(ActionEvent e) {
-        StudentPanelController.deselectAllBoxes(this.checkboxes);
     }
     
     private void initStudentLocationComponents() {
         studentLocationButton = new JButton("Student File Location");
         studentLocationButton.setBounds(X, y, 150, 30);
+        final StudentPanel self = this;
         studentLocationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                studentLocationButtonClicked(e);
+                StudentPanelController.studentLocationButtonClicked(self, self.model);
             }
         });
         add(studentLocationButton);
@@ -125,34 +105,16 @@ public class StudentPanel extends JPanel{
         
         y += 40;
     }
-    
-    // adds a file chooser accepting .text files and then calls init checkboxes
-    private void studentLocationButtonClicked(ActionEvent e) {
-        StudentFileChooser chooser = new StudentFileChooser();
-        this.add(chooser);
-
-        int val = chooser.showOpenDialog(this);
-        if (val == JFileChooser.APPROVE_OPTION) {
-            this.studentFileLocationAbsolutePath = chooser.getSelectedFile().getAbsolutePath();
-            this.studentFileLocationTextField.setText(this.studentFileLocationAbsolutePath);
-            this.frame.xmlSaver.addValueToWrite("studentFileLocationAbsolutePath", this.studentFileLocationAbsolutePath);
-            initCheckboxes();
-            
-            // enable the buttons now
-            selectAll.setEnabled(true);
-            deselectAll.setEnabled(true);
-        }
-    }
 
     private void importStudents() {
-        this.students = StudentPanelController.importStudents(this.studentFileLocationAbsolutePath, this.delimiter);
+        StudentPanelController.importStudents(model.studentFileLocationAbsolutePath, model.delimiter, model.students);
     }
     
     // loads in the students from the file and displays them along with checkboxes
-    private void initCheckboxes() {
+    public void initCheckboxes() {
         importStudents();
         
-        for(Student s : students) {
+        for(Student s : model.students) {
             JCheckBox box = new JCheckBox(s.getInfo());
             box.setAlignmentY(LEFT_ALIGNMENT);
             box.setBounds(X, y, 200, 15);
@@ -167,7 +129,16 @@ public class StudentPanel extends JPanel{
     }
     
     public ArrayList<Student> getSelectedStudents() {
-        return StudentPanelController.getSelectedStudents(this.checkboxes, this.students);
+        return StudentPanelController.getSelectedStudents(this.checkboxes, model.students);
+    }
+
+    public void enableSelectButtons() {
+        selectAll.setEnabled(true);
+        deselectAll.setEnabled(true);
     }
     
+    public void disableSelectButtons() {
+        selectAll.setEnabled(false);
+        deselectAll.setEnabled(false);
+    }
 }
