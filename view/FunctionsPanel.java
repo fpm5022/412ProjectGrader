@@ -2,7 +2,6 @@ package view;
 
 
 import controller.Compiler;
-import controller.XMLSaver;
 import controller.TestRunnerController;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -43,7 +42,6 @@ public class FunctionsPanel extends JPanel {
         this.compilePathDirectory = "";
         this.sourceCodeDirectory =  "";
         initComponents();
-        pathReader();
         this.setLayout(null); // yolo  Â¯\_(ãƒ„)_/Â¯ 
         this.setVisible(true);
         this.setBackground(Color.pink);
@@ -59,11 +57,6 @@ public class FunctionsPanel extends JPanel {
         this.expectedOutput = new JTextField();
         this.textPanel = new TextPanel();
         this.outputScroller = new JScrollPane(textPanel);
-        
-//        for(int i = 0; i < 100; i++) {
-//            JLabel label = new JLabel("hey");
-//            this.textPanel.addLabel(label);
-//        }
         
         numOfOutputLines = 0;
 
@@ -139,9 +132,6 @@ public class FunctionsPanel extends JPanel {
         });
         
         outputScroller.setVisible(true);
-        //outputScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        //outputScroller.setPreferredSize(new Dimension(10,365));
-        //outputScroller.setMinimumSize(new Dimension(10,365));
         outputScroller.setBounds(10,365,450, 300);
         this.add(outputScroller);
         
@@ -231,21 +221,6 @@ public class FunctionsPanel extends JPanel {
             this.compilePathDirectory = chooser.getSelectedFile().getAbsolutePath() + File.separator; // append trailing slash
             this.compilePathTextField.setText(this.compilePathDirectory);
         }
-    }
-    
-    private void pathReader(){
-//        try{
-//            readPaths = new XMLDecoder(new BufferedInputStream(new FileInputStream("/paths.xml")));
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(FunctionsPanel.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        try{
-//            sourceCodeDirectory = (String)readPaths.readObject();
-//            compilePathDirectory = (String)readPaths.readObject();
-//            frame.batchGUI.getStudentPanel().setStudentFileLocationAbsolutePath((String)readPaths.readObject());
-//            mainClassNameTextField.setText((String)readPaths.readObject());
-//            
-//        } catch (Exception xx) {xx.printStackTrace();}
     }
     
     // if error, output will be red
