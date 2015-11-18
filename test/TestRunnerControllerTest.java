@@ -13,7 +13,7 @@ import org.junit.Test;
 /**
  * Created by Feek on 11/1/15.
  */
-public class TestRunnerTest {
+public class TestRunnerControllerTest {
 
     private TestRunnerModel model;
     private ProcessBuilder pb;
