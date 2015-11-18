@@ -20,7 +20,6 @@ public class TextPanel extends JPanel {
         this.setFont(new java.awt.Font("Tahoma", 0, 14));
         WIDTH = 450;
         HEIGHT = 300;
-        //this.setBounds(10, 365, WIDTH, HEIGHT);
     }
     
     public void addLabel(JLabel l,boolean error){
