@@ -20,8 +20,8 @@ public class TestRunnerTest {
 
     @Before
     public void setUp() throws Exception {
-        String path = "/Users/Feek/Desktop/compiled/412/";
-        String classPath = "/Users/Feek/Desktop/compiled/412/smithjq";
+        String path = "C:\\Users\\hites\\Documents\\New Folder";
+        String classPath = "C:\\Users\\hites\\Documents\\New Folder\\smithjq";
         String mainClassName = "ArrayLoops";
         String[] commandLineArgs = {};
         String[] scannerInput = {"1", "1"};
@@ -59,9 +59,13 @@ public class TestRunnerTest {
     @Test
     public void testCaptureProcessOutput() throws Exception {
         ArrayList<String> args = new ArrayList<>();
-        args.add("ls");
+        args.add("cmd");
+        args.add("/C");
+        args.add("dir");
+
         
         ProcessBuilder pb2 = new ProcessBuilder(args);
+                System.out.println(pb2.command());   
         Process p = pb2.start();
         
         String output = TestRunnerController.captureProcessOutput(p, null);

@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import model.Student;
 import model.TestRunnerModel;
+import model.CompilerModel;
 import model.XMLObject;
 
 public class FunctionsPanel extends JPanel {
@@ -181,9 +182,9 @@ public class FunctionsPanel extends JPanel {
             String studentName = s.getName();
             String compilePath = compilePathDirectory + studentName; // directory to compile into
             String sourcePath = sourceCodeDirectory + File.separator + studentName + File.separator + mainClassName; // what to compile
-
-            Compiler compiler = new Compiler(compilePathDirectory, compilePath, sourcePath);
-            int success = compiler.compileJava();
+            
+            CompilerModel compilerModel = new CompilerModel(compilePathDirectory,compilePath,sourcePath);
+            int success = Compiler.compileJava(compilerModel);
 
             if (success != 0) {
                 appendToTextArea(s.getInfo() + " compile failed: " + success, true);

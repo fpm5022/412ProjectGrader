@@ -7,51 +7,32 @@ import java.lang.ProcessBuilder.Redirect;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.CompilerModel;
+
 
 public class Compiler {
-    private String path;
-    private String classPath;
-    private String sourcePath;
-    private final String outputFileName = "output.txt";
-    private int success;  // Outcome of compilation, success = 0
-    
-    /*
-    Path: 
-    Classpath: directory to compile the resulting .class file into
-    Sourcepath: the absolute path to the .java file to compile into .class
-    */
-    public Compiler(String path, String classPath, String sourcePath) {
-        this.path = path;
-        this.classPath = classPath;
-        this.sourcePath = sourcePath;
-        this.success = 1;
-    }
 
-    public int compileJava() {
+    public static int compileJava(CompilerModel model) {
         try {
-            new File(classPath).mkdir();
+            new File(model.classPath).mkdir();
        
             ProcessBuilder pb
-                    = new ProcessBuilder("javac", sourcePath, "-d", classPath);
-      
-            Map<String, String> env = pb.environment();
-            env.clear();
-            env.put("PATH", path);
-            env.put("CLASSPATH", classPath);
+                    = new ProcessBuilder("javac", model.sourcePath, "-d", model.classPath);
+            
+            
+            model.outputFile = setUpEnv(model, pb);
 
-            File cwd = pb.directory();
-            File outputFile = new File(classPath + "/" + outputFileName);
             pb.redirectErrorStream(true);
-            pb.redirectOutput(Redirect.appendTo(outputFile));
+            pb.redirectOutput(Redirect.appendTo(model.outputFile));
             Process p = pb.start();
 
             //    need other processes to wait for compilation to finish
             //    basically joins the thread to the javac process to force sequential
             //    execution - need to be careful - if any process hangs, whole run hangs
-            success = p.waitFor();
+            model.success = p.waitFor();
 
             assert pb.redirectInput() == Redirect.PIPE;
-            assert pb.redirectOutput().file() == outputFile;
+            assert pb.redirectOutput().file() == model.outputFile;
             assert p.getInputStream().read() == -1;
 
         } catch (IOException ex) {
@@ -59,6 +40,18 @@ public class Compiler {
         } catch (InterruptedException ex) {
             Logger.getLogger(Compiler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return success;
+        return model.success;
     }
+    
+    public static File setUpEnv(CompilerModel model, ProcessBuilder pb){
+            Map<String, String> env = pb.environment();
+            env.clear();
+            env.put("PATH", model.path);
+            env.put("CLASSPATH", model.classPath);
+            
+            File cwd = pb.directory();
+            File outputFile = new File(model.classPath + "/" + model.outputFileName);
+            return outputFile;
+    }
+    
 }
