@@ -21,17 +21,20 @@ import model.XMLObject;
 
 public class StudentPanel extends JPanel{
     public final Frame frame;
-    private final ArrayList<JCheckBox> checkboxes;
+    public final ArrayList<JCheckBox> checkboxes;
     private final int X = 10;
-    private int y = 10;
+    public int Y = 10;
+    public final int INITIAL_Y = 10; // used in cases of resetting students
     private final int Y_INCREMENT = 20; // space between boxes
     private final int WIDTH;
-    private int HEIGHT; // adjusted when students are added
+    public int HEIGHT; // adjusted when students are added
+    public final int INITIAL_HEIGHT; // used in cases of resetting students
+    public final int BUTTON_PADDING = 90; // used in cases of resetting students
     private JButton studentLocationButton;
     public JTextField studentFileLocationTextField;
     public JButton selectAll;
     public JButton deselectAll;
-    private StudentPanelModel model;
+    private final StudentPanelModel model;
     
     public StudentPanel(Frame frame, XMLObject xmlObject) {
         this.frame = frame;
@@ -39,6 +42,7 @@ public class StudentPanel extends JPanel{
         this.checkboxes = new ArrayList<>();
         this.WIDTH = frame.WIDTH / 3;
         this.HEIGHT = frame.HEIGHT;
+        this.INITIAL_HEIGHT = HEIGHT;
         this.setLayout(null);
         this.setBackground(Color.pink);
         initComponents();
@@ -61,8 +65,8 @@ public class StudentPanel extends JPanel{
         selectAll = new JButton("Select All");
         deselectAll = new JButton("Deselect All");
         
-        selectAll.setBounds(X, y, 100, 30);
-        deselectAll.setBounds(X + 110, y, 100, 30);
+        selectAll.setBounds(X, Y, 100, 30);
+        deselectAll.setBounds(X + 110, Y, 100, 30);
         
         selectAll.addActionListener(new ActionListener() {
             @Override
@@ -83,12 +87,12 @@ public class StudentPanel extends JPanel{
         // at this time, no students have been added
         disableSelectButtons();
         
-        y += 40;
+        Y += 40;
     }
     
     private void initStudentLocationComponents() {
         studentLocationButton = new JButton("Student File Location");
-        studentLocationButton.setBounds(X, y, 150, 30);
+        studentLocationButton.setBounds(X, Y, 150, 30);
         final StudentPanel self = this;
         studentLocationButton.addActionListener(new ActionListener() {
             @Override
@@ -99,14 +103,15 @@ public class StudentPanel extends JPanel{
         add(studentLocationButton);
         
         studentFileLocationTextField = new JTextField();
-        studentFileLocationTextField.setBounds(X + 165, y, 150, 30);
+        studentFileLocationTextField.setBounds(X + 165, Y, 150, 30);
         studentFileLocationTextField.setEnabled(false);
         add(studentFileLocationTextField);
         
-        y += 40;
+        Y += 40;
     }
 
     private void importStudents() {
+        StudentPanelController.clearStudents(this, this.model);
         StudentPanelController.importStudents(model.studentFileLocationAbsolutePath, model.delimiter, model.students);
     }
     
@@ -117,13 +122,13 @@ public class StudentPanel extends JPanel{
         for(Student s : model.students) {
             JCheckBox box = new JCheckBox(s.getInfo());
             box.setAlignmentY(LEFT_ALIGNMENT);
-            box.setBounds(X, y, 200, 15);
-            this.y += Y_INCREMENT;
+            box.setBounds(X, Y, 200, 15);
+            this.Y += Y_INCREMENT;
             this.add(box);
             checkboxes.add(box);
         }
         
-        this.HEIGHT = y; // update height of panel so scrolling can happen
+        this.HEIGHT = Y; // update height of panel so scrolling can happen
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.revalidate();
     }
