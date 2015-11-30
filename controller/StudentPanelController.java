@@ -98,4 +98,22 @@ public class StudentPanelController {
         }
         return false;
     }
+
+    /**
+     * takes care of cleaning up the students and their labels etc. Used in case
+     * different student file is selected after already selecting one
+     * @param panel
+     * @param model 
+     */
+    public static void clearStudents(StudentPanel panel, StudentPanelModel model) {
+        for(JCheckBox box : panel.checkboxes) {
+            panel.remove(box);
+        }
+        panel.HEIGHT = panel.INITIAL_HEIGHT;
+        panel.Y = panel.INITIAL_Y + panel.BUTTON_PADDING;
+        panel.checkboxes.clear();
+        model.students.clear();
+        panel.revalidate();
+        panel.repaint();
+    }
 }

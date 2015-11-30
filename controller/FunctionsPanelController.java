@@ -13,6 +13,7 @@ import model.Student;
 import model.TestRunnerModel;
 import view.FunctionsPanel;
 import view.SourceDirectoryFileChooser;
+import worker.CompileAndTestWorker;
 
 public class FunctionsPanelController {
 
@@ -51,22 +52,24 @@ public class FunctionsPanelController {
         }
     }
 
+    /**
+     * boots up a new swing worker to compile the students code. if the code compiles, it is then
+     * tested. Also saves the settings
+     * @param panel
+     * @param model
+     * @param selectedStudents 
+     */
     public static void compileActionPerformed(FunctionsPanel panel, FunctionsPanelModel model, ArrayList<Student> selectedStudents) {
         // loop through selected students and start compiling
         for (Student s : selectedStudents) {
             String studentName = s.getName();
-            String compilePath = model.compilePathDirectory + studentName; // directory to compile into
+            String compilePath = FunctionsPanelController.getStudentCompilePath(model, s);
+            
             String sourcePath = model.sourceCodeDirectory + File.separator + studentName + File.separator + model.mainClassName; // what to compile
 
             CompilerModel compilerModel = new CompilerModel(model.compilePathDirectory, compilePath, sourcePath);
-            int success = Compiler.compileJava(compilerModel);
-
-            if (success != 0) {
-                panel.appendToTextArea(s.getInfo() + " compile failed: " + success, true);
-            } else {
-                panel.appendToTextArea(s.getInfo() + " compile success", false);
-                FunctionsPanelController.testCode(model, panel, studentName, compilePath);
-            }
+            CompileAndTestWorker worker = new CompileAndTestWorker(panel, compilerModel, model, s);
+            worker.execute();
         }
         
         // save the settings...
@@ -76,7 +79,7 @@ public class FunctionsPanelController {
         panel.frame.xmlSaver.addValueToWrite("expectedOutput", model.expectedTestOutput);
     }
 
-    private static void testCode(FunctionsPanelModel model, FunctionsPanel panel, String studentName, String compilePath) {
+    public static void testCode(FunctionsPanelModel model, FunctionsPanel panel, String studentName, String compilePath) {
         // command line args should be a CSV. We need to parse that into an array.
         // this will split on zero or more whitespace, a literal comma, zero or more whitespace
         String[] splitCommandLineArgs = model.commandLineArguments.split("\\s*,\\s*");
@@ -91,6 +94,11 @@ public class FunctionsPanelController {
         boolean failed = (similarity != 100);
 
         panel.appendToTextArea(studentName + " " + similarity + "% similar to expected output", failed);
+    }
+
+    // directory to compile into
+    public static String getStudentCompilePath(FunctionsPanelModel model, Student student) {
+        return model.compilePathDirectory + student.getName();
     }
 
 }
