@@ -1,38 +1,23 @@
 package view;
 
 import controller.FunctionsPanelController;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.beans.XMLDecoder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.SwingWorker;
 import model.FunctionsPanelModel;
 import model.XMLObject;
-import worker.CompileAndTestWorker;
-
-
-
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-
-
-
-
-
 
 public class FunctionsPanel extends JPanel {
     public final Frame frame;
@@ -50,46 +35,26 @@ public class FunctionsPanel extends JPanel {
     XMLDecoder readPaths;
     public FunctionsPanelModel model;
     private final FunctionsPanel self;
-    Font myFont = new Font("Century Schoolbook", Font.BOLD, 50);
-    Font myFont2 = new Font("Century Schoolbook", Font.PLAIN, 14);
-    
-    Border thickBorder = new LineBorder(Color.decode("#4B0082"), 3);
-    
-    
-   
-     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        int w = getWidth();
-        int h = getHeight();
-        Color color1 = Color.decode("#60DFE5");
-        Color color2 = Color.WHITE;
-        GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
-        g2d.setPaint(gp);
-        g2d.fillRect(0, 0, w, h);
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    private final Font myFont;
+    private final Font myFont2;
+    private final Border thickBorder;
+
     public FunctionsPanel(Frame frame, XMLObject xmlObject) {
         this.frame = frame;
         this.model = new FunctionsPanelModel();
         this.self = this;
         model.setDefaults(xmlObject);
+        myFont = new Font("Century Schoolbook", Font.BOLD, 50);
+        myFont2 = new Font("Century Schoolbook", Font.PLAIN, 14);
+        thickBorder = new LineBorder(Color.decode("#4B0082"), 3);
         initComponents();
         this.setLayout(null);
         this.setVisible(true);
-        //this.setBackground(Color.decode("#60DFE5"));
     }
 
+    /**
+     * Initializes and adds all components
+     */
     private void initComponents() {
         this.compilePathButton = new JButton();
         this.sourceDirectoryButton = new JButton();
@@ -189,9 +154,27 @@ public class FunctionsPanel extends JPanel {
         FunctionsPanelController.compileActionPerformed(self, model, frame.batchGUI.getSelectedStudents());
     }
     
-    // if error, output will be red
+    /**
+     * Wrapper for adding a label to the text panel
+     * @param message
+     * @param error if true, output will be red
+     */
     public void appendToTextArea(String message, boolean error) {
         JLabel text = new JLabel(message + "\n");
         textPanel.addLabel(text,error);
+    }
+    
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        int w = getWidth();
+        int h = getHeight();
+        Color color1 = Color.decode("#60DFE5");
+        Color color2 = Color.WHITE;
+        GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
+        g2d.setPaint(gp);
+        g2d.fillRect(0, 0, w, h);
     }
 }
