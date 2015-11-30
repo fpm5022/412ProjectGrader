@@ -6,6 +6,10 @@ import java.io.File;
  *
  * @author hites
  */
+
+/**
+ * This struct holds all data necessary to compile a students code
+ */
 public class CompilerModel {
     public String path;
     public String classPath;
@@ -15,9 +19,9 @@ public class CompilerModel {
     public File outputFile;
     
     public CompilerModel(String path, String classPath, String sourcePath) {
-    this.path = path;
-    this.classPath = classPath;
-    this.sourcePath = sourcePath;
-    this.success = 1;
+        this.path = path;
+        this.classPath = classPath;
+        this.sourcePath = sourcePath;
+        this.success = 1;
     }
 }
