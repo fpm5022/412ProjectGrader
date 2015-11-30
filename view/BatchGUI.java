@@ -1,6 +1,5 @@
 package view;
 
-
 import model.Student;
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -11,15 +10,13 @@ import model.XMLObject;
 @author Feek <feek@psu.edu>
 **/
 
-
 public class BatchGUI extends JPanel {
     private final Frame frame;
     private StudentPanel studentPanel;
     private JScrollPane scrollPane;
     private FunctionsPanel functionsPanel;
-    private XMLObject xmlObject;
-    
-    private int scrollPaneWidth;
+    private final XMLObject xmlObject;
+    private final int scrollPaneWidth;
     
     public BatchGUI(Frame frame, XMLObject xmlObject) {
         this.frame = frame;
@@ -46,8 +43,7 @@ public class BatchGUI extends JPanel {
     returns info regarding which students have been selected in the student panel
     */
     public ArrayList<Student> getSelectedStudents() {
-        ArrayList<Student> selected = studentPanel.getSelectedStudents();
-        return selected;
+        return studentPanel.getSelectedStudents();
     }
 
 }
