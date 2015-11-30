@@ -2,9 +2,12 @@ package view;
 
 import controller.StudentPanelController;
 import java.awt.Color;
-import static java.awt.Component.LEFT_ALIGNMENT;
-import model.Student;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -12,9 +15,15 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import model.Student;
 import model.StudentPanelModel;
 import model.XMLObject;
+import view.Frame;
 
+
+   
 /**
 @author Feek <feek@psu.edu>
 **/
@@ -35,6 +44,9 @@ public class StudentPanel extends JPanel{
     public JButton selectAll;
     public JButton deselectAll;
     private final StudentPanelModel model;
+    
+    Font myFont2 = new Font("Century Schoolbook", Font.PLAIN, 14);
+    Border thickBorder = new LineBorder(Color.decode("#4B0082"), 3);
     
     public StudentPanel(Frame frame, XMLObject xmlObject) {
         this.frame = frame;
@@ -65,8 +77,11 @@ public class StudentPanel extends JPanel{
         selectAll = new JButton("Select All");
         deselectAll = new JButton("Deselect All");
         
-        selectAll.setBounds(X, Y, 100, 30);
-        deselectAll.setBounds(X + 110, Y, 100, 30);
+        selectAll.setBounds(X, Y, 120, 30);
+        selectAll.setFont(myFont2);
+        selectAll.setBorder(thickBorder);
+        deselectAll.setBounds(X + 130, Y, 120, 30);
+        deselectAll.setFont(myFont2);
         
         selectAll.addActionListener(new ActionListener() {
             @Override
@@ -93,6 +108,9 @@ public class StudentPanel extends JPanel{
     private void initStudentLocationComponents() {
         studentLocationButton = new JButton("Student File Location");
         studentLocationButton.setBounds(X, Y, 150, 30);
+        studentLocationButton.setFont(myFont2);
+        studentLocationButton.setBorder(thickBorder);
+        
         final StudentPanel self = this;
         studentLocationButton.addActionListener(new ActionListener() {
             @Override
@@ -145,5 +163,19 @@ public class StudentPanel extends JPanel{
     public void disableSelectButtons() {
         selectAll.setEnabled(false);
         deselectAll.setEnabled(false);
+    }
+    
+     @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        int w = getWidth();
+        int h = getHeight();
+        Color color1 = Color.decode("#60DFE5");
+        Color color2 = Color.WHITE;
+        GradientPaint gp = new GradientPaint(0, 0, color1, 0, h, color2);
+        g2d.setPaint(gp);
+        g2d.fillRect(0, 0, w, h);
     }
 }

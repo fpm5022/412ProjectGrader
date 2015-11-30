@@ -5,6 +5,7 @@
  */
 package view;
 
+import java.awt.Font;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -14,12 +15,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class StudentFileChooser extends JFileChooser {
     
+    
+
+    
     public StudentFileChooser() {
         this.setFileSelectionMode(JFileChooser.FILES_ONLY);
         this.setDialogType(JFileChooser.OPEN_DIALOG);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
         this.setFileFilter(filter);
         this.setDialogTitle("Please select the text file containing students");
+
     }
     
     /**
