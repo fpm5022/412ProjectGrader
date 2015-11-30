@@ -1,6 +1,5 @@
 package view;
 
-
 import controller.XMLReader;
 import controller.XMLSaver;
 import java.io.File;
@@ -15,7 +14,6 @@ import model.XMLObject;
 **/
 
 public class Frame extends JFrame {
-    
     public final int WIDTH = 1080;
     public final int HEIGHT = 720;
     public BatchGUI batchGUI;
@@ -24,30 +22,55 @@ public class Frame extends JFrame {
     
     public Frame() {
         super("Project Grader");
-        
-        setLayoutFeel("Nimbus");
-        
-        setLayout(null);
-        
-        setSize(WIDTH, HEIGHT);
-        setVisible(true);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
-        
+        initializeFrameSettings();
+        XMLObject xmlObject = initializeXMLObject();
+        initializeAndAddBatchGUI(xmlObject);
+    }
+    
+    /**
+     * Creates an instance of batch gui and adds it to the frame
+     * @param xmlObject 
+     */
+    private void initializeAndAddBatchGUI(XMLObject xmlObject) {
+        this.batchGUI = new BatchGUI(this, xmlObject);
+        add(batchGUI);
+        validate();
+        repaint();
+    }
+    
+    /**
+     * Initialize the xml reader / saver and load saved settings into the xml object
+     * 
+     * will return an instance of XMLObject containing all of the previously saved settings
+     */
+    private XMLObject initializeXMLObject() {
         String xmlFileLocation = new File("").getAbsolutePath();
         this.xmlReader = new XMLReader(xmlFileLocation + "/paths.xml");
         XMLObject xmlObject = xmlReader.getObject();
         this.xmlSaver = new XMLSaver(xmlFileLocation, xmlObject);
         Runtime.getRuntime().addShutdownHook(new Thread(this.xmlSaver));
         
-        this.batchGUI = new BatchGUI(this, xmlObject);
-        add(batchGUI);
-        
-        validate();
-        repaint();
+        return xmlObject;
     }
     
+    /**
+     * Sets settings on the frame like size etc.
+     */
+    private void initializeFrameSettings() {
+        setLayoutFeel("Nimbus");
+        setLayout(null);
+        setSize(WIDTH, HEIGHT);
+        setVisible(true);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
+    }
+    
+    /**
+     * Swaps out what panel is visible on the frame
+     * @param remove
+     * @param add 
+     */
     public void swap(JPanel remove, JPanel add) {
         this.remove(remove);
         this.add(add);
@@ -55,6 +78,10 @@ public class Frame extends JFrame {
         this.repaint();
     }
     
+    /**
+     * Changes the swing look and feel, falls back to cross platform
+     * @param s 
+     */
     private void setLayoutFeel(String s) {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
