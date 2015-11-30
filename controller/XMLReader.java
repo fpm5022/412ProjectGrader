@@ -7,10 +7,11 @@ package controller;
 import java.beans.XMLDecoder;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.XMLObject;
 
+/**
+ * This class reads in from the saved xml file and loads everything into the xmlobject
+ */
 public class XMLReader {
     private XMLDecoder decoder;
     private XMLObject object;
