@@ -4,6 +4,9 @@
 
 package model;
 
+/**
+ * This struct holds all data necessary for the functions panel to operate correctly.
+ */
 public class FunctionsPanelModel {
     public String compilePathDirectory; // directory to compile code into
     public String sourceCodeDirectory; // directory source code resides
@@ -11,6 +14,10 @@ public class FunctionsPanelModel {
     public String mainClassName;
     public String commandLineArguments;
 
+    /**
+     * Reads from the loading xmlobject and sets field values depending on if the field exists
+     * in the xmlobject or not.
+     */
     public void setDefaults(XMLObject xmlObject) {
         if (xmlObject.sourceCodeDirectory != null) {
             sourceCodeDirectory = xmlObject.sourceCodeDirectory;
