@@ -4,6 +4,10 @@
 
 package model;
 
+/**
+ * This struct is used for holding all data necessary to run a test
+ */
+
 public class TestRunnerModel {
     public final String path;
     public final String classPath;
@@ -18,7 +22,6 @@ public class TestRunnerModel {
      String[] scannerInput = {"1", "1"};
      String[] commandLineArgs = {};
      TestRunnerModel t = new TestRunnerModel("/Users/Feek/Desktop/compiled/412/", "/Users/Feek/Desktop/compiled/412/smithjq/", "ArrayLoops", commandLineArgs, scannerInput);
-     t.runAndTestJava();
 
      -------------
 
