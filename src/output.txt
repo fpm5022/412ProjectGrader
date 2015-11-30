@@ -1,0 +1,6 @@
+javac: invalid flag: C:\Users\hites\Documents\New Folder
+Usage: javac <options> <source files>
+use -help for a list of possible options
+javac: invalid flag: C:\Users\hites\Documents\New Folder
+Usage: javac <options> <source files>
+use -help for a list of possible options

@@ -121,7 +121,6 @@ public class FunctionsPanel extends JPanel {
      The action listener when the compile button is pressed
      */
     private void runCompileActionPerformed(ActionEvent evt) {
-
         model.mainClassName = mainClassNameTextField.getText();
         model.commandLineArguments = cmdLnArg.getText();
         model.expectedTestOutput = expectedOutput.getText();

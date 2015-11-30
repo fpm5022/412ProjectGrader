@@ -19,9 +19,9 @@ public class Compiler {
             ProcessBuilder pb
                     = new ProcessBuilder("javac", model.sourcePath, "-d", model.classPath);
             
-            
-            model.outputFile = setUpEnv(model, pb);
-
+            setUpEnv(model, pb);
+            model.outputFile = fileSetUp(model,pb);
+           
             pb.redirectErrorStream(true);
             pb.redirectOutput(Redirect.appendTo(model.outputFile));
             Process p = pb.start();
@@ -43,12 +43,14 @@ public class Compiler {
         return model.success;
     }
     
-    public static File setUpEnv(CompilerModel model, ProcessBuilder pb){
+    public static void setUpEnv(CompilerModel model, ProcessBuilder pb){
             Map<String, String> env = pb.environment();
             env.clear();
             env.put("PATH", model.path);
             env.put("CLASSPATH", model.classPath);
-            
+    }
+    
+    public static File fileSetUp(CompilerModel model, ProcessBuilder pb){
             File cwd = pb.directory();
             File outputFile = new File(model.classPath + "/" + model.outputFileName);
             return outputFile;

@@ -22,6 +22,7 @@ import model.XMLObject;
 public class StudentPanel extends JPanel{
     public final Frame frame;
     public final ArrayList<JCheckBox> checkboxes;
+
     private final int X = 10;
     public int Y = 10;
     public final int INITIAL_Y = 10; // used in cases of resetting students
@@ -110,8 +111,12 @@ public class StudentPanel extends JPanel{
         Y += 40;
     }
 
+//    private void importStudents() {
+//        StudentPanelController.clearStudents(this, this.model);
+//        y += 40;
+//    }
+
     private void importStudents() {
-        StudentPanelController.clearStudents(this, this.model);
         StudentPanelController.importStudents(model.studentFileLocationAbsolutePath, model.delimiter, model.students);
     }
     
