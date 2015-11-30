@@ -28,11 +28,8 @@ public class TestRunnerController {
         try {
             ProcessBuilder pb = buildProcess(model.mainClassName, model.commandLineArgs);
             setUpEnvironment(pb, model.path, model.classPath);
-
             pb.redirectErrorStream(true);
-
             Process p = pb.start();
-
             actualOutput = captureProcessOutput(p, model.scannerInput);
 
             /*
@@ -44,8 +41,6 @@ public class TestRunnerController {
 
             assert pb.redirectInput() == Redirect.PIPE;
             assert p.getInputStream().read() == -1;
-            
-            
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(TestRunnerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -54,6 +49,8 @@ public class TestRunnerController {
     }
     
     /**
+     * @param mainClassName
+     * @param commandLineArgs
      * @return ProcessBuilder
      * command will look something like `java ArrayLoops "1" "1"`
      */
@@ -89,6 +86,9 @@ public class TestRunnerController {
 
     /**
      * captures all of the output of the program and returns the combined string
+     * @param p process
+     * @param scannerInput
+     * @return string output
      */
     public static String captureProcessOutput(Process p, String[] scannerInput) {
         StringBuilder sb = new StringBuilder();
@@ -137,6 +137,8 @@ public class TestRunnerController {
     }
 
     /**
+     * @param actual
+     * @param expected
      * @return int between 0 - 100
      */
     public static int compareResults(String actual, String expected) {
