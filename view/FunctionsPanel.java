@@ -9,11 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import model.Student;
-import model.TestRunnerModel;
-import model.CompilerModel;
+import javax.swing.SwingWorker;
 import model.FunctionsPanelModel;
 import model.XMLObject;
+import worker.CompileAndTestWorker;
 
 public class FunctionsPanel extends JPanel {
     public final Frame frame;

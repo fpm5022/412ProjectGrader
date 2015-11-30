@@ -140,9 +140,6 @@ public class TestRunnerController {
      * @return int between 0 - 100
      */
     public static int compareResults(String actual, String expected) {
-        System.out.println("expected: " + expected);
-        System.out.println("actual: " + actual);
-
         String longer;
         String shorter;
 
