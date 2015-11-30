@@ -70,17 +70,7 @@ public class FunctionsPanelController {
             CompilerModel compilerModel = new CompilerModel(model.compilePathDirectory, compilePath, sourcePath);
             CompileAndTestWorker worker = new CompileAndTestWorker(panel, compilerModel, model, s);
             worker.execute();
-
-            int success = Compiler.compileJava(compilerModel);
-
-            if (success != 0) {
-                panel.appendToTextArea(s.getInfo() + " compile failed: " + success, true);
-            } else {
-                panel.appendToTextArea(s.getInfo() + " compile success", false);
-                FunctionsPanelController.testCode(model, panel, studentName, compilePath);
-            }
-        }
-        
+       
         // save the settings...
         panel.frame.xmlSaver.addValueToWrite("mainClassName", model.mainClassName);
         panel.frame.xmlSaver.addValueToWrite("compilePathDirectory", model.compilePathDirectory);

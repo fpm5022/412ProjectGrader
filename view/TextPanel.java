@@ -16,7 +16,7 @@ public class TextPanel extends JPanel {
         this.setVisible(true);
         this.setBackground(Color.white);
         this.setLayout(null);
-        this.setFont(new java.awt.Font("Tahoma", 0, 14));
+        this.setFont(new java.awt.Font("Century Schoolbook", 0, 14));
         WIDTH = 450;
         HEIGHT = 300;
     }
