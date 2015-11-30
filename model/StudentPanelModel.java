@@ -6,6 +6,9 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * This struct holds data necessary for the student panel to function
+ */
 public class StudentPanelModel {
     public ArrayList<Student> students;
     public String studentFileLocationAbsolutePath;
