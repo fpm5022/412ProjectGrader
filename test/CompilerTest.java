@@ -6,7 +6,6 @@
 package test;
 
 import controller.Compiler;
-import controller.TestRunnerController;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -49,7 +48,8 @@ public class CompilerTest {
         Properties prop = new Properties();
         InputStream input;
         try {
-            input = new FileInputStream("test.properties");
+            String url = "/Users/Feek/repos/412ProjectGrader/test/test.properties";
+            input = new FileInputStream(url);
                prop.load(input);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(CompilerTest.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,8 +58,8 @@ public class CompilerTest {
         }
               
         String path = prop.getProperty("path");
-        String sourcePath = prop.getProperty("sourcepath");
         String classPath = prop.getProperty("classPath");
+        String sourcePath = prop.getProperty("sourcePath");
         this.model = new CompilerModel(path, classPath, sourcePath);
         this.pb = new ProcessBuilder();
     }
@@ -73,12 +73,10 @@ public class CompilerTest {
      */
     @Test
     public void testCompileJava() {
-        System.out.println("compileJava");
         int expResult = 0;
+        System.out.println(model.sourcePath);
         int result = Compiler.compileJava(model);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -95,14 +93,10 @@ public class CompilerTest {
     
     @Test
     public void testFileSetUp(){
-        System.out.println("fileSetUp");
         File file = Compiler.fileSetUp(model, pb);
         assertNotNull(file);
-        String expResult = model.classPath + "/" + model.outputFileName;
+        String expResult = model.classPath + model.outputFileName;
         String result = file.getPath();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-    
 }

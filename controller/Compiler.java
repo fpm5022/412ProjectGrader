@@ -15,7 +15,8 @@ public class Compiler {
     public static int compileJava(CompilerModel model) {
         try {
             new File(model.classPath).mkdir();
-       
+            
+            System.out.println(model.sourcePath);
             ProcessBuilder pb
                     = new ProcessBuilder("javac", model.sourcePath, "-d", model.classPath);
             
