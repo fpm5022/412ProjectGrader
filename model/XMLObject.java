@@ -14,4 +14,5 @@ public class XMLObject {
     public String compilePathDirectory;
     public String sourceCodeDirectory;
     public String expectedOutput;
+    public String commandLineArguments;
 }

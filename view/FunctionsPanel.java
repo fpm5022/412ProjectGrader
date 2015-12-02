@@ -110,10 +110,9 @@ public class FunctionsPanel extends JPanel {
         compilePathTextField.setFont(myFont2);
         this.add(compilePathTextField);
 
-        cmdLnArg.setText("Command Line Arguments");
+        cmdLnArg.setText(model.commandLineArguments);
         cmdLnArg.setFont(myFont2);
         cmdLnArg.setBounds(10, 250, 300, 30);
-        cmdLnArg.setEnabled(false);
         this.add(cmdLnArg);
         
         expectedOutput.setText(model.expectedTestOutput);
