@@ -72,11 +72,8 @@ public class FunctionsPanelController {
             worker.execute();
         }
         
-        // save the settings...
-        panel.frame.xmlSaver.addValueToWrite("mainClassName", model.mainClassName);
-        panel.frame.xmlSaver.addValueToWrite("compilePathDirectory", model.compilePathDirectory);
-        panel.frame.xmlSaver.addValueToWrite("sourceCodeDirectory", model.sourceCodeDirectory);
-        panel.frame.xmlSaver.addValueToWrite("expectedOutput", model.expectedTestOutput);
+        // save the settings used in this run
+        FunctionsPanelController.saveSettings(panel.frame.xmlSaver, model);
     }
 
     public static void testCode(FunctionsPanelModel model, FunctionsPanel panel, String studentName, String compilePath) {
@@ -99,6 +96,19 @@ public class FunctionsPanelController {
     // directory to compile into
     public static String getStudentCompilePath(FunctionsPanelModel model, Student student) {
         return model.compilePathDirectory + student.getName();
+    }
+
+    /**
+     * wrapper to assign settings to be saved when the program closes
+     * @param xmlSaver
+     * @param model 
+     */
+    private static void saveSettings(XMLSaver xmlSaver, FunctionsPanelModel model) {
+        xmlSaver.addValueToWrite("mainClassName", model.mainClassName);
+        xmlSaver.addValueToWrite("compilePathDirectory", model.compilePathDirectory);
+        xmlSaver.addValueToWrite("sourceCodeDirectory", model.sourceCodeDirectory);
+        xmlSaver.addValueToWrite("expectedOutput", model.expectedTestOutput);
+        xmlSaver.addValueToWrite("commandLineArguments", model.commandLineArguments);
     }
 
 }

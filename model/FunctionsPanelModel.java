@@ -42,5 +42,11 @@ public class FunctionsPanelModel {
         } else {
             mainClassName = "Name of java class to compile (include .java)";
         }
+        
+        if (xmlObject.commandLineArguments != null) {
+            commandLineArguments = xmlObject.commandLineArguments;
+        } else {
+            commandLineArguments = "CSV Command Line Arguments";
+        }
     }
 }
