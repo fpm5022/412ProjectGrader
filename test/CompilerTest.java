@@ -8,7 +8,14 @@ package test;
 import controller.Compiler;
 import controller.TestRunnerController;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static junit.framework.Assert.assertEquals;
 import model.CompilerModel;
 import org.junit.After;
@@ -38,9 +45,21 @@ public class CompilerTest {
     
     @Before
     public void setUp() {
-        String path = "C:\\Users\\hites\\Documents\\GitHub\\412ProjectGrader\\src";
-        String sourcePath = "C:\\Users\\hites\\Documents\\New Folder";
-        String classPath = "C:\\Users\\hites\\Documents\\GitHub\\412ProjectGrader\\src";
+        
+        Properties prop = new Properties();
+        InputStream input;
+        try {
+            input = new FileInputStream("test.properties");
+               prop.load(input);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CompilerTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CompilerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+              
+        String path = prop.getProperty("path");
+        String sourcePath = prop.getProperty("sourcepath");
+        String classPath = prop.getProperty("classPath");
         this.model = new CompilerModel(path, classPath, sourcePath);
         this.pb = new ProcessBuilder();
     }
