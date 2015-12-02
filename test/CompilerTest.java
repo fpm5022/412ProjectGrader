@@ -68,13 +68,9 @@ public class CompilerTest {
     @Test
     public void testSetUpEnv() {
         Compiler.setUpEnv(model, pb);
-        String expResult = pb.directory().getAbsolutePath();
-        System.out.println(expResult);
-        String result = model.classPath;
-        assertEquals("process builder is not in the correct directory", expResult,result);
         Map env = pb.environment();
         
-//        assertEquals("path was not set properly", env.get("PATH"), model.path);
+        assertEquals("path was not set properly", env.get("PATH"), model.path);
         assertEquals("classpath was not set properly", env.get("CLASSPATH"), model.classPath);
     }
     
