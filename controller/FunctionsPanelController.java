@@ -81,7 +81,7 @@ public class FunctionsPanelController {
 
     public static void testCode(FunctionsPanelModel model, FunctionsPanel panel, String studentName, String compilePath) {
         // command line args should be a CSV. We need to parse that into an array.
-        // this will split on zero or more whitespace, a literal comma, zero or more whitespace
+        // splits on commas
         String[] splitCommandLineArgs = model.commandLineArguments.split("\\s*,\\s*");
         String[] scannerInput = {"1", "1"}; // to do
 

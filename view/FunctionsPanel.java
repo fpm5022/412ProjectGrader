@@ -113,7 +113,6 @@ public class FunctionsPanel extends JPanel {
         cmdLnArg.setText("Command Line Arguments");
         cmdLnArg.setFont(myFont2);
         cmdLnArg.setBounds(10, 250, 300, 30);
-        cmdLnArg.setEnabled(false);
         this.add(cmdLnArg);
         
         expectedOutput.setText(model.expectedTestOutput);
