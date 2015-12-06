@@ -21,9 +21,8 @@ import javax.swing.border.LineBorder;
 
 public class FunctionsPanel extends JPanel {
     public final Frame frame;
-    private JButton compilePathButton, sourceDirectoryButton, compileAndTestButton;;
-    public JTextField sourceDirectoryTextField;
-    private JTextField cmdLnArg, expectedOutput, compilePathTextField, mainClassNameTextField;
+    private JButton compilePathButton, sourceDirectoryButton, compileAndTestButton, clearOutputButton;
+    public JTextField sourceDirectoryTextField, cmdLnArg, expectedOutput, compilePathTextField, mainClassNameTextField;
     private JScrollPane outputScroller;
     private TextPanel textPanel;
     public XMLDecoder readPaths;
@@ -52,6 +51,7 @@ public class FunctionsPanel extends JPanel {
     private void initComponents() {
         this.compilePathButton = new JButton();
         this.sourceDirectoryButton = new JButton();
+        this.clearOutputButton = new JButton("Clear Output Area");
         this.sourceDirectoryTextField = new JTextField();
         this.jLabel1 = new JLabel();
         this.compileAndTestButton = new JButton();
@@ -133,6 +133,15 @@ public class FunctionsPanel extends JPanel {
         mainClassNameTextField.setBounds(230, 200, 400, 30);
         mainClassNameTextField.setFont(myFont2);
         this.add(mainClassNameTextField);
+        
+        clearOutputButton.setFont(myFont2);
+        clearOutputButton.setBounds(500, 405, 150, 30);
+        clearOutputButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FunctionsPanelController.clearOutputArea(textPanel);
+            }
+        });
+        this.add(clearOutputButton);
     }
 
     /*

@@ -11,6 +11,8 @@ public class TextPanel extends JPanel {
     private final int Y_INCREMENT = 25; // space between boxes
     private int WIDTH;
     private int HEIGHT; // adjusted when students are added
+    private int INITIAL_HEIGHT; // used when cleared
+    private int INITIAL_Y;
     
     public TextPanel() {
         initializePanelSettings();
@@ -26,6 +28,8 @@ public class TextPanel extends JPanel {
         this.setFont(new java.awt.Font("Century Schoolbook", 0, 14));
         WIDTH = 450;
         HEIGHT = 300;
+        this.INITIAL_HEIGHT = HEIGHT;
+        this.INITIAL_Y = Y;
     }
     
     /**
@@ -49,6 +53,13 @@ public class TextPanel extends JPanel {
         this.HEIGHT = Y; // update height of panel so scrolling can happen
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.revalidate();
+    }
+    
+    public void resetHeight() {
+        this.HEIGHT = this.INITIAL_HEIGHT;
+        this.Y = this.INITIAL_Y;
+        this.revalidate();
+        this.repaint();
     }
     
 }

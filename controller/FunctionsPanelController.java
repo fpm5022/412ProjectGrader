@@ -14,6 +14,7 @@ import model.TestRunnerModel;
 import util.TestTools;
 import view.FunctionsPanel;
 import view.SourceDirectoryFileChooser;
+import view.TextPanel;
 import worker.CompileAndTestWorker;
 
 public class FunctionsPanelController {
@@ -113,6 +114,11 @@ public class FunctionsPanelController {
         xmlSaver.addValueToWrite("sourceCodeDirectory", model.sourceCodeDirectory);
         xmlSaver.addValueToWrite("expectedOutput", model.expectedTestOutput);
         xmlSaver.addValueToWrite("commandLineArguments", model.commandLineArguments);
+    }
+
+    public static void clearOutputArea(TextPanel panel) {
+        panel.removeAll();
+        panel.resetHeight();
     }
 
 }
