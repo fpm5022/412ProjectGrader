@@ -21,23 +21,17 @@ import javax.swing.border.LineBorder;
 
 public class FunctionsPanel extends JPanel {
     public final Frame frame;
-    private JButton compilePathButton;
-    private JButton sourceDirectoryButton;
+    private JButton compilePathButton, sourceDirectoryButton, compileAndTestButton;;
     public JTextField sourceDirectoryTextField;
-    private JLabel jLabel1;
-    private JButton compileAndTestButton;
-    private JTextField cmdLnArg;
-    private JTextField expectedOutput;
+    private JTextField cmdLnArg, expectedOutput, compilePathTextField, mainClassNameTextField;
     private JScrollPane outputScroller;
-    public JTextField compilePathTextField;
-    private JTextField mainClassNameTextField;
     private TextPanel textPanel;
-    XMLDecoder readPaths;
+    public XMLDecoder readPaths;
     public FunctionsPanelModel model;
     private final FunctionsPanel self;
-    private final Font myFont;
-    private final Font myFont2;
+    private final Font myFont, myFont2;
     private final Border thickBorder;
+    private JLabel jLabel1;
 
     public FunctionsPanel(Frame frame, XMLObject xmlObject) {
         this.frame = frame;
