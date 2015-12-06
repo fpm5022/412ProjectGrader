@@ -6,7 +6,10 @@ package controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.swing.JFileChooser;
+import javax.swing.SwingWorker;
 import model.CompilerModel;
 import model.FunctionsPanelModel;
 import model.Student;
@@ -18,6 +21,8 @@ import view.TextPanel;
 import worker.CompileAndTestWorker;
 
 public class FunctionsPanelController {
+    
+    private static ExecutorService service;
 
     /**
      * Shows a file chooser and responds to the choosers result
@@ -74,7 +79,7 @@ public class FunctionsPanelController {
 
             CompilerModel compilerModel = new CompilerModel(compilePath, sourcePath);
             CompileAndTestWorker worker = new CompileAndTestWorker(panel, compilerModel, model, s);
-            worker.execute();
+            addWorker(worker);
         }
         
         // save the settings used in this run
@@ -119,6 +124,13 @@ public class FunctionsPanelController {
     public static void clearOutputArea(TextPanel panel) {
         panel.removeAll();
         panel.resetHeight();
+    }
+    
+    private static void addWorker(SwingWorker worker) {
+        if (service == null) {
+            service = Executors.newFixedThreadPool(10); // create a 10 thread threadpool
+        }
+        service.submit(worker);
     }
 
 }
