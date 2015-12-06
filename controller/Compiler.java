@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.CompilerModel;
+import util.TestTools;
 
 
 public class Compiler {
@@ -16,7 +17,7 @@ public class Compiler {
         try {
             new File(model.classPath).mkdir();
             
-            System.out.println(model.sourcePath);
+            
             ProcessBuilder pb
                     = new ProcessBuilder("javac", model.sourcePath, "-d", model.classPath);
             
@@ -45,15 +46,15 @@ public class Compiler {
     }
     
     public static void setUpEnv(CompilerModel model, ProcessBuilder pb){
-            Map<String, String> env = pb.environment();
-            env.clear();
-            env.put("CLASSPATH", model.classPath);
+        Map<String, String> env = pb.environment();
+        env.clear();
+        env.put("CLASSPATH", model.classPath);
     }
     
     public static File fileSetUp(CompilerModel model, ProcessBuilder pb){
-            File cwd = pb.directory();
-            File outputFile = new File(model.classPath + File.separator + model.outputFileName);
-            return outputFile;
+        File cwd = pb.directory();
+        File outputFile = new File(model.classPath + File.separator + model.outputFileName);
+        return outputFile;
     }
     
 }

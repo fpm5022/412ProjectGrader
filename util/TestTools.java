@@ -110,4 +110,24 @@ public class TestTools {
     private static String getOSName() {
         return System.getProperty("os.name");
     }
+    
+    // deletes directory and removes all children
+    public static boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i=0; i<children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        return dir.delete();
+    }
+    
+    // deletes directory and all children then remakes the directory in a fresh state
+    public static void cleanDir(File dir) {
+        deleteDir(dir);
+        dir.mkdir();
+    }
 }

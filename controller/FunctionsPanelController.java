@@ -11,6 +11,7 @@ import model.CompilerModel;
 import model.FunctionsPanelModel;
 import model.Student;
 import model.TestRunnerModel;
+import util.TestTools;
 import view.FunctionsPanel;
 import view.SourceDirectoryFileChooser;
 import worker.CompileAndTestWorker;
@@ -60,6 +61,9 @@ public class FunctionsPanelController {
      * @param selectedStudents 
      */
     public static void compileActionPerformed(FunctionsPanel panel, FunctionsPanelModel model, ArrayList<Student> selectedStudents) {
+        // clean directory 
+        TestTools.cleanDir(new File(model.compilePathDirectory));
+        
         // loop through selected students and start compiling
         for (Student s : selectedStudents) {
             String studentName = s.getName();
