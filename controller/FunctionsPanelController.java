@@ -67,7 +67,7 @@ public class FunctionsPanelController {
             
             String sourcePath = model.sourceCodeDirectory + File.separator + studentName + File.separator + model.mainClassName; // what to compile
 
-            CompilerModel compilerModel = new CompilerModel(model.compilePathDirectory, compilePath, sourcePath);
+            CompilerModel compilerModel = new CompilerModel(compilePath, sourcePath);
             CompileAndTestWorker worker = new CompileAndTestWorker(panel, compilerModel, model, s);
             worker.execute();
         }
@@ -85,7 +85,7 @@ public class FunctionsPanelController {
         // remove the .java from the class name
         String mainClassNameWithoutFileType = model.mainClassName.substring(0, model.mainClassName.length() - 5);
 
-        TestRunnerModel testRunnerModel = new TestRunnerModel(compilePath, compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, model.expectedTestOutput);
+        TestRunnerModel testRunnerModel = new TestRunnerModel(compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, model.expectedTestOutput);
 
         double similarity = TestRunnerController.runAndTestJava(testRunnerModel);
         boolean failed = (similarity != 100);

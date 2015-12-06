@@ -47,7 +47,6 @@ public class Compiler {
     public static void setUpEnv(CompilerModel model, ProcessBuilder pb){
             Map<String, String> env = pb.environment();
             env.clear();
-            env.put("PATH", model.path);
             env.put("CLASSPATH", model.classPath);
     }
     

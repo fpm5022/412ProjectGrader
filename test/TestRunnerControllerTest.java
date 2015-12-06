@@ -1,9 +1,17 @@
 package test;
 
 import controller.TestRunnerController;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static junit.framework.Assert.assertEquals;
 import model.TestRunnerModel;
 import static org.junit.Assert.assertNotNull;
@@ -20,13 +28,24 @@ public class TestRunnerControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        String path = "C:\\Users\\hites\\Documents\\New Folder";
-        String classPath = "C:\\Users\\hites\\Documents\\New Folder\\smithjq";
+        Properties prop = new Properties();
+        InputStream input;
+        try {
+            String url = "/Users/Feek/repos/412ProjectGrader/test/test.properties";
+            input = new FileInputStream(url);
+               prop.load(input);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CompilerTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CompilerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+              
+        String classPath = prop.getProperty("classPath");
         String mainClassName = "ArrayLoops";
         String[] commandLineArgs = {};
         String[] scannerInput = {"1", "1"};
         String expectedOutput = "1n = 1; range = 1; average = 1.0; stdDev = 0.0";
-        this.model = new TestRunnerModel(path, classPath, mainClassName, commandLineArgs, scannerInput, expectedOutput);
+        this.model = new TestRunnerModel(classPath, mainClassName, commandLineArgs, scannerInput, expectedOutput);
         this.pb = new ProcessBuilder();
     }
 
@@ -42,11 +61,11 @@ public class TestRunnerControllerTest {
 
     @Test
     public void testSetUpEnvironment() throws Exception {
-        TestRunnerController.setUpEnvironment(pb, model.path, model.classPath);
-        assertEquals("process builder is not in the correct directory", model.classPath, pb.directory().getAbsolutePath());
+        TestRunnerController.setUpEnvironment(pb, model.classPath);
+        assertEquals("process builder is not in the correct directory.", model.classPath, pb.directory().getAbsolutePath() + File.separator);
+        System.out.println(pb.directory().getAbsolutePath());
         Map env = pb.environment();
         
-        assertEquals("path was not set properly", env.get("PATH"), model.path);
         assertEquals("classpath was not set properly", env.get("CLASSPATH"), model.classPath);
     }
 
@@ -59,13 +78,16 @@ public class TestRunnerControllerTest {
     @Test
     public void testCaptureProcessOutput() throws Exception {
         ArrayList<String> args = new ArrayList<>();
+        
+        /**
         args.add("cmd");
         args.add("/C");
         args.add("dir");
-
+*/
+        
+        args.add("ls");
         
         ProcessBuilder pb2 = new ProcessBuilder(args);
-                System.out.println(pb2.command());   
         Process p = pb2.start();
         
         String output = TestRunnerController.captureProcessOutput(p, null);

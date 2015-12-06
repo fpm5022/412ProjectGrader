@@ -57,11 +57,11 @@ public class CompilerTest {
             Logger.getLogger(CompilerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
               
-        String path = prop.getProperty("path");
         String classPath = prop.getProperty("classPath");
         String sourcePath = prop.getProperty("sourcePath");
-        this.model = new CompilerModel(path, classPath, sourcePath);
         this.pb = new ProcessBuilder();
+        
+        this.model = new CompilerModel(classPath, sourcePath);
     }
     
     @After
@@ -74,7 +74,6 @@ public class CompilerTest {
     @Test
     public void testCompileJava() {
         int expResult = 0;
-        System.out.println(model.sourcePath);
         int result = Compiler.compileJava(model);
         assertEquals(expResult, result);
     }
@@ -87,7 +86,6 @@ public class CompilerTest {
         Compiler.setUpEnv(model, pb);
         Map env = pb.environment();
         
-        assertEquals("path was not set properly", env.get("PATH"), model.path);
         assertEquals("classpath was not set properly", env.get("CLASSPATH"), model.classPath);
     }
     

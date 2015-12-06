@@ -27,7 +27,7 @@ public class TestRunnerController {
         String actualOutput = "";
         try {
             ProcessBuilder pb = buildProcess(model.mainClassName, model.commandLineArgs);
-            setUpEnvironment(pb, model.path, model.classPath);
+            setUpEnvironment(pb, model.classPath);
             pb.redirectErrorStream(true);
             Process p = pb.start();
             actualOutput = captureProcessOutput(p, model.scannerInput);
@@ -72,10 +72,9 @@ public class TestRunnerController {
 
     // Create environment map and set environmental variables
     // change process builder directory
-    public static void setUpEnvironment(ProcessBuilder pb, String path, String classPath) {
+    public static void setUpEnvironment(ProcessBuilder pb, String classPath) {
         Map<String, String> env = pb.environment();
         env.clear();
-        env.put("PATH", path);
         env.put("CLASSPATH", classPath);
 
         // we need to get this process builder into the class path directory in order to execute .class
