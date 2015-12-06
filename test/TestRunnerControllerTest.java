@@ -17,6 +17,7 @@ import model.TestRunnerModel;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
+import util.TestTools;
 
 /**
  * Created by Feek on 11/1/15.
@@ -79,20 +80,21 @@ public class TestRunnerControllerTest {
     public void testCaptureProcessOutput() throws Exception {
         ArrayList<String> args = new ArrayList<>();
         
-        /**
-        args.add("cmd");
-        args.add("/C");
-        args.add("dir");
-*/
-        
-        args.add("ls");
+        // windows doesn't have an "ls" command... 
+        if (TestTools.isWindows()) {
+            args.add("cmd");
+            args.add("/C");
+            args.add("dir");
+        } else {
+            args.add("ls");
+        }
         
         ProcessBuilder pb2 = new ProcessBuilder(args);
         Process p = pb2.start();
         
         String output = TestRunnerController.captureProcessOutput(p, null);
         
-        assertNotNull("no output was captured from issuing the LS command", output);
+        assertNotNull("no output was captured from issuing the LS/dir command", output);
         
         p.waitFor();
     }
