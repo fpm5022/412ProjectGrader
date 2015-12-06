@@ -1,5 +1,6 @@
 package view;
 
+import controller.BatchGUIController;
 import controller.FunctionsPanelController;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -28,8 +29,7 @@ public class FunctionsPanel extends JPanel {
     public XMLDecoder readPaths;
     public FunctionsPanelModel model;
     private final FunctionsPanel self;
-    private final Font myFont, myFont2;
-    private final Border thickBorder;
+    
     private JLabel jLabel1;
 
     public FunctionsPanel(Frame frame, XMLObject xmlObject) {
@@ -37,9 +37,7 @@ public class FunctionsPanel extends JPanel {
         this.model = new FunctionsPanelModel();
         this.self = this;
         model.setDefaults(xmlObject);
-        myFont = new Font("Century Schoolbook", Font.BOLD, 50);
-        myFont2 = new Font("Century Schoolbook", Font.PLAIN, 14);
-        thickBorder = new LineBorder(Color.decode("#4B0082"), 3);
+        
         initComponents();
         this.setLayout(null);
         this.setVisible(true);
@@ -49,12 +47,12 @@ public class FunctionsPanel extends JPanel {
      * Initializes and adds all components
      */
     private void initComponents() {
-        this.compilePathButton = new JButton();
-        this.sourceDirectoryButton = new JButton();
-        this.clearOutputButton = new JButton("Clear Output Area");
+        this.compilePathButton = BatchGUIController.generateButton("Compile Path");
+        this.sourceDirectoryButton = BatchGUIController.generateButton("Source Directory");
+        this.clearOutputButton = BatchGUIController.generateButton("Clear Output Area");
         this.sourceDirectoryTextField = new JTextField();
         this.jLabel1 = new JLabel();
-        this.compileAndTestButton = new JButton();
+        this.compileAndTestButton = BatchGUIController.generateButton("Compile And Test");
         this.cmdLnArg = new JTextField();
         this.expectedOutput = new JTextField();
         this.textPanel = new TextPanel();
@@ -63,14 +61,10 @@ public class FunctionsPanel extends JPanel {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24));
         jLabel1.setText("Batch Tester");
-        jLabel1.setFont(myFont);
         jLabel1.setBounds(frame.WIDTH / 3 - 150, 20, 400, 40);
         this.add(jLabel1);
           
-        sourceDirectoryButton.setText("Source Directory");
-        sourceDirectoryButton.setFont(myFont2);
         sourceDirectoryButton.setBounds(10, 100, 150, 30);
-        sourceDirectoryButton.setBorder(thickBorder);
         this.add(sourceDirectoryButton);
         sourceDirectoryButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -82,14 +76,10 @@ public class FunctionsPanel extends JPanel {
         sourceDirectoryTextField = new JTextField();
         sourceDirectoryTextField.setBounds(230, 100, 400, 30);
         sourceDirectoryTextField.setEditable(false);
-        sourceDirectoryTextField.setFont(myFont2);
         sourceDirectoryTextField.setText(model.sourceCodeDirectory);
         this.add(sourceDirectoryTextField);
 
-        compilePathButton.setText("Compile Path..");
-        compilePathButton.setFont(myFont2);
         compilePathButton.setBounds(10, 150, 150, 30);
-        compilePathButton.setBorder(thickBorder);
         this.add(compilePathButton);
         compilePathButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,23 +91,17 @@ public class FunctionsPanel extends JPanel {
         compilePathTextField.setBounds(230, 150, 400, 30);
         compilePathTextField.setEditable(false);
         compilePathTextField.setText(model.compilePathDirectory);
-        compilePathTextField.setFont(myFont2);
         this.add(compilePathTextField);
 
         cmdLnArg.setText(model.commandLineArguments);
-        cmdLnArg.setFont(myFont2);
         cmdLnArg.setBounds(10, 250, 300, 30);
         this.add(cmdLnArg);
         
         expectedOutput.setText(model.expectedTestOutput);
         expectedOutput.setBounds(10, 300, 300, 30);
-        expectedOutput.setFont(myFont2);
         this.add(expectedOutput);
 
-        compileAndTestButton.setText("Compile And Test");
-        compileAndTestButton.setFont(myFont2);
         compileAndTestButton.setBounds(500, 365, 150, 30);
-        compileAndTestButton.setBorder(thickBorder);
         this.add(compileAndTestButton);
         compileAndTestButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,10 +115,8 @@ public class FunctionsPanel extends JPanel {
         
         mainClassNameTextField.setText(model.mainClassName);
         mainClassNameTextField.setBounds(230, 200, 400, 30);
-        mainClassNameTextField.setFont(myFont2);
         this.add(mainClassNameTextField);
         
-        clearOutputButton.setFont(myFont2);
         clearOutputButton.setBounds(500, 405, 150, 30);
         clearOutputButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
