@@ -50,6 +50,9 @@ public class XMLSaver implements Runnable {
             case "commandLineArguments":
                 this.object.commandLineArguments = value;
                 break;
+            case "scannerInput":
+                this.object.scannerInput = value;
+                break;
         }
     }
 

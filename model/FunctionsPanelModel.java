@@ -13,6 +13,7 @@ public class FunctionsPanelModel {
     public String expectedTestOutput;
     public String mainClassName;
     public String commandLineArguments;
+    public String scannerInput;
 
     /**
      * Reads from the loading xmlobject and sets field values depending on if the field exists
@@ -47,6 +48,12 @@ public class FunctionsPanelModel {
             commandLineArguments = xmlObject.commandLineArguments;
         } else {
             commandLineArguments = "CSV Command Line Arguments";
+        }
+        
+        if (xmlObject.scannerInput != null) {
+            scannerInput = xmlObject.scannerInput;
+        } else {
+            scannerInput = "CSV Scanner Input";
         }
     }
 }

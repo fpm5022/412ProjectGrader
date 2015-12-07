@@ -27,7 +27,7 @@ public class TextPanel extends JPanel {
         this.setLayout(null);
         this.setFont(new java.awt.Font("Century Schoolbook", 0, 14));
         WIDTH = 450;
-        HEIGHT = 300;
+        HEIGHT = 250;
         this.INITIAL_HEIGHT = HEIGHT;
         this.INITIAL_Y = Y;
     }

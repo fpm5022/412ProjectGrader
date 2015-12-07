@@ -90,7 +90,7 @@ public class FunctionsPanelController {
         // command line args should be a CSV. We need to parse that into an array.
         // splits on commas
         String[] splitCommandLineArgs = model.commandLineArguments.split("\\s*,\\s*");
-        String[] scannerInput = {"1", "1"}; // to do
+        String[] scannerInput = model.scannerInput.split("\\s*,\\s*");
 
         // remove the .java from the class name
         String mainClassNameWithoutFileType = model.mainClassName.substring(0, model.mainClassName.length() - 5);
@@ -119,6 +119,7 @@ public class FunctionsPanelController {
         xmlSaver.addValueToWrite("sourceCodeDirectory", model.sourceCodeDirectory);
         xmlSaver.addValueToWrite("expectedOutput", model.expectedTestOutput);
         xmlSaver.addValueToWrite("commandLineArguments", model.commandLineArguments);
+        xmlSaver.addValueToWrite("scannerInput", model.scannerInput);
     }
 
     public static void clearOutputArea(TextPanel panel) {

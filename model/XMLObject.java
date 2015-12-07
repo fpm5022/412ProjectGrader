@@ -15,4 +15,5 @@ public class XMLObject {
     public String sourceCodeDirectory;
     public String expectedOutput;
     public String commandLineArguments;
+    public String scannerInput;
 }

@@ -29,8 +29,8 @@ public class FunctionsPanel extends JPanel {
     private JLabel title, mainClassNameLabel;
     
     private final int COMPONENT_LEFT = 10, COMPONENT_MIDDLE = 230, COMPONENT_RIGHT = 500, COMPONENT_HEIGHT = 30;
-    private JLabel commandLineArgsLabel;
-    private JLabel expectedResultsLabel;
+    private JLabel commandLineArgsLabel, scannerInputLabel, expectedResultsLabel;
+    private JTextField scannerInput;
 
     public FunctionsPanel(Frame frame, XMLObject xmlObject) {
         this.frame = frame;
@@ -46,104 +46,130 @@ public class FunctionsPanel extends JPanel {
      * Initializes and adds all components
      */
     private void initComponents() {
+        createComponents();
+        setComponents();
+        assignActionListeners();
+        addComponents();
+    }
+    
+    private void createComponents() {
         this.compilePathButton = BatchGUIController.generateButton("Compile Path");
         this.sourceDirectoryButton = BatchGUIController.generateButton("Source Directory");
         this.clearOutputButton = BatchGUIController.generateButton("Clear Output Area");
         this.sourceDirectoryTextField = new JTextField();
-        this.title = new JLabel();
+        this.title = new JLabel("Automated Program Compiler And Tester");
         this.compileAndTestButton = BatchGUIController.generateButton("Compile And Test");
         this.cmdLnArg = new JTextField();
         this.expectedOutput = new JTextField();
+        this.scannerInput = new JTextField();
         this.textPanel = new TextPanel();
         this.outputScroller = new JScrollPane(textPanel);
         this.mainClassNameTextField = new JTextField();
         this.mainClassNameLabel = BatchGUIController.generateLabel("Main Class Name (include .java)");
         this.commandLineArgsLabel = BatchGUIController.generateLabel("Command Line Args (CSV)");
+        this.scannerInputLabel = BatchGUIController.generateLabel("Scanner Input (CSV)");
         this.expectedResultsLabel = BatchGUIController.generateLabel("Expected Output");
-
-        title.setFont(new java.awt.Font("Tahoma", 0, 24));
-        title.setText("Automated Program Compiler And Tester");
-        title.setBounds(frame.WIDTH / 3 - 200, 20, 500, 40);
+        this.sourceDirectoryTextField = new JTextField();
+        this.compilePathTextField = new JTextField();
+    }
+    
+    private void addComponents() {
         this.add(title);
-          
+        this.add(sourceDirectoryButton);
+        this.add(sourceDirectoryTextField); 
+        this.add(compilePathButton);
+        this.add(compilePathTextField);
+        this.add(commandLineArgsLabel);
+        this.add(cmdLnArg);
+        this.add(scannerInput);
+        this.add(scannerInputLabel);
+        this.add(expectedResultsLabel);
+        this.add(expectedOutput);
+        this.add(compileAndTestButton);
+        this.add(outputScroller);
+        this.add(mainClassNameLabel);
+        this.add(mainClassNameTextField);
+        this.add(clearOutputButton);
+    }
+    
+    private void setComponents() {
+        title.setFont(new java.awt.Font("Tahoma", 0, 24));
+        title.setBounds(frame.WIDTH / 3 - 200, 20, 500, 40);
+        
         sourceDirectoryButton.setBounds(COMPONENT_LEFT, 100, 150, COMPONENT_HEIGHT);
         sourceDirectoryButton.setToolTipText("The location of the parent directory containing all of the students source codes.");
-        this.add(sourceDirectoryButton);
-        sourceDirectoryButton.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FunctionsPanelController.sourceDirectoryActionPerformed(self);
-            }
-        });
-
-        sourceDirectoryTextField = new JTextField();
+        
         sourceDirectoryTextField.setBounds(COMPONENT_MIDDLE, 100, 400, COMPONENT_HEIGHT);
         sourceDirectoryTextField.setText(model.sourceCodeDirectory);
-        this.add(sourceDirectoryTextField);
-
+        
         compilePathButton.setBounds(COMPONENT_LEFT, 150, 150, COMPONENT_HEIGHT);
         compilePathButton.setToolTipText("The directory that you would like to compile the students code into");
-        this.add(compilePathButton);
-        compilePathButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FunctionsPanelController.compilePathActionPerformed(self);
-            }
-        });
-
-        compilePathTextField = new JTextField();
+        
         compilePathTextField.setBounds(COMPONENT_MIDDLE, 150, 400, COMPONENT_HEIGHT);
         compilePathTextField.setText(model.compilePathDirectory);
-        this.add(compilePathTextField);
-
-        commandLineArgsLabel.setBounds(COMPONENT_LEFT, 250, 300, COMPONENT_HEIGHT);
-        this.add(commandLineArgsLabel);
         
+        commandLineArgsLabel.setBounds(COMPONENT_LEFT, 250, 300, COMPONENT_HEIGHT);
+         
         cmdLnArg.setText(model.commandLineArguments);
         cmdLnArg.setBounds(COMPONENT_MIDDLE, 250, 300, COMPONENT_HEIGHT);
-        this.add(cmdLnArg);
         
-        expectedResultsLabel.setBounds(COMPONENT_LEFT, 300, 300, COMPONENT_HEIGHT);
-        this.add(expectedResultsLabel);
+        scannerInput.setText(model.scannerInput);
+        scannerInput.setBounds(COMPONENT_MIDDLE, 300, 300, COMPONENT_HEIGHT);
+        
+        scannerInputLabel.setBounds(COMPONENT_LEFT, 300, 300, COMPONENT_HEIGHT);
+        
+        expectedResultsLabel.setBounds(COMPONENT_LEFT, 350, 300, COMPONENT_HEIGHT);
         
         expectedOutput.setText(model.expectedTestOutput);
-        expectedOutput.setBounds(COMPONENT_MIDDLE, 300, 300, COMPONENT_HEIGHT);
-        this.add(expectedOutput);
-
-        compileAndTestButton.setBounds(COMPONENT_RIGHT, 365, 150, COMPONENT_HEIGHT);
-        this.add(compileAndTestButton);
+        expectedOutput.setBounds(COMPONENT_MIDDLE, 350, 300, COMPONENT_HEIGHT);
+        
+        compileAndTestButton.setBounds(COMPONENT_RIGHT, 415, 150, COMPONENT_HEIGHT);
+        
+        outputScroller.setVisible(true);
+        outputScroller.setBounds(COMPONENT_LEFT, 415, 450, 250);
+        
+        mainClassNameLabel.setBounds(COMPONENT_LEFT, 200, 300, COMPONENT_HEIGHT);
+        
+        mainClassNameTextField.setText(model.mainClassName);
+        mainClassNameTextField.setBounds(COMPONENT_MIDDLE, 200, 400, COMPONENT_HEIGHT);
+        
+        clearOutputButton.setBounds(COMPONENT_RIGHT, 450, 150, COMPONENT_HEIGHT);
+    }
+    
+     private void assignActionListeners() {
+        clearOutputButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FunctionsPanelController.clearOutputArea(textPanel);
+            }
+        });
+        
         compileAndTestButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runCompileActionPerformed(evt);
             }
         });
         
-        outputScroller.setVisible(true);
-        outputScroller.setBounds(COMPONENT_LEFT,365,450, 300);
-        this.add(outputScroller);
-        
-        mainClassNameLabel.setBounds(COMPONENT_LEFT, 200, 300, COMPONENT_HEIGHT);
-        this.add(mainClassNameLabel);
-        
-        mainClassNameTextField.setText(model.mainClassName);
-        mainClassNameTextField.setBounds(COMPONENT_MIDDLE, 200, 400, COMPONENT_HEIGHT);
-        this.add(mainClassNameTextField);
-        
-        clearOutputButton.setBounds(COMPONENT_RIGHT, 405, 150, COMPONENT_HEIGHT);
-        clearOutputButton.addActionListener(new java.awt.event.ActionListener() {
+        compilePathButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FunctionsPanelController.clearOutputArea(textPanel);
+                FunctionsPanelController.compilePathActionPerformed(self);
             }
         });
-        this.add(clearOutputButton);
+        
+        sourceDirectoryButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FunctionsPanelController.sourceDirectoryActionPerformed(self);
+            }
+        });
     }
 
     /*
      The action listener when the compile button is pressed
      */
     private void runCompileActionPerformed(ActionEvent evt) {
-
         model.mainClassName = mainClassNameTextField.getText();
         model.commandLineArguments = cmdLnArg.getText();
+        model.scannerInput = scannerInput.getText();
         model.expectedTestOutput = expectedOutput.getText();
         
         FunctionsPanelController.compileActionPerformed(self, model, frame.batchGUI.getSelectedStudents());
