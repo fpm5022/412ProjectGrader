@@ -193,7 +193,7 @@ public class FunctionsPanel extends JPanel {
      * @param message
      * @param error if true, output will be red
      */
-    public void appendToTextArea(String message, boolean error, String errorMessage) {
+    public void appendToTextArea(String message, boolean error, final String errorMessage) {
         JLabel text = new JLabel(message + "\n");
         
         if (error) {

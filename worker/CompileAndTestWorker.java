@@ -6,6 +6,7 @@ package worker;
 
 import controller.FunctionsPanelController;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -42,14 +43,16 @@ public class CompileAndTestWorker extends SwingWorker {
             int success = (int) get();
             if (success != 0) {
                 String errorMessage = student.getInfo() + " could not be compiled. output: ";
-                // get the output from the process builder that was stored in the output file
+                ArrayList<String> lines = null;
+                
                 try {
-                    ArrayList<String> lines = (ArrayList<String>) Files.readAllLines(compilerModel.outputFile.toPath());
-                    for (String line : lines) {
-                        errorMessage += line;
-                    }
+                    lines = (ArrayList<String>) Files.readAllLines(compilerModel.outputFile.toPath(), StandardCharsets.UTF_8);
                 } catch (IOException ex) {
                     Logger.getLogger(CompileAndTestWorker.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                for (String line : lines) {
+                    errorMessage += line;
                 }
                 
                 panel.appendToTextArea(student.getInfo() + " compile failed.", true, errorMessage);
