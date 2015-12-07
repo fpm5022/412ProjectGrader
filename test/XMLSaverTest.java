@@ -7,6 +7,8 @@
 package test;
 
 import controller.XMLSaver;
+import java.beans.XMLEncoder;
+import model.XMLObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,43 +16,22 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Feek <feek@psu.edu>
- */
 public class XMLSaverTest {
-    
-    public XMLSaverTest() {
-    }
-    
+    private XMLEncoder encoder;
+    private XMLSaver saver;
+    private XMLObject object;
+    private String key = "mainClassName";
     @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+    public void setUpClass() {
+        String location = "C:\\Users\\Laptop Boiz\\Documents\\New Folder\\compile";
+        this.object = new XMLObject();
+        this.saver = new XMLSaver(location, object);
     }
 
-    /**
-     * Test of addValueToWrite method, of class XMLSaver.
-     */
     @Test
     public void testAddValueToWrite() {
-        System.out.println("addValueToWrite");
-        String key = "";
-        String value = "";
-        XMLSaver instance = null;
-        instance.addValueToWrite(key, value);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        saver.addValueToWrite(key, "ArrayLoops");
+        assertEquals("mainClassName was not equal to ArrayLoops", "ArrayLoops", object.mainClassName);
     }
 
     /**
@@ -58,11 +39,7 @@ public class XMLSaverTest {
      */
     @Test
     public void testRun() {
-        System.out.println("run");
-        XMLSaver instance = null;
-        instance.run();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        saver.run();
     }
     
 }
