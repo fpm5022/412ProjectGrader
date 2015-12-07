@@ -19,6 +19,7 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 public class FunctionsPanel extends JPanel {
     public final Frame frame;
@@ -30,7 +31,7 @@ public class FunctionsPanel extends JPanel {
     public FunctionsPanelModel model;
     private final FunctionsPanel self;
     private JLabel title, mainClassNameLabel;
-    
+    public JProgressBar progressBar;
     private final int COMPONENT_LEFT = 10, COMPONENT_MIDDLE = 230, COMPONENT_RIGHT = 500, COMPONENT_HEIGHT = 30;
     private JLabel commandLineArgsLabel, scannerInputLabel, expectedResultsLabel;
     private JTextField scannerInput;
@@ -74,6 +75,7 @@ public class FunctionsPanel extends JPanel {
         this.expectedResultsLabel = BatchGUIController.generateLabel("Expected Output");
         this.sourceDirectoryTextField = new JTextField();
         this.compilePathTextField = new JTextField();
+        this.progressBar = new JProgressBar(JProgressBar.HORIZONTAL);
     }
     
     private void addComponents() {
@@ -93,6 +95,7 @@ public class FunctionsPanel extends JPanel {
         this.add(mainClassNameLabel);
         this.add(mainClassNameTextField);
         this.add(clearOutputButton);
+        this.add(progressBar);
     }
     
     private void setComponents() {
@@ -137,7 +140,9 @@ public class FunctionsPanel extends JPanel {
         mainClassNameTextField.setBounds(COMPONENT_MIDDLE, 200, 400, COMPONENT_HEIGHT);
         
         clearOutputButton.setBounds(COMPONENT_RIGHT, 450, 150, COMPONENT_HEIGHT);
-    }
+        
+        progressBar.setBounds(COMPONENT_LEFT, 675, 450, 10);
+   }
     
      private void assignActionListeners() {
         clearOutputButton.addActionListener(new java.awt.event.ActionListener() {
@@ -174,6 +179,11 @@ public class FunctionsPanel extends JPanel {
         model.commandLineArguments = cmdLnArg.getText();
         model.scannerInput = scannerInput.getText();
         model.expectedTestOutput = expectedOutput.getText();
+        
+        // update the progress bar min / max
+        progressBar.setMinimum(0);
+        progressBar.setMaximum(frame.batchGUI.getSelectedStudents().size());
+        progressBar.setValue(0);
         
         FunctionsPanelController.compileActionPerformed(self, model, frame.batchGUI.getSelectedStudents());
     }

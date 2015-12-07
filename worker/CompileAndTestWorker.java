@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 import model.CompilerModel;
 import model.FunctionsPanelModel;
@@ -59,6 +60,13 @@ public class CompileAndTestWorker extends SwingWorker {
             } else {
                 panel.appendToTextArea(student.getInfo() + " compile success");
                 FunctionsPanelController.testCode(panelModel, panel, student, FunctionsPanelController.getStudentCompilePath(panelModel, student));
+            }
+            
+            // update the progress bar
+            synchronized(panel.progressBar) {
+                int complete = panel.progressBar.getValue() + 1;
+                panel.progressBar.setValue(complete);
+                panel.progressBar.repaint();
             }
         } catch (InterruptedException | ExecutionException ex) {
             Logger.getLogger(CompileAndTestWorker.class.getName()).log(Level.SEVERE, null, ex);
