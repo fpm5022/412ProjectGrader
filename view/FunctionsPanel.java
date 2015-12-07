@@ -62,8 +62,8 @@ public class FunctionsPanel extends JPanel {
         this.expectedResultsLabel = BatchGUIController.generateLabel("Expected Output");
 
         title.setFont(new java.awt.Font("Tahoma", 0, 24));
-        title.setText("Batch Tester");
-        title.setBounds(frame.WIDTH / 3 - 150, 20, 400, 40);
+        title.setText("Automated Program Compiler And Tester");
+        title.setBounds(frame.WIDTH / 3 - 200, 20, 500, 40);
         this.add(title);
           
         sourceDirectoryButton.setBounds(COMPONENT_LEFT, 100, 150, COMPONENT_HEIGHT);
