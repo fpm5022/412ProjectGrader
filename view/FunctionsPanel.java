@@ -67,6 +67,7 @@ public class FunctionsPanel extends JPanel {
         this.add(title);
           
         sourceDirectoryButton.setBounds(COMPONENT_LEFT, 100, 150, COMPONENT_HEIGHT);
+        sourceDirectoryButton.setToolTipText("The location of the parent directory containing all of the students source codes.");
         this.add(sourceDirectoryButton);
         sourceDirectoryButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -81,6 +82,7 @@ public class FunctionsPanel extends JPanel {
         this.add(sourceDirectoryTextField);
 
         compilePathButton.setBounds(COMPONENT_LEFT, 150, 150, COMPONENT_HEIGHT);
+        compilePathButton.setToolTipText("The directory that you would like to compile the students code into");
         this.add(compilePathButton);
         compilePathButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
