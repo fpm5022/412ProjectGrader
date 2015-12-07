@@ -45,7 +45,12 @@ public class TestRunnerControllerTest {
         String mainClassName = "ArrayLoops";
         String[] commandLineArgs = {};
         String[] scannerInput = {"1", "1"};
-        String expectedOutput = "1n = 1; range = 1; average = 1.0; stdDev = 0.0";
+        String expectedOutput = "Please enter an integer n (array size limit)\n" +
+            "	>>1\n" +
+            "Please enter an integer range for the random numbers\n" +
+            "	>>1\n" +
+            "1\n" +
+            "n = 1; range = 1; average = 1.0; stdDev = 0.0";
         this.model = new TestRunnerModel(classPath, mainClassName, commandLineArgs, scannerInput, expectedOutput);
         this.pb = new ProcessBuilder();
     }

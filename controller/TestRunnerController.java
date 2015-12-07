@@ -20,6 +20,7 @@ import util.TestTools;
 
 public class TestRunnerController {
 
+    public static String scannerInputDelimiter = "\t>>"; // this is the token used to denote scanner input into the program
     /*
         @return int percentage similar (0 - 100)
     */
@@ -91,7 +92,7 @@ public class TestRunnerController {
      * @return string output
      */
     public static String captureProcessOutput(Process p, String[] scannerInput) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder fullOutput = new StringBuilder(); // this captures all of the input and output
         try {
             // these allow communication with program being tested
             InputStream stdout = p.getInputStream();
@@ -111,19 +112,17 @@ public class TestRunnerController {
             // read from program being tested
             while (inScanner.hasNextLine()) {
                 String line = inScanner.nextLine();
-
+                fullOutput.append(line).append(System.getProperty("line.separator"));
+                
                 // only provide input if enough scanner inputs were provided
                 if (scannerInput != null && scannerInput.length > i) {
                     writer.write(scannerInput[i]);
                     writer.newLine();
                     writer.flush();
+                    
+                    fullOutput.append(scannerInputDelimiter).append(scannerInput[i]).append(System.getProperty("line.separator"));
+                    
                     i++;
-                } else {
-                    if (scannerInput != null) {
-                        // there is no more scanner input, start building the output
-                        // to compare
-                        sb.append(line);
-                    }
                 }
             }
             
@@ -133,7 +132,7 @@ public class TestRunnerController {
             Logger.getLogger(TestRunnerController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return sb.toString();
+        return fullOutput.toString();
     }
 
     /**
@@ -142,6 +141,9 @@ public class TestRunnerController {
      * @return int between 0 - 100
      */
     public static int compareResults(String actual, String expected) {
+        actual = sanitizeInput(actual);
+        expected = sanitizeInput(expected);
+        
         String longer;
         String shorter;
 
@@ -189,6 +191,21 @@ public class TestRunnerController {
             }
         }
         return costs[s2.length()];
+    }
+
+    /**
+     * strips scanner delimiter, whitespace, tabs, and new lines from string
+     * @param s
+     * @return 
+     */
+    private static String sanitizeInput(String s) {
+       s = s.replaceAll("\\s+",""); // remove whitespace
+       s = s.replaceAll("\\t+",""); // remove tabs
+       s = s.replaceAll("\\n+",""); // remove new lines
+       s = s.replaceAll(scannerInputDelimiter, ""); // remove scanner delimiter
+       s = s.replaceAll(">>", ""); // remove part of scanner input since tabs / new lines have already been removed...
+       
+       return s;
     }
 
 }
