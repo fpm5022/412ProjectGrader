@@ -8,6 +8,7 @@ package test;
 
 import controller.XMLReader;
 import model.XMLObject;
+import model.TestRunnerModel;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,38 +21,32 @@ import static org.junit.Assert.*;
  * @author Feek <feek@psu.edu>
  */
 public class XMLReaderTest {
-    
-    public XMLReaderTest() {
-    }
+    private XMLReader decoder;
+    private XMLObject object;
     
     @BeforeClass
-    public static void setUpClass() {
+    public void setUpClass() throws Exception
+    {
+        String location = "C:\\Users\\Laptop Boiz\\Documents\\New Folder\\compile";
+        this.decoder = new XMLReader(location);
+        this.object = null;
+        this.object = new XMLObject();
     }
     
-    @AfterClass
-    public static void tearDownClass() {
+    @Test
+    public void testNotNullObject() throws Exception 
+    {
+        object = this.decoder.getObject();
+        assertNull("XMLObject exists", object);
     }
     
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of getObject method, of class XMLReader.
      */
     @Test
     public void testGetObject() {
-        System.out.println("getObject");
-        XMLReader instance = null;
-        XMLObject expResult = null;
-        XMLObject result = instance.getObject();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        decoder.getObject();
+        assertNotNull("XMLObject does not exist", object);
     }
     
 }
