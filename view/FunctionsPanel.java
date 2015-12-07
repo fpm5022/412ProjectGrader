@@ -11,10 +11,13 @@ import javax.swing.JTextField;
 import model.FunctionsPanelModel;
 import model.XMLObject;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 
 public class FunctionsPanel extends JPanel {
@@ -175,13 +178,47 @@ public class FunctionsPanel extends JPanel {
         FunctionsPanelController.compileActionPerformed(self, model, frame.batchGUI.getSelectedStudents());
     }
     
+    public void appendToTextArea(String message) {
+        appendToTextArea(message, false, null);
+    }
+    
+    public void appendToTextArea(String message, boolean error) {
+        appendToTextArea(message, error, "No error message was provided :(");
+    }
+    
     /**
-     * Wrapper for adding a label to the text panel
+     * Wrapper for adding a label to the text panel.
+     * If there is an error, a mouse listener will be applied to the label and will show
+     * a popup containing an error message (TBD)
      * @param message
      * @param error if true, output will be red
      */
-    public void appendToTextArea(String message, boolean error) {
+    public void appendToTextArea(String message, boolean error, String errorMessage) {
         JLabel text = new JLabel(message + "\n");
+        
+        if (error) {
+            // add a mouse listener for on click
+            text.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+            text.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent me) {
+                   frame.showPopup(errorMessage);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent me) {}
+
+                @Override
+                public void mouseReleased(MouseEvent me) {}
+
+                @Override
+                public void mouseEntered(MouseEvent me) {}
+
+                @Override
+                public void mouseExited(MouseEvent me) {}
+            });
+        }
+        
         textPanel.addLabel(text,error);
     }
     

@@ -4,7 +4,10 @@ import controller.XMLReader;
 import controller.XMLSaver;
 import java.io.File;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import model.XMLObject;
@@ -97,5 +100,14 @@ public class Frame extends JFrame {
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             }
         }
+    }
+
+    void showPopup(String message) {
+        JTextArea area = new JTextArea(message);
+        area.setColumns(50);
+        area.setLineWrap( true );
+        area.setWrapStyleWord( true );
+        area.setEditable(false);
+        JOptionPane.showMessageDialog(this, area, "Actual Output", 1);
     }
 }

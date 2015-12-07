@@ -86,7 +86,7 @@ public class FunctionsPanelController {
         FunctionsPanelController.saveSettings(panel.frame.xmlSaver, model);
     }
 
-    public static void testCode(FunctionsPanelModel model, FunctionsPanel panel, String studentName, String compilePath) {
+    public static void testCode(FunctionsPanelModel model, FunctionsPanel panel, Student student, String compilePath) {
         // command line args should be a CSV. We need to parse that into an array.
         // splits on commas
         String[] splitCommandLineArgs = model.commandLineArguments.split("\\s*,\\s*");
@@ -97,10 +97,16 @@ public class FunctionsPanelController {
 
         TestRunnerModel testRunnerModel = new TestRunnerModel(compilePath, mainClassNameWithoutFileType, splitCommandLineArgs, scannerInput, model.expectedTestOutput);
 
-        double similarity = TestRunnerController.runAndTestJava(testRunnerModel);
-        boolean failed = (similarity != 100);
-
-        panel.appendToTextArea(studentName + " " + similarity + "% similar to expected output", failed);
+        TestRunnerController.runAndTestJava(testRunnerModel);
+        boolean failed = (testRunnerModel.similarity != 100);
+        
+        String message = student.getName() + " " + testRunnerModel.similarity + "% similar to expected output";
+        
+        if (failed) {
+            panel.appendToTextArea(message, failed, student.getInfo() + " actual output: " + testRunnerModel.actualOutput);
+        } else {
+            panel.appendToTextArea(message);
+        }
     }
 
     // directory to compile into

@@ -14,6 +14,9 @@ public class TestRunnerModel {
     public String[] scannerInput;
     public String[] commandLineArgs;
     public String expectedOutput;
+    // these fields are populated once the test has run
+    public double similarity;
+    public String actualOutput;
 
     /*
      example usage: 

@@ -23,7 +23,7 @@ public class TestRunnerController {
     /*
         @return int percentage similar (0 - 100)
     */
-    public static int runAndTestJava(TestRunnerModel model) {
+    public static void runAndTestJava(TestRunnerModel model) {
         String actualOutput = "";
         try {
             ProcessBuilder pb = buildProcess(model.mainClassName, model.commandLineArgs);
@@ -45,7 +45,8 @@ public class TestRunnerController {
             Logger.getLogger(TestRunnerController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return compareResults(actualOutput, model.expectedOutput);
+        model.similarity = compareResults(actualOutput, model.expectedOutput);
+        model.actualOutput = actualOutput;
     }
     
     /**

@@ -1,6 +1,5 @@
 package controller;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
@@ -8,15 +7,12 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.CompilerModel;
-import util.TestTools;
-
 
 public class Compiler {
 
     public static int compileJava(CompilerModel model) {
         try {
             new File(model.classPath).mkdir();
-            
             
             ProcessBuilder pb
                     = new ProcessBuilder("javac", model.sourcePath, "-d", model.classPath);
