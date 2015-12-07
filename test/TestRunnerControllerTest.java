@@ -72,8 +72,9 @@ public class TestRunnerControllerTest {
 
     @Test
     public void testRunAndTestJava() throws Exception {
-        int similarity = TestRunnerController.runAndTestJava(this.model);
-        assertEquals("test java similarity was not correct", similarity, 100);
+        TestRunnerController.runAndTestJava(this.model);
+        double similarity = this.model.similarity;
+        assertEquals("test java similarity was not correct", 100.0, similarity);
     }
     
     @Test
