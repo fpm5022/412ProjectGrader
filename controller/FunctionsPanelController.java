@@ -103,7 +103,7 @@ public class FunctionsPanelController {
         String message = student.getName() + " " + testRunnerModel.similarity + "% similar to expected output";
         
         if (failed) {
-            panel.appendToTextArea(message, failed, student.getInfo() + " actual output: " + testRunnerModel.actualOutput);
+            panel.appendToTextArea(message, failed, student.getInfo() + " actual output: \n" + testRunnerModel.actualOutput);
         } else {
             panel.appendToTextArea(message);
         }
