@@ -1,15 +1,12 @@
 package view;
 
+import controller.BatchGUIController;
 import controller.XMLReader;
 import controller.XMLSaver;
 import java.io.File;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import model.XMLObject;
 
 /**
@@ -60,46 +57,13 @@ public class Frame extends JFrame {
      * Sets settings on the frame like size etc.
      */
     private void initializeFrameSettings() {
-        setLayoutFeel("Nimbus");
+        BatchGUIController.setLayoutFeel("Nimbus");
         setLayout(null);
         setSize(WIDTH, HEIGHT);
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
-    }
-    
-    /**
-     * Swaps out what panel is visible on the frame
-     * @param remove
-     * @param add 
-     */
-    public void swap(JPanel remove, JPanel add) {
-        this.remove(remove);
-        this.add(add);
-        this.revalidate();
-        this.repaint();
-    }
-    
-    /**
-     * Changes the swing look and feel, falls back to cross platform
-     * @param s 
-     */
-    private void setLayoutFeel(String s) {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if (s.equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            // If Nimbus is not available, fall back to cross-platform
-            try {
-                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            }
-        }
     }
 
     void showPopup(String message) {
