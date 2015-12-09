@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package test;
 
 import controller.Compiler;
@@ -17,10 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static junit.framework.Assert.assertEquals;
 import model.CompilerModel;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -32,15 +24,6 @@ public class CompilerTest {
 
     public CompilerModel model;
     public ProcessBuilder pb;
-
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
     
     @Before
     public void setUp() {
@@ -62,10 +45,6 @@ public class CompilerTest {
         this.pb = new ProcessBuilder();
         
         this.model = new CompilerModel(classPath, sourcePath);
-    }
-    
-    @After
-    public void tearDown() {
     }
 
     /**
