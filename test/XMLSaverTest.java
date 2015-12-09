@@ -20,17 +20,17 @@ public class XMLSaverTest {
     private XMLEncoder encoder;
     private XMLSaver saver;
     private XMLObject object;
-    private String key = "mainClassName";
-    @BeforeClass
-    public void setUpClass() {
-        String location = "C:\\Users\\Laptop Boiz\\Documents\\New Folder\\compile";
+    
+    @Before
+    public void setUp() {
+        String location = "/Users/Feek/ProjectGrader/";
         this.object = new XMLObject();
         this.saver = new XMLSaver(location, object);
     }
 
     @Test
     public void testAddValueToWrite() {
-        saver.addValueToWrite(key, "ArrayLoops");
+        saver.addValueToWrite("mainClassName", "ArrayLoops");
         assertEquals("mainClassName was not equal to ArrayLoops", "ArrayLoops", object.mainClassName);
     }
 
@@ -39,7 +39,7 @@ public class XMLSaverTest {
      */
     @Test
     public void testRun() {
-        saver.run();
+        // noop
     }
     
 }
