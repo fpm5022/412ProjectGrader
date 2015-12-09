@@ -33,9 +33,7 @@ public class Compiler {
             assert pb.redirectOutput().file() == model.outputFile;
             assert p.getInputStream().read() == -1;
 
-        } catch (IOException ex) {
-            Logger.getLogger(Compiler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
+        } catch (IOException | InterruptedException ex) {
             Logger.getLogger(Compiler.class.getName()).log(Level.SEVERE, null, ex);
         }
         return model.success;
@@ -48,7 +46,6 @@ public class Compiler {
     }
     
     public static File fileSetUp(CompilerModel model, ProcessBuilder pb){
-        File cwd = pb.directory();
         File outputFile = new File(model.classPath + File.separator + model.outputFileName);
         return outputFile;
     }
