@@ -10,16 +10,12 @@ import controller.StudentPanelController;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JCheckBox;
-import model.Student;
-import model.StudentPanelModel;
-import model.XMLObject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import view.StudentPanel;
 
 /**
  *
@@ -51,11 +47,14 @@ public class StudentPanelControllerTest {
      */
     @Test
     public void testSelectAllBoxes() {
-        System.out.println("selectAllBoxes");
-        List<JCheckBox> checkboxes = null;
+        List<JCheckBox> checkboxes = new ArrayList();
+        checkboxes.add(new JCheckBox());
+        checkboxes.add(new JCheckBox());
         StudentPanelController.selectAllBoxes(checkboxes);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        for (JCheckBox box : checkboxes) {
+            assertTrue(box.isSelected());
+        }
     }
 
     /**
