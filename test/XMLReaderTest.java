@@ -1,43 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package test;
 
 import controller.XMLReader;
 import model.XMLObject;
-import model.TestRunnerModel;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
- * @author Feek <feek@psu.edu>
+ * @author Feek
  */
 public class XMLReaderTest {
     private XMLReader decoder;
-    private XMLObject object;
     
-    @BeforeClass
-    public void setUpClass() throws Exception
+    @Before
+    public void setUp() throws Exception
     {
-        String location = "C:\\Users\\Laptop Boiz\\Documents\\New Folder\\compile";
+        String location = "/Users/Feek/ProjectGrader/paths.xml";
         this.decoder = new XMLReader(location);
-        this.object = null;
-        this.object = new XMLObject();
-    }
-    
-    @Test
-    public void testNotNullObject() throws Exception 
-    {
-        object = this.decoder.getObject();
-        assertNull("XMLObject exists", object);
     }
     
     /**
@@ -45,7 +25,7 @@ public class XMLReaderTest {
      */
     @Test
     public void testGetObject() {
-        decoder.getObject();
+        XMLObject object = decoder.getObject();
         assertNotNull("XMLObject does not exist", object);
     }
     
