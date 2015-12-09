@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -87,8 +88,8 @@ public class BatchGUIControllerTest {
      */
     @Test
     public void testSetLayoutFeel() {
-        String s = "";
-        BatchGUIController.setLayoutFeel(s);
+        BatchGUIController.setLayoutFeel("Nimbus");
+        assertEquals("Nimbus", UIManager.getLookAndFeel().getName());
     }
     
 }
