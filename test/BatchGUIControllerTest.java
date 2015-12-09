@@ -62,10 +62,8 @@ public class BatchGUIControllerTest {
      */
     @Test
     public void testGenerateLabel() {
-        String text = "";
-        JLabel expResult = null;
-        JLabel result = BatchGUIController.generateLabel(text);
-        assertEquals(expResult, result);
+        JLabel result = BatchGUIController.generateLabel("Test Label");
+        assertEquals("Test Label", result.getText());
     }
 
     /**
