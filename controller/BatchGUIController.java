@@ -30,6 +30,8 @@ public class BatchGUIController {
         
         if (border) {
             button.setBorder(getBorder());
+        } else {
+            button.setBorder(null);
         }
         
         return button;
